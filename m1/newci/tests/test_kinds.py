@@ -39,11 +39,13 @@ def test_activate_may_not_change_other_code(tree):
     v = verdict(tree, "activate", {"app/registry.py": "ACTIVE = ()\n",
                                    "app/rules.py": "def a():\n    return 9\n"})
     assert not v.ok and "changes app/rules.py::a, which is not a binding" in v.problems
+    assert "declare it as modify, or split it" in kinds.describe(v)
 
 
 def test_activate_must_change_a_binding(tree):
     v = verdict(tree, "activate", {"app/rules.py": BASE["app/rules.py"] + "B = 1\n"})
     assert not v.ok and v.smallest == "publish"
+    assert "declare it as publish, or split it" in kinds.describe(v)
 
 
 def test_modify_is_anything_and_reports_the_narrowest_kind(tree):

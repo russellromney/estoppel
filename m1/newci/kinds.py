@@ -58,7 +58,7 @@ def check(declared: str, before: Index, after: Index, env_changed: list[str]) ->
         problems += [f"changes {short(x, base)}, which is not a binding" for x in code]
         problems += [f"changes environment file {f}" for f in env_changed]
         if not existing:
-            problems.append("changes no existing binding: declare publish")
+            problems.append("changes no existing binding")
     return Verdict(declared=declared, ok=not problems, problems=problems, bindings=bindings,
                    code=code, checks=checks, added=len(d.added), smallest=smallest, base=base)
 
@@ -87,6 +87,8 @@ def describe(v: Verdict) -> str:
         parts.append(f"{len(v.checks)} checks changed")
     lines = [f"{head} ({'; '.join(parts)})"]
     lines += [f"    {p}" for p in v.problems]
+    if not v.ok and v.declared in KINDS:
+        lines.append(f"    declare it as {v.smallest}, or split it")
     if v.ok and v.smallest != v.declared and KINDS.index(v.smallest) < KINDS.index(v.declared):
         lines.append(f"    note: this change also qualifies as {v.smallest}")
     return "\n".join(lines)
