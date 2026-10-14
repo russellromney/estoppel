@@ -1,6 +1,7 @@
 """Checks written from REQUIREMENTS.md, using only the public interface and the provider's ledger."""
 
-from spec import HOLD, HOLDING, INITIAL_STOCK, PRICES, REFUND_WINDOW
+from spec import (CATEGORIES, CATEGORY_WINDOWS, COUPON, COUPON_REDEMPTIONS, HOLD, HOLDING,
+                  INITIAL_STOCK, PRICES, REFUND_WINDOW)
 
 
 def combine(items) -> dict[str, int]:
@@ -10,12 +11,24 @@ def combine(items) -> dict[str, int]:
     return wanted
 
 
-def expected_price(items, features) -> int:
+def expected_price(items, features, coupon=None) -> int | None:
+    """None when the requirements do not decide the price."""
+    wanted = combine(items)
     total = 0
-    for sku, qty in combine(items).items():
+    for sku, qty in wanted.items():
         paid_units = qty - qty // 3 if "b2g1" in features else qty
         total += PRICES[sku] * paid_units
-    return total
+    if coupon is None:
+        return total
+    if "b2g1" in features and any(qty >= 3 for qty in wanted.values()):
+        return None  # how the coupon combines with b2g1 is not yet decided
+    return total - total // 10
+
+
+def refund_window(items, features) -> int:
+    if "category_windows" not in features:
+        return REFUND_WINDOW
+    return min(CATEGORY_WINDOWS[CATEGORIES[sku]] for sku, _ in items)
 
 
 def ledger_by_order(provider):
@@ -65,16 +78,24 @@ def check_safety(svc, provider, features, refund_requests=None) -> list[str]:
         refunded = sum(r.amount for r in rs)
         if refunded > charged:
             out.append(f"S4 {oid} refunded {refunded} > charged {charged}")
-        if refund_requests is not None and charges.get(oid):
-            deadline = charges[oid][0].at + REFUND_WINDOW
+        if refund_requests is not None and charges.get(oid) and oid in orders:
+            deadline = charges[oid][0].at + refund_window(orders[oid].items, features)
             in_window = [t for t in refund_requests.get(oid, []) if t <= deadline]
             if len(rs) > len(in_window):
                 out.append(f"B2 {oid} {len(rs)} refunds applied, {len(in_window)} "
                            f"requests accepted by {deadline}")
     for o in orders.values():
-        if o.price != expected_price(o.items, features):
-            out.append(f"B1 {o.id} items {o.items} price {o.price}, "
-                       f"expected {expected_price(o.items, features)}")
+        expected = expected_price(o.items, features, o.coupon)
+        if expected is not None and o.price != expected:
+            out.append(f"B1 {o.id} items {o.items} coupon {o.coupon} price {o.price}, "
+                       f"expected {expected}")
+    if "coupons" in features:
+        redeemed = [o.id for o in orders.values() if o.coupon == COUPON
+                    and o.status in ("reserved", "paying", "paid", "refunding")]
+        if len(redeemed) > COUPON_REDEMPTIONS:
+            out.append(f"C1 {len(redeemed)} live orders redeemed {COUPON}: {redeemed}")
+    if "coupons" not in features and any(o.coupon for o in orders.values()):
+        out.append("an order has a coupon, but coupons are not in force")
     return out
 
 

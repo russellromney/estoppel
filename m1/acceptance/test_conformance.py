@@ -76,7 +76,10 @@ class Run:
             items = [(rng.choice(SKUS), rng.randint(1, 3)) for _ in range(rng.randint(1, 2))]
             if rng.random() < 0.05:
                 items.append(rng.choice([("Z", 1), ("A", 0)]))
-            return kind, (customer, items), {}
+            kwargs = {}
+            if "coupons" in self.features and rng.random() < 0.4:
+                kwargs["coupon"] = rng.choice(["SAVE10", "SAVE10", "SAVE10", "save10", 7])
+            return kind, (customer, items), kwargs
         want = "reserved" if kind == "pay" else "paid"
         args = (customer, self.pick_order(customer, want))
         kwargs = {}

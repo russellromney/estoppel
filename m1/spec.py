@@ -18,7 +18,16 @@ REFUND_WINDOW = 2_592_000
 STATUSES = ("reserved", "paying", "paid", "refunding", "refunded", "expired")
 HOLDING = ("reserved", "paying", "paid", "refunding", "refunded")
 REASONS = ("bad_items", "out_of_stock", "not_found", "expired", "not_payable",
-           "not_refundable", "window_closed", "declined", "in_progress", "bad_amount")
+           "not_refundable", "window_closed", "declined", "in_progress", "bad_amount",
+           "bad_coupon", "coupon_used_up")
+
+# category_windows
+CATEGORIES = {"A": "general", "B": "general", "C": "food", "D": "electronics"}
+CATEGORY_WINDOWS = {"general": 2_592_000, "food": 604_800, "electronics": 1_296_000}
+
+# coupons
+COUPON = "SAVE10"
+COUPON_REDEMPTIONS = 3
 
 Items = tuple[tuple[str, int], ...]
 
@@ -44,9 +53,11 @@ class OrderView(BaseModel):
     reserved_at: int
     charged_at: int | None
     refunded: int
+    coupon: str | None = None  # coupons only
 
 
 class Checkout(Protocol):
+    # coupons adds a keyword argument: coupon: str | None = None
     def place_order(self, request_id: str, customer: str, items) -> Response: ...
 
     def pay(self, request_id: str, customer: str, order_id: str) -> Response: ...

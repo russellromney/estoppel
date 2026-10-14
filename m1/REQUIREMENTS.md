@@ -2,11 +2,16 @@
 
 This document defines what every M1 implementation must do. It is written before any implementation exists. Arms A, B and C implement it, and the held-out acceptance suite in `acceptance/` tests it.
 
-The base requirements are R0. Two later changes add a feature each:
-- **`b2g1`** (change C1): buy two, get one free.
-- **`partial_refunds`** (change C2).
+The base requirements are R0. Later changes each add a feature:
 
-Each change starts from the base. The acceptance suite takes `--features` to select which features are in force.
+| Feature | Change | Section |
+|---|---|---|
+| `b2g1` | X: buy two, get one free | 4 |
+| `category_windows` | Y: the refund window depends on the product's category | 8 |
+| `coupons` | Z: a coupon code with a limited number of redemptions | 9 |
+| `partial_refunds` | Deferred; not part of the current scenario | 7 |
+
+Sections 8 and 9 were added after arms A and B were built, and before either implemented them. The acceptance suite takes `--features` to select which features are in force.
 
 ## 1. Catalog and constants
 
@@ -132,7 +137,7 @@ These are for operators and tests. They have no tenant scoping.
 
 **Base:** the price is the sum of list price × quantity over the combined items.
 
-**`b2g1` (C1):** buy two, get one free. For each SKU, after combining lines, every third unit is free:
+**`b2g1` (X):** buy two, get one free. For each SKU, after combining lines, every third unit is free:
 
 ```
 line price = list price × (qty − qty // 3)
@@ -175,7 +180,7 @@ These must hold after settling with faults off:
 | P2 | An order is `paid` or `refunded` exactly when the ledger has its charge. `charged_at` equals the ledger's charge time, and `refunded` equals the ledger's refund total. |
 | P3 | No order is `reserved` past its hold. |
 
-## 7. `partial_refunds` (C2)
+## 7. `partial_refunds` (deferred)
 
 - `refund` takes an optional `amount` in cents. If it is omitted, the amount is the remaining refundable amount, `price − refunded`.
 - The amount must be an int, not a bool, with `1 ≤ amount ≤ price − refunded`. Otherwise the request is rejected with `bad_amount`.
@@ -184,3 +189,52 @@ These must hold after settling with faults off:
 - A declined refund returns the order to `paid` with `refunded` unchanged.
 - The check order is `not_found`, `not_refundable`, `window_closed`, then `bad_amount`.
 - S4 must still hold under concurrent requests and faults.
+
+## 8. `category_windows` (Y)
+
+Each SKU belongs to a category, and each category has its own refund window:
+
+| SKU | Category | Refund window |
+|---|---|---|
+| A, B | general | 2,592,000 seconds (30 days) |
+| C | food | 604,800 seconds (7 days) |
+| D | electronics | 1,296,000 seconds (15 days) |
+
+- An order's refund window is the shortest window among the categories of its items.
+- Everything else in section 3.3 is unchanged. The window is inclusive, and it runs from the provider's charge time.
+- B2 uses the order's window.
+
+## 9. `coupons` (Z)
+
+`place_order` takes an optional `coupon`, a code:
+
+```
+place_order(request_id, customer, items, coupon=None)
+```
+
+**The code.** There is one code, `SAVE10`. It takes 10% off the order's price, rounded down to a whole cent:
+
+```
+price = p − p // 10, where p is the price without the coupon
+```
+
+**Redemptions.** `SAVE10` may be redeemed by at most 3 orders in total, across all customers.
+- An order redeems the coupon when it is placed.
+- If the order expires, its redemption is returned and another order may use it.
+
+**Checks.** They run in this order, and a rejection changes nothing:
+
+| Order | Reason | When |
+|---|---|---|
+| 1 | `bad_items` | As in section 3.1 |
+| 2 | `bad_coupon` | The coupon is not none and is not a known code |
+| 3 | `out_of_stock` | As in section 3.1 |
+| 4 | `coupon_used_up` | All redemptions of the code are taken |
+
+**The order view** gains `coupon`: the code the order redeemed, or none.
+
+**A property that must always hold:**
+
+| ID | Property |
+|---|---|
+| C1 | At most 3 orders that redeemed `SAVE10` are `reserved`, `paying`, `paid` or `refunding`. |

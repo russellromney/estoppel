@@ -13,12 +13,12 @@ from world import Clock, Provider
 
 M1 = Path(__file__).resolve().parent.parent
 ARMS = {"a": "arm_a", "b": "arm_b", "c": "arm_c"}
-FEATURES = {"b2g1", "partial_refunds"}
+FEATURES = {"b2g1", "category_windows", "coupons", "partial_refunds"}
 
 
 def pytest_addoption(parser):
     parser.addoption("--arm", default="a", choices=sorted(ARMS))
-    parser.addoption("--features", default="", help="comma-separated: b2g1, partial_refunds")
+    parser.addoption("--features", default="", help="comma-separated: b2g1, category_windows, coupons, partial_refunds")
 
 
 @pytest.fixture(scope="session")

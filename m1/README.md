@@ -28,10 +28,13 @@ checks/           checks of the measuring tools themselves (planted bugs)
 Run these from `m1/`:
 
 ```bash
-uv run pytest acceptance --arm a                      # base requirements (or --arm b)
-uv run pytest acceptance --arm a --features b2g1      # after C1
-uv run pytest acceptance --arm a --features partial_refunds   # after C2
+uv run pytest acceptance --arm a                                     # base requirements (or --arm b)
+uv run pytest acceptance --arm a --features b2g1                     # after X
+uv run pytest acceptance --arm a --features b2g1,category_windows    # after X and Y combine
+uv run pytest acceptance --arm a --features b2g1,category_windows,coupons   # after Z
 ```
+
+Feature tests for features not in force are skipped. `partial_refunds` is deferred.
 
 To run an arm's own suite, run from the arm's directory:
 
