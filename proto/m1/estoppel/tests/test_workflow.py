@@ -1,6 +1,7 @@
 """The workflow end to end, in a temporary git repository."""
 
 import json
+import subprocess
 
 import pytest
 
@@ -16,7 +17,7 @@ BASE = {
     "app/registry.py": "ACTIVE = ()\n",
     "tests/test_prices.py": "from app.prices import price\ndef test_price():\n    assert price(2) == 4\n",
     "tests/test_window.py": "from app.window import window\ndef test_window():\n    assert window() >= 30\n",
-    "tests/test_registry.py": "from app.registry import ACTIVE\ndef test_active():\n    assert len(ACTIVE) <= 1\n",
+    "tests/test_registry.py": "from app.registry import ACTIVE\ndef test_active():\n    assert len(ACTIVE) <= 2\n",
 }
 
 
@@ -132,3 +133,38 @@ def test_combine_refuses_a_change_that_is_not_its_declared_kind(repo):
     repo.git("checkout", "-q", "main")
     result = repo.estoppel("combine", "x")
     assert result.returncode == 2 and "not the kind it declares" in result.stdout
+
+
+def test_combine_continues_after_a_joint_decision_that_changes_only_what_it_names(repo):
+    repo.git("checkout", "-q", "-b", "y")
+    repo.write({"app/registry.py": "ACTIVE = (abs,)\n"})
+    gate(repo, "--kind", "activate")
+    commit(repo, "activate abs", "activate")
+    repo.git("checkout", "-q", "-b", "x", "main")
+    repo.write({"app/registry.py": "ACTIVE = (len,)\n"})
+    gate(repo, "--kind", "activate")
+    commit(repo, "activate len", "activate")
+
+    assert repo.estoppel("combine", "y").returncode == 3
+    merge = subprocess.run(["git", "merge", "--no-commit", "y"], cwd=repo.root, capture_output=True)
+    assert merge.returncode == 1                       # git conflicts too
+    repo.write({"app/registry.py": "ACTIVE = (len, abs)\n",
+                "app/window.py": "def window():\n    return 40\n"})
+    repo.git("add", "-A")
+    result = repo.estoppel("combine", "y", "--resolved", "--decision", "both")
+    assert result.returncode == 5
+    assert "app/window.py::window differs from the base and every side" in result.stdout
+
+    repo.write({"app/window.py": BASE["app/window.py"]})
+    repo.git("add", "-A")
+    result = repo.estoppel("combine", "y", "--resolved")
+    assert result.returncode == 5 and "--decision is required" in result.stdout
+
+    result = repo.estoppel("combine", "y", "--resolved", "--decision", "len first, then abs",
+                           "--report", str(repo.root / "combine.json"))
+    assert result.returncode == 0, result.stdout + result.stderr
+    report = json.loads((repo.root / "combine.json").read_text())
+    assert list(report["result"]["ran"]) == ["tests/test_registry.py::test_active"]
+    message = repo.git("log", "-1", "--format=%B")
+    assert "Joint decision on app/registry.py::ACTIVE:\nlen first, then abs" in message
+    assert len(repo.git("log", "-1", "--format=%P").split()) == 2

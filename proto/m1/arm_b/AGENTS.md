@@ -89,6 +89,15 @@ uv run python ../estoppel combine BRANCH [BRANCH ...]   # on the integration bra
 
 `combine` merges changes made from the same base. It stops before merging if two of them changed the same definition differently, and names it: that is a joint decision. Otherwise it merges, reports which claims are kept and why the rest must rerun, reruns them, and commits the merge.
 
+After a stop, make the joint decision with the owners of the other changes. Then:
+
+```bash
+git merge --no-commit BRANCH ...            # resolve the named definitions, then git add them
+uv run python ../estoppel combine BRANCH ... --resolved --decision "what was decided, and why"
+```
+
+The resolution may change only the definitions the stop named. The decision goes into the merge's commit message.
+
 ## Adding a feature
 
 1. Add or change the rule or policy, with T1 tests.

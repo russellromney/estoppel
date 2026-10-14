@@ -11,6 +11,10 @@
         Combine changes made from the same base: check their declared kinds, stop at any
         definition changed differently by more than one of them, merge, report which claims
         are kept and why the rest must rerun, rerun them, and commit the merge.
+
+    python ../estoppel combine BRANCH [BRANCH ...] --resolved --decision TEXT
+        Continue after a stop. First merge the branches with git and resolve the definitions
+        the stop named, and stage the result. The resolution may change only those definitions.
 """
 
 import argparse
@@ -180,6 +184,38 @@ def test_exists(project: Project, index: Index, test: str) -> bool:
     return f"{project.rel(file)}::{rest.split('::')[0].split('[')[0]}" in index.defs
 
 
+def check_resolution(project: Project, branches: list[str], base: Index, sides: dict[str, Index],
+                     joint: set[str]) -> list[str]:
+    """Problems with a merge the agent resolved by hand. Outside the joint definitions, every
+    definition must be as on the base or on some side."""
+    root = project.root
+    merging = subprocess.run(["git", "rev-parse", "-q", "--verify", "MERGE_HEAD"], cwd=root,
+                             capture_output=True, text=True)
+    if merging.returncode:
+        return ["no merge is in progress: run `git merge --no-commit` on the branches first"]
+    heads = git(root, "rev-parse", *branches).split()
+    merge_heads = Path(git(root, "rev-parse", "--git-path", "MERGE_HEAD").strip())
+    if not merge_heads.is_absolute():
+        merge_heads = root / merge_heads
+    if sorted(merge_heads.read_text().split()) != sorted(heads):
+        return ["the merge in progress is not of " + ", ".join(branches)]
+    problems = []
+    if git(root, "diff", "--name-only", "--diff-filter=U").strip():
+        problems.append("some files are still unmerged")
+    if git(root, "diff", "--name-only", "--", project.arm_rel).strip():
+        problems.append("some changes are not staged")
+    merged = Index(project)
+    versions = [base, *sides.values()]
+    for did in sorted(set(merged.defs).union(*(v.defs for v in versions))):
+        mine = merged.defs[did].hash if did in merged.defs else None
+        if did in joint:
+            continue
+        if all(mine != (v.defs[did].hash if did in v.defs else None) for v in versions):
+            problems.append(f"{kinds.short(did, project.arm_rel)} differs from the base and every "
+                            "side, and was not a joint decision")
+    return problems
+
+
 def cmd_combine(args) -> int:
     project = configuration.load(configuration.find(Path.cwd()))
     root, branches = project.root, args.branches
@@ -221,21 +257,37 @@ def cmd_combine(args) -> int:
             joint.append({"definition": did, "binding": binding, "sides": who})
     report["joint"] = joint
     if joint:
-        print("Stopped: these definitions were changed differently by more than one side. "
-              "Each needs a joint decision:")
+        print(("Resolving" if args.resolved else "Stopped:") + " these definitions were changed "
+              "differently by more than one side. Each needs a joint decision:")
         for j in joint:
             print(f"  {short(j['definition'])}{' (binding)' if j['binding'] else ''}: "
                   f"{', '.join(j['sides'])}")
-        return 3
-    print("definitions changed by more than one side: none")
+        if not args.resolved:
+            print("Merge the branches with git, resolve these definitions, stage the result, "
+                  "then rerun with --resolved --decision TEXT.")
+            return 3
+    else:
+        print("definitions changed by more than one side: none")
 
-    # 3. Merge.
-    merge = subprocess.run(["git", "merge", "--no-ff", "--no-commit", *branches], cwd=root,
-                           capture_output=True, text=True)
-    if merge.returncode:
-        print("Stopped: git could not merge.\n" + merge.stdout + merge.stderr)
-        return 4
-    print("merge: clean")
+    # 3. Merge, or check the agent's resolution of the merge.
+    if args.resolved:
+        problems = check_resolution(project, branches, base_index, sides, {j["definition"] for j in joint})
+        if joint and not args.decision:
+            problems.append("--decision is required: say what was decided, and why")
+        if problems:
+            print("Stopped: the resolution cannot be used.")
+            for p in problems:
+                print(f"  {p}")
+            return 5
+        report["decision"] = args.decision
+        print("merge: resolved by hand" + (f"; decision: {args.decision}" if joint else ""))
+    else:
+        merge = subprocess.run(["git", "merge", "--no-ff", "--no-commit", *branches], cwd=root,
+                               capture_output=True, text=True)
+        if merge.returncode:
+            print("Stopped: git could not merge.\n" + merge.stdout + merge.stderr)
+            return 4
+        print("merge: clean")
 
     # 4. Which claims survive, and why the rest do not.
     claims_dir = f"{project.arm_rel}/{project.config.claims}/claims"
@@ -305,7 +357,11 @@ def cmd_combine(args) -> int:
         return 1
     subprocess.run(["git", "add", "-A", f"{project.arm_rel}/{project.config.claims}"], cwd=root,
                    check=True)
-    message = f"estoppel combine {' '.join(branches)}\n\nEstoppel-Kind: combine\n"
+    message = f"estoppel combine {' '.join(branches)}\n\n"
+    if joint:
+        message += ("Joint decision on " + ", ".join(short(j["definition"]) for j in joint)
+                    + f":\n{args.decision}\n\n")
+    message += "Estoppel-Kind: combine\n"
     subprocess.run(["git", "commit", "-q", "-m", message], cwd=root, check=True)
     print(f"committed {git(root, 'rev-parse', '--short', 'HEAD').strip()}")
     if args.report:
@@ -329,5 +385,8 @@ def main(argv=None) -> int:
     combine = sub.add_parser("combine")
     combine.add_argument("branches", nargs="+")
     combine.add_argument("--report", help="write a JSON report here")
+    combine.add_argument("--resolved", action="store_true",
+                         help="continue after a stop: the merge has been resolved and staged")
+    combine.add_argument("--decision", help="with --resolved: the joint decision, for the record")
     args = parser.parse_args(argv)
     return {"gate": cmd_gate, "kinds": cmd_kinds, "combine": cmd_combine}[args.command](args)
