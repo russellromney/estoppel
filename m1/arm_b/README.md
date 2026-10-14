@@ -12,7 +12,7 @@ Arm B implements the same requirements as arm A. Its business logic *proposes* p
 - **The core rechecks what the periphery checks.** For example, the pay workflow refuses a lapsed hold, and the core also refuses a charge on one. A periphery bug that would be unsafe becomes a refused plan (`PlanRejected`), not a wrong state. A periphery bug that is merely wrong, such as a price, is not caught by the core.
 - **Quotes carry per-line amounts.** Each pricing rule's adjustment is allocated to lines, and the charge and every refund are recorded per line. This is the only part of the core added with later features in mind. Item-level refunds need it.
 - **Not built:** budgets (shared limits such as coupon redemptions) and quote conditions. The coupon change will need them, so it will cross the core boundary.
-- **Changes go through the change workflow** ([`../newci`](../newci/README.md)). Its bindings are listed in `newci.toml`: the rule registry, `composition.py` and `config.py`. The workflow table the plan mentions does not exist in arm B; `service.py` calls the workflows directly.
+- **Changes go through the change workflow** ([`../estoppel`](../estoppel/README.md)). Its bindings are listed in `estoppel.toml`: the rule registry, `composition.py` and `config.py`. The workflow table the plan mentions does not exist in arm B; `service.py` calls the workflows directly.
 - **One open order per plan, and each order at most once per plan.** This keeps "check everything, then apply everything" simple. A feature that needs more would change the core.
 
 ## Suite strength

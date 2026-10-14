@@ -74,17 +74,17 @@ Every change is one of three kinds. The gate checks that a change is the kind yo
 | Kind | What it may do | Example |
 |---|---|---|
 | `publish` | Add definitions. It changes nothing that exists, tests included, so behaviour is unchanged. | A new rule module, with its tests |
-| `activate` | Change only bindings, listed in `newci.toml`: `RULES`, `composition.py` and `config.py`. Tests may change with them. | Adding a rule to `RULES` |
+| `activate` | Change only bindings, listed in `estoppel.toml`: `RULES`, `composition.py` and `config.py`. Tests may change with them. | Adding a rule to `RULES` |
 | `modify` | Anything else. | Changing a policy function |
 
 Where you can, publish new code first, then activate it in a separate commit. A publish reruns only its own new checks.
 
-The gate keeps a **claim** for each check that passes: the hashes of the definitions the check used. A check reruns only when a definition it used has changed. Claims live in `.newci/`. Commit them with your change, so other branches and the combine can reuse them.
+The gate keeps a **claim** for each check that passes: the hashes of the definitions the check used. A check reruns only when a definition it used has changed. Claims live in `.estoppel/`. Commit them with your change, so other branches and the combine can reuse them.
 
 ```bash
-uv run python ../newci gate --kind publish      # lint, kind check, then each check without a valid claim
-git add -A && git commit -m "Add the b2g1 rule" -m "Newci-Kind: publish"
-uv run python ../newci combine BRANCH [BRANCH ...]   # on the integration branch
+uv run python ../estoppel gate --kind publish      # lint, kind check, then each check without a valid claim
+git add -A && git commit -m "Add the b2g1 rule" -m "Estoppel-Kind: publish"
+uv run python ../estoppel combine BRANCH [BRANCH ...]   # on the integration branch
 ```
 
 `combine` merges changes made from the same base. It stops before merging if two of them changed the same definition differently, and names it: that is a joint decision. Otherwise it merges, reports which claims are kept and why the rest must rerun, reruns them, and commits the merge.

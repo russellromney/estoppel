@@ -8,6 +8,8 @@ checks it ran.
     uv run python m1/scenario/run_xy.py WORKTREE_DIR        # from proto/
 
 The `scn/*` branches and the worktrees are recreated on every run. Results go to `results/`.
+
+The base predates the rename of `newci` to estoppel, so the worktrees run the tool as `../newci`.
 """
 
 import json
@@ -185,7 +187,8 @@ def probe(log, arm, arm_dir, wt):
 
 def lines_changed(arm: str, ref: str) -> dict[str, int]:
     out = Counter()
-    for line in git("diff", "--numstat", f"{BASE}..{ref}", "--", f"m1/arm_{arm}").splitlines():
+    # The base predates the move of the repository root above proto/, hence `:(top)`.
+    for line in git("diff", "--numstat", f"{BASE}..{ref}", "--", f":(top)m1/arm_{arm}").splitlines():
         added, removed, path = line.split("\t")
         if added == "-":
             continue

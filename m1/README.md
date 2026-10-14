@@ -7,7 +7,7 @@ One checkout service is built two ways. Both are taken through the same changes,
 | Arm | Code | Gate |
 |---|---|---|
 | A | Conventional service | pytest + pytest-testmon |
-| B | A small core that decides, with business rules as proposals the core checks | `newci` (the plan's change workflow): a boundary lint, a check of each change's declared kind, and claims that let a check skip when nothing it used has changed. Also measured with pytest-testmon, to separate the code's effect from the tool's. |
+| B | A small core that decides, with business rules as proposals the core checks | `estoppel` (the plan's change workflow): a boundary lint, a check of each change's declared kind, and claims that let a check skip when nothing it used has changed. Also measured with pytest-testmon, to separate the code's effect from the tool's. |
 
 The scenario is three changes from the same base: two independent ones, combined, then one that interacts with them and crosses arm B's core. For each change and arm, the plan's section 4 lists the measures.
 
@@ -21,7 +21,7 @@ acceptance/       held-out acceptance suite: run only by the audit, never by a g
 arm_a/            conventional implementation, its own tests, AGENTS.md and design notes
 arm_b/            core/periphery implementation, its own tests, boundary lint, AGENTS.md and design notes
 checks/           checks of the measuring tools themselves (planted bugs)
-newci/            the change workflow arm B uses: definitions, kinds, claims, gate and combine
+estoppel/         the change workflow arm B uses: definitions, kinds, claims, gate and combine
 scenario/         the scenario's changes, the script that replays them, and the results
 ```
 
@@ -48,13 +48,13 @@ cd arm_b && uv run python boundary.py && uv run pytest
 The change workflow's own tests:
 
 ```bash
-uv run pytest newci/tests
+uv run pytest estoppel/tests
 ```
 
 To replay the scenario's first combine (X and Y, in both arms) in throwaway worktrees, run from `proto/`. Results are in [`scenario/RESULTS.md`](scenario/RESULTS.md).
 
 ```bash
-uv run python m1/scenario/run_xy.py /tmp/newci-worktrees
+uv run python m1/scenario/run_xy.py /tmp/estoppel-worktrees
 ```
 
 To check how strong the suites are, plant known bugs in a copy of an arm:
@@ -73,3 +73,5 @@ uv run python checks/planted_bugs.py b
 5. Predictions for the scenario were committed before any scenario change was written (`PREDICTIONS.md`, section 4).
 
 Any change to the acceptance suite after step 1 is listed in `acceptance/CHANGES.md` with the reason.
+
+The change workflow was called `newci` until 2026-10-14, when the project was renamed estoppel. Records written before then (`PREDICTIONS.md` and the X+Y scenario results) keep the old name.

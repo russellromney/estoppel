@@ -1,5 +1,7 @@
 # Scenario, step 1: combining X and Y
 
+The change workflow was called `newci` when this ran. It has since been renamed estoppel; this record keeps the old names.
+
 Run on 2026-10-14. This is the plan's step 4 ([Prototype plan](../../../reports/Prototype%20plan.md), section 5). The predictions are in [`../PREDICTIONS.md`](../PREDICTIONS.md), section 4. They were committed in `7f72ac5`, before any scenario change was written, and are not edited here.
 
 - X is `b2g1`: every third unit of a SKU is free.
