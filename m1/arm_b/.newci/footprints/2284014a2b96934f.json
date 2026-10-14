@@ -1,0 +1,13 @@
+{
+"<harness>": "e3b0c44298fc1c14",
+"m1/arm_b/checkout/app/config.py::PRICES": "72573fad994366fc",
+"m1/arm_b/checkout/app/config.py::from types import MappingProxyType": "f47066d7cd5144b5",
+"m1/arm_b/checkout/app/items.py::Cart": "d46f7035d0d47946",
+"m1/arm_b/checkout/app/items.py::from collections.abc import Mapping": "e9986572ba6fde3f",
+"m1/arm_b/checkout/app/items.py::parse_items": "232a70694e7f60e4",
+"m1/arm_b/tests/test_items.py::from checkout.app.config import PRICES": "8225cae7dceb8b51",
+"m1/arm_b/tests/test_items.py::from checkout.app.items import parse_items": "6b0a368fccbaf206",
+"m1/arm_b/tests/test_items.py::import pytest": "ec585bb5b05b807d",
+"m1/arm_b/tests/test_items.py::pytestmark": "3e0ad745494869b0",
+"m1/arm_b/tests/test_items.py::test_invalid_items": "0ff067c9a1f66394"
+}

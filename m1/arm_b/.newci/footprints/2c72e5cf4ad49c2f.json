@@ -1,0 +1,16 @@
+{
+"<harness>": "e3b0c44298fc1c14",
+"m1/arm_b/boundary.py::<toplevel>": "3f30eb0e7edc87bd",
+"m1/arm_b/boundary.py::FORBIDDEN_CALLS": "e00cf359ce289057",
+"m1/arm_b/boundary.py::FORBIDDEN_MODULES": "a7777ca45364d444",
+"m1/arm_b/boundary.py::check_periphery": "83d7f901e45d5c6f",
+"m1/arm_b/boundary.py::import ast": "308e33552cc2ee02",
+"m1/arm_b/boundary.py::import sys": "aafdf8478b6d3694",
+"m1/arm_b/boundary.py::imported_modules": "3c946b619be879b4",
+"m1/arm_b/tests/test_boundary.py::from boundary import check_periphery": "7032909c8df84d41",
+"m1/arm_b/tests/test_boundary.py::import ast": "308e33552cc2ee02",
+"m1/arm_b/tests/test_boundary.py::import pytest": "ec585bb5b05b807d",
+"m1/arm_b/tests/test_boundary.py::periphery": "ba4d6cefb020811f",
+"m1/arm_b/tests/test_boundary.py::pytestmark": "3e0ad745494869b0",
+"m1/arm_b/tests/test_boundary.py::test_allowed_in_the_periphery": "a26d1b02dc07606d"
+}
