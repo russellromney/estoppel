@@ -1,0 +1,10 @@
+$ uv run python ../newci gate --kind activate
+(cwd m1/arm_b, exit 0)
+
+lint: ok
+change: activate: ok (4 definitions added; bindings checkout/app/pricing/rules/__init__.py::RULES, checkout/app/pricing/rules/__init__.py::from checkout.app.pricing.rules.b2g1 import B2G1)
+...............................                                          [100%]
+newci: 414 checks kept by valid claims; 31 ran (0.05 s CPU); 31 new claims
+31 passed, 414 deselected in 0.26s
+checks: 414 kept by valid claims; 31 ran; 0 failed; 0.72 s CPU, 0.73 s wall
+claims: wrote .newci/claims/4f4daf9824fa26e5.jsonl; commit it with the change (trailer `Newci-Kind: activate`)

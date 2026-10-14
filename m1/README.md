@@ -22,6 +22,7 @@ arm_a/            conventional implementation, its own tests, AGENTS.md and desi
 arm_b/            core/periphery implementation, its own tests, boundary lint, AGENTS.md and design notes
 checks/           checks of the measuring tools themselves (planted bugs)
 newci/            the change workflow arm B uses: definitions, kinds, claims, gate and combine
+scenario/         the scenario's changes, the script that replays them, and the results
 ```
 
 ## Commands
@@ -50,6 +51,12 @@ The change workflow's own tests:
 uv run pytest newci/tests
 ```
 
+To replay the scenario's first combine (X and Y, in both arms) in throwaway worktrees, run from `proto/`. Results are in [`scenario/RESULTS.md`](scenario/RESULTS.md).
+
+```bash
+uv run python m1/scenario/run_xy.py /tmp/newci-worktrees
+```
+
 To check how strong the suites are, plant known bugs in a copy of an arm:
 
 ```bash
@@ -63,5 +70,6 @@ uv run python checks/planted_bugs.py b
 2. Arm A is written in idiomatic conventional style and committed. It is then reviewed for strawmanning before arm B exists.
 3. Predictions were committed before arm B existed (`PREDICTIONS.md`).
 4. Arm B, minimal. Then the change workflow and the scenario. See the plan's section 5.
+5. Predictions for the scenario were committed before any scenario change was written (`PREDICTIONS.md`, section 4).
 
 Any change to the acceptance suite after step 1 is listed in `acceptance/CHANGES.md` with the reason.

@@ -1,0 +1,719 @@
+{
+ "base": "138f9214eb8bb5ad93a1b2223713e62d7b45e80a",
+ "steps": {
+  "scn/a-x": {
+   "rules and policies": 7,
+   "tests": 33
+  },
+  "scn/a-y": {
+   "rules and policies": 14,
+   "tests": 52
+  },
+  "scn/a-int": {
+   "rules and policies": 21,
+   "tests": 85
+  },
+  "scn/b-x": {
+   "claims (files)": 29,
+   "periphery": 15,
+   "tests": 52
+  },
+  "scn/b-y": {
+   "claims (files)": 13,
+   "periphery": 14,
+   "tests": 47
+  },
+  "scn/b-int": {
+   "claims (files)": 49,
+   "periphery": 29,
+   "tests": 99
+  }
+ },
+ "log": [
+  {
+   "n": 1,
+   "step": "base-a",
+   "role": "measure",
+   "command": "uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-base-a-none.xml",
+   "cwd": "m1/arm_a",
+   "exit": 0,
+   "cpu": 12.4,
+   "wall": 15.38,
+   "gate": "testmon",
+   "data": "none",
+   "pytest": {
+    "passed": 374
+   },
+   "ran": 374,
+   "ran_by_tier": {
+    "t1": 30,
+    "t2": 36,
+    "t3": 301,
+    "t4": 7
+   },
+   "check_seconds": 13.65,
+   "share": 0.9842,
+   "unmatched": 3
+  },
+  {
+   "n": 2,
+   "step": "base-b",
+   "role": "measure",
+   "command": "uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-base-b-none.xml",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 17.49,
+   "wall": 19.63,
+   "gate": "testmon",
+   "data": "none",
+   "pytest": {
+    "passed": 435
+   },
+   "ran": 435,
+   "ran_by_tier": {
+    "t1": 85,
+    "t2": 40,
+    "t3": 302,
+    "t4": 8
+   },
+   "check_seconds": 18.16,
+   "share": 1.0,
+   "unmatched": 0
+  },
+  {
+   "n": 3,
+   "step": "a-x",
+   "role": "agent",
+   "command": "uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-a-x-branch.xml",
+   "cwd": "m1/arm_a",
+   "exit": 0,
+   "cpu": 11.33,
+   "wall": 11.53,
+   "gate": "testmon",
+   "data": "branch",
+   "pytest": {
+    "passed": 323,
+    "deselected": 2
+   },
+   "ran": 323,
+   "ran_by_tier": {
+    "t1": 11,
+    "t2": 3,
+    "t3": 301,
+    "t4": 8
+   },
+   "check_seconds": 10.41,
+   "share": 0.9998,
+   "unmatched": 0
+  },
+  {
+   "n": 4,
+   "step": "a-x",
+   "role": "agent",
+   "command": "git add -A && git commit -q -m \"b2g1: every third unit of a SKU is free\"",
+   "cwd": "m1/arm_a",
+   "exit": 0,
+   "cpu": 0.07,
+   "wall": 0.08
+  },
+  {
+   "n": 5,
+   "step": "a-y",
+   "role": "agent",
+   "command": "uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-a-y-branch.xml",
+   "cwd": "m1/arm_a",
+   "exit": 0,
+   "cpu": 10.66,
+   "wall": 10.71,
+   "gate": "testmon",
+   "data": "branch",
+   "pytest": {
+    "passed": 342,
+    "deselected": 13
+   },
+   "ran": 342,
+   "ran_by_tier": {
+    "t1": 14,
+    "t2": 18,
+    "t3": 301,
+    "t4": 9
+   },
+   "check_seconds": 9.73,
+   "share": 0.935,
+   "unmatched": 0
+  },
+  {
+   "n": 6,
+   "step": "a-y",
+   "role": "agent",
+   "command": "git add -A && git commit -q -m \"category_windows: refund windows by product category\"",
+   "cwd": "m1/arm_a",
+   "exit": 0,
+   "cpu": 0.06,
+   "wall": 0.08
+  },
+  {
+   "n": 7,
+   "step": "a-combine",
+   "role": "integrator",
+   "command": "git merge -q --no-edit scn/a-x scn/a-y",
+   "cwd": "m1/arm_a",
+   "exit": 0,
+   "cpu": 0.27,
+   "wall": 0.3
+  },
+  {
+   "n": 8,
+   "step": "a-combine",
+   "role": "integrator",
+   "command": "uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-a-combine-base.xml",
+   "cwd": "m1/arm_a",
+   "exit": 0,
+   "cpu": 11.3,
+   "wall": 11.36,
+   "gate": "testmon",
+   "data": "base",
+   "pytest": {
+    "passed": 357,
+    "deselected": 15
+   },
+   "ran": 357,
+   "ran_by_tier": {
+    "t1": 25,
+    "t2": 21,
+    "t3": 301,
+    "t4": 10
+   },
+   "check_seconds": 10.33,
+   "share": 1.0,
+   "unmatched": 0
+  },
+  {
+   "n": 9,
+   "step": "a-combine",
+   "role": "measure",
+   "command": "uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-a-combine-x.xml",
+   "cwd": "m1/arm_a",
+   "exit": 0,
+   "cpu": 10.59,
+   "wall": 10.64,
+   "gate": "testmon",
+   "data": "x",
+   "pytest": {
+    "passed": 343,
+    "deselected": 13
+   },
+   "ran": 343,
+   "ran_by_tier": {
+    "t1": 14,
+    "t2": 18,
+    "t3": 301,
+    "t4": 10
+   },
+   "check_seconds": 9.66,
+   "share": 0.935,
+   "unmatched": 0
+  },
+  {
+   "n": 10,
+   "step": "a-combine",
+   "role": "audit",
+   "command": "uv run pytest -q -p no:cacheprovider --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-a-combine-audit.xml",
+   "cwd": "m1/arm_a",
+   "exit": 0,
+   "cpu": 4.55,
+   "wall": 4.94,
+   "pytest": {
+    "passed": 387
+   },
+   "check_seconds": 4.23
+  },
+  {
+   "n": 11,
+   "step": "a-probe-config",
+   "role": "probe",
+   "command": "uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-a-probe-config-int.xml",
+   "cwd": "m1/arm_a",
+   "exit": 0,
+   "cpu": 0.45,
+   "wall": 0.48,
+   "gate": "testmon",
+   "data": "int",
+   "ran": 0,
+   "ran_by_tier": {},
+   "check_seconds": 0
+  },
+  {
+   "n": 12,
+   "step": "a-probe-config",
+   "role": "probe",
+   "command": "uv run pytest -q -p no:cacheprovider --tb=line",
+   "cwd": "m1/arm_a",
+   "exit": 1,
+   "cpu": 2.56,
+   "wall": 2.58,
+   "pytest": {
+    "failed": 226,
+    "passed": 161
+   }
+  },
+  {
+   "n": 13,
+   "step": "a-combine",
+   "role": "audit",
+   "command": "uv run pytest acceptance --arm a --features b2g1,category_windows -q -p no:cacheprovider",
+   "cwd": "m1",
+   "exit": 0,
+   "cpu": 0.78,
+   "wall": 0.79,
+   "pytest": {
+    "passed": 107
+   }
+  },
+  {
+   "n": 14,
+   "step": "b-x-publish",
+   "role": "agent",
+   "command": "uv run python ../newci gate --kind publish",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 1.1,
+   "wall": 1.13,
+   "gate": "newci",
+   "pytest": {
+    "passed": 9,
+    "deselected": 435,
+    "failed": 0
+   },
+   "kept": 435,
+   "ran": 9,
+   "ran_by_tier": {
+    "t1": 9
+   },
+   "check_seconds": 0.01,
+   "change": "publish: ok (16 definitions added)",
+   "share": 0.0,
+   "unmatched": 0
+  },
+  {
+   "n": 15,
+   "step": "b-x-publish",
+   "role": "measure",
+   "command": "uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-b-x-publish-branch.xml",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 0.5,
+   "wall": 0.52,
+   "gate": "testmon",
+   "data": "branch",
+   "pytest": {
+    "passed": 9
+   },
+   "ran": 9,
+   "ran_by_tier": {
+    "t1": 9
+   },
+   "check_seconds": 0.0,
+   "share": 0.0,
+   "unmatched": 0
+  },
+  {
+   "n": 16,
+   "step": "b-x-publish",
+   "role": "agent",
+   "command": "git add -A && git commit -q -m \"b2g1: publish the rule\" -m \"Newci-Kind: publish\"",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 0.07,
+   "wall": 0.08
+  },
+  {
+   "n": 17,
+   "step": "b-x-activate",
+   "role": "agent",
+   "command": "uv run python ../newci gate --kind activate",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 1.18,
+   "wall": 1.2,
+   "gate": "newci",
+   "pytest": {
+    "passed": 31,
+    "deselected": 414,
+    "failed": 0
+   },
+   "kept": 414,
+   "ran": 31,
+   "ran_by_tier": {
+    "t1": 22,
+    "t4": 9
+   },
+   "check_seconds": 0.05,
+   "change": "activate: ok (4 definitions added; bindings checkout/app/pricing/rules/__init__.py::RULES, checkout/app/pricing/rules/__init__.py::from checkout.app.pricing.rules.b2g1 import B2G1)",
+   "share": 0.0054,
+   "unmatched": 0
+  },
+  {
+   "n": 18,
+   "step": "b-x-activate",
+   "role": "measure",
+   "command": "uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-b-x-activate-branch.xml",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 0.51,
+   "wall": 0.53,
+   "gate": "testmon",
+   "data": "branch",
+   "pytest": {
+    "passed": 1
+   },
+   "ran": 1,
+   "ran_by_tier": {
+    "t4": 1
+   },
+   "check_seconds": 0.0,
+   "share": 0.0,
+   "unmatched": 0
+  },
+  {
+   "n": 19,
+   "step": "b-x-activate",
+   "role": "agent",
+   "command": "git add -A && git commit -q -m \"b2g1: activate the rule\" -m \"Newci-Kind: activate\"",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 0.05,
+   "wall": 0.06
+  },
+  {
+   "n": 20,
+   "step": "b-y-publish",
+   "role": "agent",
+   "command": "uv run python ../newci gate --kind publish",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 1.08,
+   "wall": 1.1,
+   "gate": "newci",
+   "pytest": {
+    "passed": 6,
+    "deselected": 435,
+    "failed": 0
+   },
+   "kept": 435,
+   "ran": 6,
+   "ran_by_tier": {
+    "t1": 6
+   },
+   "check_seconds": 0.01,
+   "change": "publish: ok (11 definitions added; bindings checkout/app/config.py::CATEGORIES, checkout/app/config.py::CATEGORY_REFUND_WINDOWS)",
+   "share": 0.0,
+   "unmatched": 0
+  },
+  {
+   "n": 21,
+   "step": "b-y-publish",
+   "role": "measure",
+   "command": "uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-b-y-publish-branch.xml",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 0.58,
+   "wall": 0.6,
+   "gate": "testmon",
+   "data": "branch",
+   "pytest": {
+    "passed": 25,
+    "deselected": 14
+   },
+   "ran": 25,
+   "ran_by_tier": {
+    "t1": 17,
+    "t4": 8
+   },
+   "check_seconds": 0.01,
+   "share": 0.0004,
+   "unmatched": 0
+  },
+  {
+   "n": 22,
+   "step": "b-y-publish",
+   "role": "agent",
+   "command": "git add -A && git commit -q -m \"category_windows: publish windows by category\" -m \"Newci-Kind: publish\"",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 0.07,
+   "wall": 0.08
+  },
+  {
+   "n": 23,
+   "step": "b-y-modify",
+   "role": "agent",
+   "command": "uv run python ../newci gate --kind modify",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 1.12,
+   "wall": 1.15,
+   "gate": "newci",
+   "pytest": {
+    "passed": 10,
+    "deselected": 433,
+    "failed": 0
+   },
+   "kept": 433,
+   "ran": 10,
+   "ran_by_tier": {
+    "t1": 5,
+    "t4": 5
+   },
+   "check_seconds": 0.01,
+   "change": "modify: ok (5 definitions added; 2 code definitions changed)",
+   "share": 0.0002,
+   "unmatched": 0
+  },
+  {
+   "n": 24,
+   "step": "b-y-modify",
+   "role": "probe",
+   "command": "uv run python ../newci gate --kind activate",
+   "cwd": "m1/arm_b",
+   "exit": 2,
+   "cpu": 0.45,
+   "wall": 0.46
+  },
+  {
+   "n": 25,
+   "step": "b-y-modify",
+   "role": "measure",
+   "command": "uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-b-y-modify-branch.xml",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 0.58,
+   "wall": 0.59,
+   "gate": "testmon",
+   "data": "branch",
+   "pytest": {
+    "passed": 27,
+    "deselected": 14
+   },
+   "ran": 27,
+   "ran_by_tier": {
+    "t1": 17,
+    "t4": 10
+   },
+   "check_seconds": 0.02,
+   "share": 0.0004,
+   "unmatched": 0
+  },
+  {
+   "n": 26,
+   "step": "b-y-modify",
+   "role": "agent",
+   "command": "git add -A && git commit -q -m \"category_windows: use them in the refund policy\" -m \"Newci-Kind: modify\"",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 0.05,
+   "wall": 0.06
+  },
+  {
+   "n": 27,
+   "step": "b-combine",
+   "role": "integrator",
+   "command": "uv run python ../newci combine scn/b-x scn/b-y --report /Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-combine-b.json",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 2.97,
+   "wall": 3.11,
+   "gate": "newci",
+   "pytest": {
+    "passed": 6,
+    "deselected": 447,
+    "failed": 0
+   },
+   "kept": 447,
+   "kept_from": {
+    "base": 409,
+    "scn/b-x": 27,
+    "scn/b-y": 11
+   },
+   "ran": 6,
+   "ran_by_tier": {
+    "t4": 6
+   },
+   "recheck": [
+    "tests/test_journeys.py::test_buy_pay_and_refund",
+    "tests/test_journeys.py::test_late_refund_is_refused",
+    "tests/test_journeys.py::test_network_trouble_is_settled_by_jobs",
+    "tests/test_journeys_b2g1.py::test_the_third_unit_is_free_and_the_charge_and_refund_match",
+    "tests/test_journeys_category_windows.py::test_a_mixed_order_uses_its_shortest_window",
+    "tests/test_journeys_category_windows.py::test_food_has_a_shorter_window_than_general_goods"
+   ],
+   "check_seconds": 0.01,
+   "share": 0.0002,
+   "unmatched": 0
+  },
+  {
+   "n": 28,
+   "step": "b-combine",
+   "role": "measure",
+   "command": "uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-b-combine-base.xml",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 0.62,
+   "wall": 0.64,
+   "gate": "testmon",
+   "data": "base",
+   "pytest": {
+    "passed": 37,
+    "deselected": 14
+   },
+   "ran": 37,
+   "ran_by_tier": {
+    "t1": 26,
+    "t4": 11
+   },
+   "check_seconds": 0.02,
+   "share": 0.0004,
+   "unmatched": 0
+  },
+  {
+   "n": 29,
+   "step": "b-combine",
+   "role": "measure",
+   "command": "uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-b-combine-x.xml",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 0.6,
+   "wall": 0.62,
+   "gate": "testmon",
+   "data": "x",
+   "pytest": {
+    "passed": 28,
+    "deselected": 14
+   },
+   "ran": 28,
+   "ran_by_tier": {
+    "t1": 17,
+    "t4": 11
+   },
+   "check_seconds": 0.02,
+   "share": 0.0004,
+   "unmatched": 0
+  },
+  {
+   "n": 30,
+   "step": "b-combine",
+   "role": "audit",
+   "command": "uv run pytest -q -p no:cacheprovider --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-b-combine-audit.xml",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 6.25,
+   "wall": 6.27,
+   "pytest": {
+    "passed": 453
+   },
+   "check_seconds": 5.6
+  },
+  {
+   "n": 31,
+   "step": "b-probe-config",
+   "role": "probe",
+   "command": "uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-b-probe-config-int.xml",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 0.43,
+   "wall": 0.44,
+   "gate": "testmon",
+   "data": "int",
+   "ran": 0,
+   "ran_by_tier": {},
+   "check_seconds": 0
+  },
+  {
+   "n": 32,
+   "step": "b-probe-config",
+   "role": "probe",
+   "command": "uv run python ../newci gate",
+   "cwd": "m1/arm_b",
+   "exit": 1,
+   "cpu": 0.9,
+   "wall": 0.92,
+   "gate": "newci",
+   "pytest": {
+    "failed": 9,
+    "passed": 11,
+    "deselected": 433
+   }
+  },
+  {
+   "n": 33,
+   "step": "b-probe-config",
+   "role": "probe",
+   "command": "uv run pytest -q -p no:cacheprovider --tb=line",
+   "cwd": "m1/arm_b",
+   "exit": 1,
+   "cpu": 6.25,
+   "wall": 6.34,
+   "pytest": {
+    "failed": 9,
+    "passed": 444
+   }
+  },
+  {
+   "n": 34,
+   "step": "b-probe-binding",
+   "role": "probe",
+   "command": "uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-b-probe-binding-int.xml",
+   "cwd": "m1/arm_b",
+   "exit": 0,
+   "cpu": 0.45,
+   "wall": 0.47,
+   "gate": "testmon",
+   "data": "int",
+   "ran": 0,
+   "ran_by_tier": {},
+   "check_seconds": 0
+  },
+  {
+   "n": 35,
+   "step": "b-probe-binding",
+   "role": "probe",
+   "command": "uv run python ../newci gate",
+   "cwd": "m1/arm_b",
+   "exit": 1,
+   "cpu": 0.92,
+   "wall": 1.04,
+   "gate": "newci",
+   "pytest": {
+    "failed": 1,
+    "deselected": 452
+   }
+  },
+  {
+   "n": 36,
+   "step": "b-probe-binding",
+   "role": "probe",
+   "command": "uv run pytest -q -p no:cacheprovider --tb=line",
+   "cwd": "m1/arm_b",
+   "exit": 1,
+   "cpu": 6.31,
+   "wall": 6.35,
+   "pytest": {
+    "failed": 1,
+    "passed": 452
+   }
+  },
+  {
+   "n": 37,
+   "step": "b-combine",
+   "role": "audit",
+   "command": "uv run pytest acceptance --arm b --features b2g1,category_windows -q -p no:cacheprovider",
+   "cwd": "m1",
+   "exit": 0,
+   "cpu": 1.28,
+   "wall": 1.29,
+   "pytest": {
+    "passed": 107
+   }
+  }
+ ]
+}

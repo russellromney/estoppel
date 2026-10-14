@@ -1,0 +1,6 @@
+$ uv run pytest acceptance --arm a --features b2g1,category_windows -q -p no:cacheprovider
+(cwd m1, exit 0)
+
+...........................................................sssssssssssss [ 50%]
+ssssssss....ssssssssssssss................................s............  [100%]
+107 passed, 36 skipped in 0.50s

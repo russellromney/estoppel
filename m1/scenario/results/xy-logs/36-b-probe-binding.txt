@@ -1,0 +1,18 @@
+$ uv run pytest -q -p no:cacheprovider --tb=line
+(cwd m1/arm_b, exit 1)
+
+........................................................................ [ 15%]
+........................................................................ [ 31%]
+........................................................................ [ 47%]
+........................................................................ [ 63%]
+........................................................................ [ 79%]
+..................................F..................................... [ 95%]
+.....................                                                    [100%]
+=================================== FAILURES ===================================
+E   AssertionError: assert (True and 3400 == ((2 * 1000) + 400))
+     +  where True = Response(ok=True, reason=None, order_id='o1', price=3400, status='reserved').ok
+     +  and   3400 = Response(ok=True, reason=None, order_id='o1', price=3400, status='reserved').price
+/private/tmp/claude-501/-Users-russellromney-Documents-Github-newci/2fdbc2c6-4b56-4f6f-8e5a-52d9de573255/scratchpad/wt/b-int/m1/arm_b/tests/test_journeys_b2g1.py:10: AssertionError: assert (True and 3400 == ((2 * 1000) + 400))
+=========================== short test summary info ============================
+FAILED tests/test_journeys_b2g1.py::test_the_third_unit_is_free_and_the_charge_and_refund_match
+1 failed, 452 passed in 6.01s

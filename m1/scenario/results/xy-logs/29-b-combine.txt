@@ -1,0 +1,5 @@
+$ uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-b-combine-x.xml
+(cwd m1/arm_b, exit 0)
+
+............................                                             [100%]
+28 passed, 14 deselected in 0.25s

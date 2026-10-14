@@ -1,0 +1,25 @@
+$ uv run python ../newci gate
+(cwd m1/arm_b, exit 1)
+
+lint: ok
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_the_third_unit_is_free_and_the_charge_and_refund_match __________
+
+service = <checkout.app.service.CheckoutService object at 0x10baff770>
+provider = <world.Provider object at 0x10baff620>
+rid = <function rid.<locals>.<lambda> at 0x10bd494e0>
+
+    def test_the_third_unit_is_free_and_the_charge_and_refund_match(service, provider, rid):
+        order = service.place_order(rid(), "alice", [("A", 3), ("C", 1)])
+>       assert order.ok and order.price == 2 * 1000 + 400
+E       AssertionError: assert (True and 3400 == ((2 * 1000) + 400))
+E        +  where True = Response(ok=True, reason=None, order_id='o1', price=3400, status='reserved').ok
+E        +  and   3400 = Response(ok=True, reason=None, order_id='o1', price=3400, status='reserved').price
+
+tests/test_journeys_b2g1.py:10: AssertionError
+newci: 452 checks kept by valid claims; 1 ran (0.02 s CPU); 0 new claims
+=========================== short test summary info ============================
+FAILED tests/test_journeys_b2g1.py::test_the_third_unit_is_free_and_the_charge_and_refund_match
+1 failed, 452 deselected in 0.24s
+checks: 452 kept by valid claims; 1 ran; 1 failed; 0.71 s CPU, 0.83 s wall

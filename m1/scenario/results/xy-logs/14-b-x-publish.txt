@@ -1,0 +1,10 @@
+$ uv run python ../newci gate --kind publish
+(cwd m1/arm_b, exit 0)
+
+lint: ok
+change: publish: ok (16 definitions added)
+.........                                                                [100%]
+newci: 435 checks kept by valid claims; 9 ran (0.01 s CPU); 9 new claims
+9 passed, 435 deselected in 0.21s
+checks: 435 kept by valid claims; 9 ran; 0 failed; 0.65 s CPU, 0.66 s wall
+claims: wrote .newci/claims/69675b843e4b48ae.jsonl; commit it with the change (trailer `Newci-Kind: publish`)

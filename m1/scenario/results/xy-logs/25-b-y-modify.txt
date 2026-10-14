@@ -1,0 +1,5 @@
+$ uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/xy-logs/junit-b-y-modify-branch.xml
+(cwd m1/arm_b, exit 0)
+
+...........................                                              [100%]
+27 passed, 14 deselected in 0.24s

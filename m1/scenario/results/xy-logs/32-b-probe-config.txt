@@ -1,0 +1,188 @@
+$ uv run python ../newci gate
+(cwd m1/arm_b, exit 1)
+
+lint: ok
+FF..FF.FF..FFF......                                                     [100%]
+=================================== FAILURES ===================================
+___________________________ test_buy_pay_and_refund ____________________________
+
+world = (<world.Clock object at 0x10a472a50>, <world.Provider object at 0x10a473620>, <checkout.app.service.CheckoutService object at 0x10a473770>)
+
+    def test_buy_pay_and_refund(world):
+        clock, provider, svc = world
+        order = svc.place_order("r1", "alice", [("A", 2), ("C", 1)])
+        assert order.ok and order.price == 2400
+        clock.advance(60)
+        assert svc.pay("r2", "alice", order.order_id).status == "paid"
+        clock.advance(3 * DAY)
+>       assert svc.refund("r3", "alice", order.order_id).status == "refunded"
+E       AssertionError: assert None == 'refunded'
+E        +  where None = Response(ok=False, reason='window_closed', order_id=None, price=None, status=None).status
+E        +    where Response(ok=False, reason='window_closed', order_id=None, price=None, status=None) = refund('r3', 'alice', 'o1')
+E        +      where refund = <checkout.app.service.CheckoutService object at 0x10a473770>.refund
+E        +      and   'o1' = Response(ok=True, reason=None, order_id='o1', price=2400, status='reserved').order_id
+
+tests/test_journeys.py:27: AssertionError
+___________________ test_network_trouble_is_settled_by_jobs ____________________
+
+world = (<world.Clock object at 0x10a4f56d0>, <world.Provider object at 0x10a4f5d10>, <checkout.app.service.CheckoutService object at 0x10a4f5f90>)
+
+    def test_network_trouble_is_settled_by_jobs(world):
+        clock, provider, svc = world
+        order = svc.place_order("r1", "alice", [("A", 1)])
+        provider.faults.extend(["lost_after"])
+        assert svc.pay("r2", "alice", order.order_id).status == "paying"
+        clock.advance(30)
+        svc.run_jobs()
+        assert svc.order(order.order_id).status == "paid"
+        assert svc.order(order.order_id).charged_at == 0
+        provider.faults.extend(["lost_before"])
+>       assert svc.refund("r3", "alice", order.order_id).status == "refunding"
+E       AssertionError: assert None == 'refunding'
+E        +  where None = Response(ok=False, reason='window_closed', order_id=None, price=None, status=None).status
+E        +    where Response(ok=False, reason='window_closed', order_id=None, price=None, status=None) = refund('r3', 'alice', 'o1')
+E        +      where refund = <checkout.app.service.CheckoutService object at 0x10a4f5f90>.refund
+E        +      and   'o1' = Response(ok=True, reason=None, order_id='o1', price=1000, status='reserved').order_id
+
+tests/test_journeys.py:62: AssertionError
+______________ test_food_has_a_shorter_window_than_general_goods _______________
+
+service = <checkout.app.service.CheckoutService object at 0x10a91c510>
+clock = <world.Clock object at 0x10a2a7e10>
+rid = <function rid.<locals>.<lambda> at 0x10a6d4400>
+
+    def test_food_has_a_shorter_window_than_general_goods(service, clock, rid):
+        food = service.place_order(rid(), "alice", [("C", 1)])
+        general = service.place_order(rid(), "alice", [("A", 1)])
+        assert service.pay(rid(), "alice", food.order_id).status == "paid"
+        assert service.pay(rid(), "alice", general.order_id).status == "paid"
+        clock.advance(8 * DAY)
+        assert service.refund(rid(), "alice", food.order_id).reason == "window_closed"
+>       assert service.refund(rid(), "alice", general.order_id).status == "refunded"
+E       AssertionError: assert None == 'refunded'
+E        +  where None = Response(ok=False, reason='window_closed', order_id=None, price=None, status=None).status
+E        +    where Response(ok=False, reason='window_closed', order_id=None, price=None, status=None) = refund('req-6', 'alice', 'o2')
+E        +      where refund = <checkout.app.service.CheckoutService object at 0x10a91c510>.refund
+E        +      and   'req-6' = <function rid.<locals>.<lambda> at 0x10a6d4400>()
+E        +      and   'o2' = Response(ok=True, reason=None, order_id='o2', price=1000, status='reserved').order_id
+
+tests/test_journeys_category_windows.py:17: AssertionError
+_________________ test_a_mixed_order_uses_its_shortest_window __________________
+
+service = <checkout.app.service.CheckoutService object at 0x10a648a70>
+clock = <world.Clock object at 0x10a64ab10>
+rid = <function rid.<locals>.<lambda> at 0x10a5dbf60>
+
+    def test_a_mixed_order_uses_its_shortest_window(service, clock, rid):
+        order = service.place_order(rid(), "alice", [("A", 1), ("D", 1)])
+        assert service.pay(rid(), "alice", order.order_id).status == "paid"
+        clock.advance(15 * DAY)
+>       assert service.refund(rid(), "alice", order.order_id).status == "refunded"
+E       AssertionError: assert None == 'refunded'
+E        +  where None = Response(ok=False, reason='window_closed', order_id=None, price=None, status=None).status
+E        +    where Response(ok=False, reason='window_closed', order_id=None, price=None, status=None) = refund('req-3', 'alice', 'o1')
+E        +      where refund = <checkout.app.service.CheckoutService object at 0x10a648a70>.refund
+E        +      and   'req-3' = <function rid.<locals>.<lambda> at 0x10a5dbf60>()
+E        +      and   'o1' = Response(ok=True, reason=None, order_id='o1', price=10900, status='reserved').order_id
+
+tests/test_journeys_category_windows.py:24: AssertionError
+____ test_an_orders_window_is_the_shortest_of_its_categories[skus0-2592000] ____
+
+skus = ('A',), window = 2592000
+
+    @pytest.mark.parametrize("skus, window", [
+        (("A",), 30 * DAY),
+        (("B",), 30 * DAY),
+        (("C",), 7 * DAY),
+        (("D",), 15 * DAY),
+        (("A", "C"), 7 * DAY),
+        (("B", "D"), 15 * DAY),
+    ])
+    def test_an_orders_window_is_the_shortest_of_its_categories(skus, window):
+        order = order_fact(lines=tuple((sku, 1, 100) for sku in skus), charged_at=0)
+>       assert refund_window(order) == window
+E       AssertionError: assert 1 == 2592000
+E        +  where 1 = refund_window(Order(id='o1', customer='c1', quote=Quote(lines=(Line(sku='A', qty=1, unit_price=100),), adjustments=()), opened_at=0,...t(key='charge-o1-1', kind='charge', order_id='o1', amount=100, per_line=(100,), created_at=0, state='applied', at=0),)))
+
+tests/test_policies_category_windows.py:23: AssertionError
+____ test_an_orders_window_is_the_shortest_of_its_categories[skus1-2592000] ____
+
+skus = ('B',), window = 2592000
+
+    @pytest.mark.parametrize("skus, window", [
+        (("A",), 30 * DAY),
+        (("B",), 30 * DAY),
+        (("C",), 7 * DAY),
+        (("D",), 15 * DAY),
+        (("A", "C"), 7 * DAY),
+        (("B", "D"), 15 * DAY),
+    ])
+    def test_an_orders_window_is_the_shortest_of_its_categories(skus, window):
+        order = order_fact(lines=tuple((sku, 1, 100) for sku in skus), charged_at=0)
+>       assert refund_window(order) == window
+E       AssertionError: assert 1 == 2592000
+E        +  where 1 = refund_window(Order(id='o1', customer='c1', quote=Quote(lines=(Line(sku='B', qty=1, unit_price=100),), adjustments=()), opened_at=0,...t(key='charge-o1-1', kind='charge', order_id='o1', amount=100, per_line=(100,), created_at=0, state='applied', at=0),)))
+
+tests/test_policies_category_windows.py:23: AssertionError
+____ test_an_orders_window_is_the_shortest_of_its_categories[skus4-604800] _____
+
+skus = ('A', 'C'), window = 604800
+
+    @pytest.mark.parametrize("skus, window", [
+        (("A",), 30 * DAY),
+        (("B",), 30 * DAY),
+        (("C",), 7 * DAY),
+        (("D",), 15 * DAY),
+        (("A", "C"), 7 * DAY),
+        (("B", "D"), 15 * DAY),
+    ])
+    def test_an_orders_window_is_the_shortest_of_its_categories(skus, window):
+        order = order_fact(lines=tuple((sku, 1, 100) for sku in skus), charged_at=0)
+>       assert refund_window(order) == window
+E       AssertionError: assert 1 == 604800
+E        +  where 1 = refund_window(Order(id='o1', customer='c1', quote=Quote(lines=(Line(sku='A', qty=1, unit_price=100), Line(sku='C', qty=1, unit_price...y='charge-o1-1', kind='charge', order_id='o1', amount=200, per_line=(100, 100), created_at=0, state='applied', at=0),)))
+
+tests/test_policies_category_windows.py:23: AssertionError
+____ test_an_orders_window_is_the_shortest_of_its_categories[skus5-1296000] ____
+
+skus = ('B', 'D'), window = 1296000
+
+    @pytest.mark.parametrize("skus, window", [
+        (("A",), 30 * DAY),
+        (("B",), 30 * DAY),
+        (("C",), 7 * DAY),
+        (("D",), 15 * DAY),
+        (("A", "C"), 7 * DAY),
+        (("B", "D"), 15 * DAY),
+    ])
+    def test_an_orders_window_is_the_shortest_of_its_categories(skus, window):
+        order = order_fact(lines=tuple((sku, 1, 100) for sku in skus), charged_at=0)
+>       assert refund_window(order) == window
+E       AssertionError: assert 1 == 1296000
+E        +  where 1 = refund_window(Order(id='o1', customer='c1', quote=Quote(lines=(Line(sku='B', qty=1, unit_price=100), Line(sku='D', qty=1, unit_price...y='charge-o1-1', kind='charge', order_id='o1', amount=200, per_line=(100, 100), created_at=0, state='applied', at=0),)))
+
+tests/test_policies_category_windows.py:23: AssertionError
+______________ test_refund_proposes_everything_left_on_every_line ______________
+
+    def test_refund_proposes_everything_left_on_every_line():
+        order = order_fact(lines=(("A", 2, 1000), ("C", 1, 400)), charged_at=0)
+        plan = wf.propose_refund("o1", snapshot(now=10, orders=[order]))
+>       assert plan == Plan(moves=(StartRefund(order_id="o1", per_line=(2000, 400)),))
+E       assert Response(ok=F..., status=None) == Plan(moves=(S...2000, 400)),))
+E         
+E         Use -v to get more diff
+
+tests/test_workflows.py:84: AssertionError
+newci: 433 checks kept by valid claims; 20 ran (0.05 s CPU); 11 new claims
+=========================== short test summary info ============================
+FAILED tests/test_journeys.py::test_buy_pay_and_refund - AssertionError: asse...
+FAILED tests/test_journeys.py::test_network_trouble_is_settled_by_jobs - Asse...
+FAILED tests/test_journeys_category_windows.py::test_food_has_a_shorter_window_than_general_goods
+FAILED tests/test_journeys_category_windows.py::test_a_mixed_order_uses_its_shortest_window
+FAILED tests/test_policies_category_windows.py::test_an_orders_window_is_the_shortest_of_its_categories[skus0-2592000]
+FAILED tests/test_policies_category_windows.py::test_an_orders_window_is_the_shortest_of_its_categories[skus1-2592000]
+FAILED tests/test_policies_category_windows.py::test_an_orders_window_is_the_shortest_of_its_categories[skus4-604800]
+FAILED tests/test_policies_category_windows.py::test_an_orders_window_is_the_shortest_of_its_categories[skus5-1296000]
+FAILED tests/test_workflows.py::test_refund_proposes_everything_left_on_every_line
+9 failed, 11 passed, 433 deselected in 0.26s
+checks: 433 kept by valid claims; 20 ran; 9 failed; 0.71 s CPU, 0.72 s wall
