@@ -74,3 +74,38 @@ random.Random(20261014).sample(["F02", "F04", "F06", "F07", "F08", "F10", "F12",
 - **F2 can be written in arm B without editing `composition.py` and without choosing a stage whose stacking policy is documented.** Then the claim that coupling is explicit fails.
 - **The core grows more than the periphery,** measured in lines over F1, F2, F3 and the sample. That is the inner-platform failure.
 - **The gate in either arm admits a change that the audit fails.** This is reported in every case, as a soundness failure of that arm's gate.
+
+## 4. The scenario: combining X and Y
+
+This section was added on 2026-10-14, after arm B (`d43fe53`), the Y and Z requirements (`0b8e4f8`) and the change workflow (`4ad2b02`). No scenario change had been written yet. Sections 1 to 3 are unchanged. The held-out sample is deferred (plan section 6).
+
+**Setup.** X is `b2g1` and Y is `category_windows`. Each is made from the same base, on its own branch and worktree. Then they are combined. Three gates are measured:
+
+| Gate | What runs |
+|---|---|
+| A + testmon | Arm A, `pytest --testmon` |
+| B + testmon | Arm B, `pytest --testmon`. This separates the code's effect from the tool's. |
+| B + newci | Arm B, `newci gate` on branches and `newci combine` to combine |
+
+On a branch, testmon starts from the base data and keeps its own data between commits. At the combine, testmon is measured twice:
+- with the base data, which is what CI on main has before either change merges;
+- with X's data, which is the best a single testmon database can do.
+
+**Predictions.** "Existing" means checks that exist at the base.
+
+| Step | A + testmon | B + testmon | B + newci |
+|---|---|---|---|
+| X | Reruns pricing T1, the place-order T2 tests, all 301 T3 and all 7 T4: close to the full suite's CPU time | Reruns no T2 and no T3 | **publish:** reruns no existing checks. **activate:** reruns 15 to 30 existing checks, none of them T2 or T3. |
+| Y | Reruns at least 250 of the 301 T3 (most simulations refund), plus the refund T1, T2 and T4 tests | Reruns no T2 and no T3 | **publish:** reruns no existing checks. **modify:** reruns 5 to 15 existing checks, none of them T2 or T3. |
+| Combine | git merges cleanly. With base data, testmon reruns at least 90% of the suite's CPU time. With X's data, at least 250 T3. | With base data, reruns no T2 and no T3 | **No stop.** It rechecks at most 15 checks, under 0.5 s of CPU: only checks that use both `RULES` and `refund_window_open`. It notes that X changed `RULES`, which Y's claims use. |
+
+**Also predicted:**
+- **Kinds.** X is declared publish, then activate. Y is declared publish, then modify. The tool accepts all four. Y cannot be an activate, because the refund policy is not a binding.
+- **Lines changed.** Neither change touches arm B's core. In arm A, X changes `pricing.py` only, and Y changes `config.py` and `policies.py` only. Neither touches arm A's shared code.
+- **Audit.** After the combine, both arms pass their full suites and `acceptance --features b2g1,category_windows`. A gate that passes when the audit fails is a soundness failure, and is reported as one.
+- **Commands.** In both arms, an agent runs two commands per commit: the gate and `git commit`. Combining is one command in arm B (`newci combine`) and two in arm A (`git merge`, then testmon).
+
+**What would change the plan:**
+- **B + testmon reruns about as little as B + newci.** Then, at this scale, the code's structure does the work, and the claim ledger adds little over testmon.
+- **B + newci rechecks much more than predicted at the combine.** Then footprints are coarser than they need to be.
+- **A + testmon reruns little at the combine.** Then the premise that integration reruns most of the suite is weak for this codebase.
