@@ -1,0 +1,10 @@
+{"test":"tests/test_journeys.py::test_buy_pay_and_refund","footprint":"7448e024d5c3a606","env":"d480c66b428ff438","seconds":0.0018320000000000003}
+{"test":"tests/test_journeys.py::test_late_refund_is_refused","footprint":"5beeeeaf5bdad642","env":"d480c66b428ff438","seconds":0.0010749999999999926}
+{"test":"tests/test_journeys.py::test_network_trouble_is_settled_by_jobs","footprint":"de427a2a64db9949","env":"d480c66b428ff438","seconds":0.0013019999999999698}
+{"test":"tests/test_journeys_category_windows.py::test_a_mixed_order_uses_its_shortest_window","footprint":"708223ef9c49147b","env":"d480c66b428ff438","seconds":0.0009750000000000036}
+{"test":"tests/test_journeys_category_windows.py::test_food_has_a_shorter_window_than_general_goods","footprint":"131aa7ca3f5b1117","env":"d480c66b428ff438","seconds":0.0012770000000000281}
+{"test":"tests/test_policies.py::test_no_window_without_a_charge","footprint":"f745f92dcd2a8250","env":"d480c66b428ff438","seconds":0.0005299999999999749}
+{"test":"tests/test_policies.py::test_refund_window_is_inclusive_and_runs_from_the_charge","footprint":"13dcec9f2bdf7f1a","env":"d480c66b428ff438","seconds":0.0006250000000000422}
+{"test":"tests/test_workflows.py::test_refund_at_the_end_of_the_window_is_allowed","footprint":"1f7eb634f5259f11","env":"d480c66b428ff438","seconds":0.0005479999999999929}
+{"test":"tests/test_workflows.py::test_refund_proposes_everything_left_on_every_line","footprint":"846877be2e475611","env":"d480c66b428ff438","seconds":0.0006289999999999907}
+{"test":"tests/test_workflows.py::test_refund_refusals[order4-2592001-window_closed]","footprint":"223840dae14256b5","env":"d480c66b428ff438","seconds":0.0007849999999999802}
