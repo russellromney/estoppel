@@ -1,0 +1,7 @@
+"""The active pricing rules. A rule is activated by adding it here. Its stage must be one of
+the stages in composition.py, and the stage's stacking policy decides how it combines."""
+
+from checkout.app.pricing.rules.save10 import SAVE10
+from checkout.app.pricing.types import Rule
+
+RULES: tuple[Rule, ...] = (SAVE10,)
