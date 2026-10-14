@@ -1,0 +1,14 @@
+# The change workflow's view of arm B. Paths are relative to this file.
+
+path = [".", "..", "tests"]                       # the import search path, as pytest sets it
+sources = ["checkout", "tests", "boundary.py", "../spec.py", "../world.py"]
+tests = ["tests"]
+env = ["pytest.ini", "newci.toml", "../../uv.lock"]
+lint = ["python", "boundary.py"]
+claims = ".newci"
+
+# Bindings: where a consumer selects an implementation. Changing only these is an `activate`.
+[bindings]
+"checkout/app/pricing/rules/__init__.py" = ["RULES"]
+"checkout/app/pricing/composition.py" = ["*"]
+"checkout/app/config.py" = ["*"]

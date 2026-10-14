@@ -60,19 +60,38 @@ Every test file is marked with its tier.
 
 Core tests never use the real rules or workflows, so periphery changes do not rerun them.
 
-Commands, from this directory:
+To run them yourself, from this directory:
 
 ```bash
 uv run python boundary.py    # the boundary lint
-uv run pytest --testmon      # tests affected by your change
 uv run pytest                # everything
 ```
 
-**CI** runs the boundary lint, then `pytest --testmon` against the main branch's testmon data. A change merges when both pass.
+## Making a change
+
+Every change is one of three kinds. The gate checks that a change is the kind you declare.
+
+| Kind | What it may do | Example |
+|---|---|---|
+| `publish` | Add definitions. It changes nothing that exists, tests included, so behaviour is unchanged. | A new rule module, with its tests |
+| `activate` | Change only bindings, listed in `newci.toml`: `RULES`, `composition.py` and `config.py`. Tests may change with them. | Adding a rule to `RULES` |
+| `modify` | Anything else. | Changing a policy function |
+
+Where you can, publish new code first, then activate it in a separate commit. A publish reruns only its own new checks.
+
+The gate keeps a **claim** for each check that passes: the hashes of the definitions the check used. A check reruns only when a definition it used has changed. Claims live in `.newci/`. Commit them with your change, so other branches and the combine can reuse them.
+
+```bash
+uv run python ../newci gate --kind publish      # lint, kind check, then each check without a valid claim
+git add -A && git commit -m "Add the b2g1 rule" -m "Newci-Kind: publish"
+uv run python ../newci combine BRANCH [BRANCH ...]   # on the integration branch
+```
+
+`combine` merges changes made from the same base. It stops before merging if two of them changed the same definition differently, and names it: that is a joint decision. Otherwise it merges, reports which claims are kept and why the rest must rerun, reruns them, and commits the merge.
 
 ## Adding a feature
 
 1. Add or change the rule or policy, with T1 tests.
 2. If a workflow changes, add T1 tests for its decisions.
 3. If you need a new kind of fact or move, change the core, with T2 tests and an extension of `core_sim.py`.
-4. Add or update a journey in `test_journeys.py`.
+4. Add the feature's journeys in a new file, `tests/test_journeys_<feature>.py`, so that concurrent changes do not edit the same file.

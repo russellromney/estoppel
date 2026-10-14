@@ -49,4 +49,4 @@ uv run pytest -m t3          # one tier
 1. Change the rule module, and add T1 examples and properties.
 2. If a handler changes, add T2 tests for its transitions.
 3. If payment flows or concurrency change, extend the invariants in `tests/simulation.py`.
-4. Add or update a journey in `test_journeys.py`.
+4. Add the feature's journeys in a new file, `tests/test_journeys_<feature>.py`, so that concurrent changes do not edit the same file.

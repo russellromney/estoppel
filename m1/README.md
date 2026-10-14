@@ -7,7 +7,7 @@ One checkout service is built two ways. Both are taken through the same changes,
 | Arm | Code | Gate |
 |---|---|---|
 | A | Conventional service | pytest + pytest-testmon |
-| B | A small core that decides, with business rules as proposals the core checks | A boundary lint, plus pytest + pytest-testmon; later, the minimal change workflow from the plan |
+| B | A small core that decides, with business rules as proposals the core checks | `newci` (the plan's change workflow): a boundary lint, a check of each change's declared kind, and claims that let a check skip when nothing it used has changed. Also measured with pytest-testmon, to separate the code's effect from the tool's. |
 
 The scenario is three changes from the same base: two independent ones, combined, then one that interacts with them and crosses arm B's core. For each change and arm, the plan's section 4 lists the measures.
 
@@ -21,6 +21,7 @@ acceptance/       held-out acceptance suite: run only by the audit, never by a g
 arm_a/            conventional implementation, its own tests, AGENTS.md and design notes
 arm_b/            core/periphery implementation, its own tests, boundary lint, AGENTS.md and design notes
 checks/           checks of the measuring tools themselves (planted bugs)
+newci/            the change workflow arm B uses: definitions, kinds, claims, gate and combine
 ```
 
 ## Commands
@@ -41,6 +42,12 @@ To run an arm's own suite, run from the arm's directory:
 ```bash
 cd arm_a && uv run pytest
 cd arm_b && uv run python boundary.py && uv run pytest
+```
+
+The change workflow's own tests:
+
+```bash
+uv run pytest newci/tests
 ```
 
 To check how strong the suites are, plant known bugs in a copy of an arm:
