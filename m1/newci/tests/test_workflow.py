@@ -103,6 +103,28 @@ def test_combine_keeps_each_sides_claims_and_stops_at_a_shared_binding(repo):
     assert "app/registry.py::ACTIVE (binding): int, z" in result.stdout
 
 
+def test_combine_rechecks_a_claim_whose_footprint_the_other_side_changed(repo):
+    repo.git("checkout", "-q", "-b", "x")
+    repo.write({"app/promo.py": "from app.prices import price\ndef promo():\n    return price(1)\n",
+                "tests/test_promo.py": "from app.promo import promo\ndef test_promo():\n    assert promo() == 2\n"})
+    gate(repo, "--kind", "publish")
+    commit(repo, "publish promo", "publish")
+
+    repo.git("checkout", "-q", "-b", "y", "main")
+    repo.write({"app/prices.py": BASE["app/prices.py"].replace("TAX = 0", "TAX = 0 * 1")})
+    gate(repo, "--kind", "modify")
+    commit(repo, "restate tax", "modify")
+
+    repo.git("checkout", "-q", "-b", "int", "main")
+    result = repo.newci("combine", "x", "y", "--report", str(repo.root / "combine.json"))
+    assert result.returncode == 0, result.stdout + result.stderr
+    report = json.loads((repo.root / "combine.json").read_text())
+    assert report["recheck"] == {"tests/test_promo.py::test_promo": ["proj/app/prices.py::TAX"]}
+    assert list(report["result"]["ran"]) == ["tests/test_promo.py::test_promo"]
+    assert report["kept"] == {"base": 2, "y": 1}
+    assert "1 use app/prices.py::TAX, changed by y" in result.stdout
+
+
 def test_combine_refuses_a_change_that_is_not_its_declared_kind(repo):
     repo.git("checkout", "-q", "-b", "x")
     repo.write({"app/window.py": "def window():\n    return 31\n"})

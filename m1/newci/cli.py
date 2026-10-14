@@ -259,12 +259,12 @@ def cmd_combine(args) -> int:
         if source:
             kept[made_on.get(source, "base")] += 1
             continue
-        names = set()
+        why = set()
         for claim, _ in candidates:
-            names.update(stale(store.footprint(claim.footprint), current) if claim.env == env
-                         else ["<environment>"])
-        recheck[test] = sorted(names)
-        because.update(names)
+            why.update(stale(store.footprint(claim.footprint), current) if claim.env == env
+                       else ["<environment>"])
+        recheck[test] = sorted(why)
+        because.update(why)
     used_by_other = Counter()
     for b in names:
         for did in diffs[b].touched:
