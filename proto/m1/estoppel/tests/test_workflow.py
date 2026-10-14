@@ -145,7 +145,9 @@ def test_combine_continues_after_a_joint_decision_that_changes_only_what_it_name
     gate(repo, "--kind", "activate")
     commit(repo, "activate len", "activate")
 
-    assert repo.estoppel("combine", "y").returncode == 3
+    assert repo.estoppel("combine", "y", "--report", str(repo.root / "stop.json")).returncode == 3
+    stop = json.loads((repo.root / "stop.json").read_text())
+    assert stop["exit"] == 3 and [j["definition"] for j in stop["joint"]] == ["proj/app/registry.py::ACTIVE"]
     merge = subprocess.run(["git", "merge", "--no-commit", "y"], cwd=repo.root, capture_output=True)
     assert merge.returncode == 1                       # git conflicts too
     repo.write({"app/registry.py": "ACTIVE = (len, abs)\n",

@@ -229,6 +229,13 @@ def cmd_combine(args) -> int:
     ahead = git(root, "rev-parse", "HEAD").strip() != base
     names = ([here] if ahead else []) + list(branches)
     report: dict = {"branches": branches, "sides": names, "base": base}
+
+    def stop(code: int) -> int:
+        """Exit, writing the report so far: a stop's report says where it stopped."""
+        report["exit"] = code
+        if args.report:
+            Path(args.report).write_text(json.dumps(report, indent=1, sort_keys=True))
+        return code
     print(f"combine {', '.join(branches)} into {here} (base {base[:7]})")
 
     # 1. Each change is the kind it says it is.
@@ -242,7 +249,7 @@ def cmd_combine(args) -> int:
             print(f"  {b} {r['rev'][:7]} {kinds.describe(r['verdict'])}".replace("\n", "\n  "))
         if not all(r["verdict"].ok for r in results):
             print("Stopped: a change is not the kind it declares.")
-            return 2
+            return stop(2)
 
     # 2. Stop at any definition two sides changed differently.
     base_index, _ = snapshot(project, base)
@@ -265,7 +272,7 @@ def cmd_combine(args) -> int:
         if not args.resolved:
             print("Merge the branches with git, resolve these definitions, stage the result, "
                   "then rerun with --resolved --decision TEXT.")
-            return 3
+            return stop(3)
     else:
         print("definitions changed by more than one side: none")
 
@@ -278,7 +285,7 @@ def cmd_combine(args) -> int:
             print("Stopped: the resolution cannot be used.")
             for p in problems:
                 print(f"  {p}")
-            return 5
+            return stop(5)
         report["decision"] = args.decision
         print("merge: resolved by hand" + (f"; decision: {args.decision}" if joint else ""))
     else:
@@ -286,7 +293,7 @@ def cmd_combine(args) -> int:
                                capture_output=True, text=True)
         if merge.returncode:
             print("Stopped: git could not merge.\n" + merge.stdout + merge.stderr)
-            return 4
+            return stop(4)
         print("merge: clean")
 
     # 4. Which claims survive, and why the rest do not.
@@ -340,7 +347,7 @@ def cmd_combine(args) -> int:
 
     # 5. Recheck, then commit the merge with the new claims.
     if not lint(project):
-        return 1
+        return stop(1)
     result = run_checks(project)
     print_checks(result)
     ran = set(result["ran"])
@@ -350,11 +357,9 @@ def cmd_combine(args) -> int:
         print(f"  ran {len(unexpected)} checks with no claim (new checks), "
               f"and skipped {len(missing)} predicted rechecks")
     report.update(result=result, unexpected=unexpected, missing=missing)
-    if args.report:
-        Path(args.report).write_text(json.dumps(report, indent=1, sort_keys=True))
     if not result["ok"]:
         print("Stopped: a check failed. The merge is not committed.")
-        return 1
+        return stop(1)
     subprocess.run(["git", "add", "-A", f"{project.arm_rel}/{project.config.claims}"], cwd=root,
                    check=True)
     message = f"estoppel combine {' '.join(branches)}\n\n"
@@ -364,10 +369,8 @@ def cmd_combine(args) -> int:
     message += "Estoppel-Kind: combine\n"
     subprocess.run(["git", "commit", "-q", "-m", message], cwd=root, check=True)
     print(f"committed {git(root, 'rev-parse', '--short', 'HEAD').strip()}")
-    if args.report:
-        report["commit"] = git(root, "rev-parse", "HEAD").strip()
-        Path(args.report).write_text(json.dumps(report, indent=1, sort_keys=True))
-    return 0
+    report["commit"] = git(root, "rev-parse", "HEAD").strip()
+    return stop(0)
 
 
 def main(argv=None) -> int:
