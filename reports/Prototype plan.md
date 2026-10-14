@@ -121,6 +121,10 @@ Three changes are made from the same base commit, each in its own git worktree. 
    - **Stop and show it:** the commands, what reran, and what was kept.
    - Done on 2026-10-14. The results are in `proto/m1/scenario/RESULTS.md`, and they meet the first condition for changing the plan, on time. That needs a decision before step 5.
 5. **Z,** and its combination with X+Y, in both arms.
+   - Done on 2026-10-14. The results are in `proto/m1/scenario/RESULTS-Z.md`. Two conditions for changing the plan are met:
+     - the stop names only `RULES`;
+     - testmon with Z's database reruns as little as estoppel at the combine.
+   - The first condition's suggested fix, stopping at a binding one side changed and the other side's claims use, would also stop X+Y. So step 6 needs to decide how interactions are detected, not only where to invest.
 6. **Write-up,** and a choice of which part deserves more investment (section 4).
 
 ## 6. Deferred

@@ -1,0 +1,40 @@
+$ uv run python ../estoppel gate
+(cwd proto/m1/arm_b, exit 1)
+
+lint: ok
+.............F..F...........................                             [100%]
+=================================== FAILURES ===================================
+_________ test_the_third_unit_is_free_and_the_charge_and_refund_match __________
+
+service = <checkout.app.service.CheckoutService object at 0x10bdf7150>
+provider = <world.Provider object at 0x10bdf6850>
+rid = <function rid.<locals>.<lambda> at 0x10be66ca0>
+
+    def test_the_third_unit_is_free_and_the_charge_and_refund_match(service, provider, rid):
+        order = service.place_order(rid(), "alice", [("A", 3), ("C", 1)])
+>       assert order.ok and order.price == 2 * 1000 + 400
+E       AssertionError: assert (True and 3400 == ((2 * 1000) + 400))
+E        +  where True = Response(ok=True, reason=None, order_id='o1', price=3400, status='reserved').ok
+E        +  and   3400 = Response(ok=True, reason=None, order_id='o1', price=3400, status='reserved').price
+
+tests/test_journeys_b2g1.py:10: AssertionError
+_____ test_save10_takes_ten_percent_off_the_charge_and_shows_on_the_order ______
+
+service = <checkout.app.service.CheckoutService object at 0x10c594230>
+provider = <world.Provider object at 0x10c5947d0>
+rid = <function rid.<locals>.<lambda> at 0x10c5a4720>
+
+    def test_save10_takes_ten_percent_off_the_charge_and_shows_on_the_order(service, provider, rid):
+        order = service.place_order(rid(), "alice", [("A", 1), ("C", 2)], coupon="SAVE10")
+>       assert order.ok and order.price == 1620
+E       AssertionError: assert (True and 1800 == 1620)
+E        +  where True = Response(ok=True, reason=None, order_id='o1', price=1800, status='reserved').ok
+E        +  and   1800 = Response(ok=True, reason=None, order_id='o1', price=1800, status='reserved').price
+
+tests/test_journeys_coupons.py:10: AssertionError
+estoppel: 442 checks kept by valid claims; 44 ran (0.09 s CPU); 42 new claims
+=========================== short test summary info ============================
+FAILED tests/test_journeys_b2g1.py::test_the_third_unit_is_free_and_the_charge_and_refund_match
+FAILED tests/test_journeys_coupons.py::test_save10_takes_ten_percent_off_the_charge_and_shows_on_the_order
+2 failed, 42 passed, 442 deselected in 0.39s
+checks: 442 kept by valid claims; 44 ran; 2 failed; 0.84 s CPU, 0.88 s wall

@@ -1,0 +1,47 @@
+$ uv run python ../estoppel combine scn/b-z --resolved --decision "Keep both rules. SAVE10 is in the order stage, which runs after the item stage, so it takes 10% off the price after b2g1's free units: three A with SAVE10 cost 1800, not 1700. Agreed for X (b2g1) and Z (coupons)." --report /Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/combine-b-z.json
+(cwd proto/m1/arm_b, exit 0)
+
+combine scn/b-z into scn/b-int (base d15e842)
+declared kinds:
+  scn/b-int c99d62b publish: ok (16 definitions added)
+  scn/b-int 8b9d04c activate: ok (4 definitions added; bindings checkout/app/pricing/rules/__init__.py::RULES, checkout/app/pricing/rules/__init__.py::from checkout.app.pricing.rules.b2g1 import B2G1)
+  scn/b-int 94d9e04 publish: ok (11 definitions added; bindings checkout/app/config.py::CATEGORIES, checkout/app/config.py::CATEGORY_REFUND_WINDOWS)
+  scn/b-int 70d4e18 modify: ok (5 definitions added; 2 code definitions changed)
+  scn/b-z f1a6e10 modify: ok (8 definitions added; 8 code definitions changed; 10 checks changed)
+  scn/b-z ecbc8fd modify: ok (31 definitions added; bindings checkout/app/config.py::COUPONS; 5 code definitions changed; 2 checks changed)
+  scn/b-z f45239f publish: ok (22 definitions added)
+  scn/b-z 7759dd8 activate: ok (5 definitions added; bindings checkout/app/pricing/composition.py::STAGES, checkout/app/pricing/rules/__init__.py::RULES, checkout/app/pricing/rules/__init__.py::from checkout.app.pricing.rules.save10 import SAVE10; 1 checks changed)
+Resolving these definitions were changed differently by more than one side. Each needs a joint decision:
+  checkout/app/pricing/rules/__init__.py::RULES (binding): scn/b-int, scn/b-z
+merge: resolved by hand; decision: Keep both rules. SAVE10 is in the order stage, which runs after the item stage, so it takes 10% off the price after b2g1's free units: three A with SAVE10 cost 1800, not 1700. Agreed for X (b2g1) and Z (coupons).
+claims kept: 431 (40 made on base, 391 made on scn/b-z)
+to recheck: 55
+    44 use checkout/app/pricing/rules/__init__.py::RULES, changed by scn/b-int, scn/b-z
+    42 use checkout/app/pricing/composition.py::STAGES, changed by scn/b-z
+    33 use checkout/app/pricing/types.py::Context, changed by scn/b-z
+    23 use checkout/core/facts.py::Order, changed by scn/b-z
+    15 use checkout/core/facts.py::Snapshot, changed by scn/b-z
+    15 use checkout/core/moves.py::OpenOrder, changed by scn/b-z
+    12 use checkout/app/workflows.py::propose_place_order, changed by scn/b-z
+    11 use checkout/app/service.py::CheckoutService, changed by scn/b-z
+    11 use checkout/core/runtime.py::Runtime, changed by scn/b-z
+    11 use checkout/core/commit.py::_open, changed by scn/b-z
+    11 use checkout/__init__.py::build, changed by scn/b-z
+    11 use checkout/core/commit.py::State, changed by scn/b-z
+    11 use checkout/core/commit.py::_check_open, changed by scn/b-z
+    10 use tests/conftest.py::order_fact, changed by scn/b-z
+     9 use checkout/app/policies.py::refund_window_open, changed by scn/b-int
+     9 use checkout/app/policies.py::from checkout.app.config import REFUND_WINDOW_SECONDS, changed by scn/b-int
+     6 use checkout/app/views.py::view, changed by scn/b-z
+     4 use tests/conftest.py::snapshot, changed by scn/b-z
+     2 use tests/test_composition.py::CONTEXTS, changed by scn/b-z
+     1 use checkout/core/commit.py::_release, changed by scn/b-z
+  note: binding checkout/app/pricing/composition.py::STAGES, changed by scn/b-z, is used by 51 claims made on another side
+  note: binding checkout/app/pricing/rules/__init__.py::RULES, changed by scn/b-int, is used by 71 claims made on another side
+  note: binding checkout/app/pricing/rules/__init__.py::RULES, changed by scn/b-z, is used by 51 claims made on another side
+lint: ok
+.......................................................                  [100%]
+estoppel: 431 checks kept by valid claims; 55 ran (0.21 s CPU); 55 new claims
+55 passed, 431 deselected in 0.49s
+checks: 431 kept by valid claims; 55 ran; 0 failed; 0.97 s CPU, 0.98 s wall
+committed f1b8580

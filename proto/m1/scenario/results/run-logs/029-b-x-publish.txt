@@ -1,0 +1,3 @@
+$ git add -A && git commit -q -m "b2g1: publish the rule" -m "Estoppel-Kind: publish"
+(cwd proto/m1/arm_b, exit 0)
+

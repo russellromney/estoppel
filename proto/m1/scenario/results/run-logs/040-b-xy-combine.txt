@@ -1,0 +1,23 @@
+$ uv run python ../estoppel combine scn/b-x scn/b-y --report /Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/combine-b-xy.json
+(cwd proto/m1/arm_b, exit 0)
+
+combine scn/b-x, scn/b-y into scn/b-int (base d15e842)
+declared kinds:
+  scn/b-x c99d62b publish: ok (16 definitions added)
+  scn/b-x 8b9d04c activate: ok (4 definitions added; bindings checkout/app/pricing/rules/__init__.py::RULES, checkout/app/pricing/rules/__init__.py::from checkout.app.pricing.rules.b2g1 import B2G1)
+  scn/b-y 94d9e04 publish: ok (11 definitions added; bindings checkout/app/config.py::CATEGORIES, checkout/app/config.py::CATEGORY_REFUND_WINDOWS)
+  scn/b-y 70d4e18 modify: ok (5 definitions added; 2 code definitions changed)
+definitions changed by more than one side: none
+merge: clean
+claims kept: 447 (409 made on base, 27 made on scn/b-x, 11 made on scn/b-y)
+to recheck: 6
+     5 use checkout/app/pricing/rules/__init__.py::RULES, changed by scn/b-x
+     4 use checkout/app/policies.py::refund_window_open, changed by scn/b-y
+     4 use checkout/app/policies.py::from checkout.app.config import REFUND_WINDOW_SECONDS, changed by scn/b-y
+  note: binding checkout/app/pricing/rules/__init__.py::RULES, changed by scn/b-x, is used by 5 claims made on another side
+lint: ok
+......                                                                   [100%]
+estoppel: 447 checks kept by valid claims; 6 ran (0.01 s CPU); 6 new claims
+6 passed, 447 deselected in 0.22s
+checks: 447 kept by valid claims; 6 ran; 0 failed; 0.68 s CPU, 0.69 s wall
+committed 90f3ae7

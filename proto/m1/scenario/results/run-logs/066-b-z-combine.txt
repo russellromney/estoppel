@@ -1,0 +1,8 @@
+$ git merge -q --no-commit scn/b-z
+(cwd proto/m1/arm_b, exit 1)
+
+Auto-merging proto/m1/arm_b/checkout/app/config.py
+CONFLICT (content): Merge conflict in proto/m1/arm_b/checkout/app/config.py
+Auto-merging proto/m1/arm_b/checkout/app/pricing/rules/__init__.py
+CONFLICT (content): Merge conflict in proto/m1/arm_b/checkout/app/pricing/rules/__init__.py
+Automatic merge failed; fix conflicts and then commit the result.

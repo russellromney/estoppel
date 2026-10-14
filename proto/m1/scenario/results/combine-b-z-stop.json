@@ -1,0 +1,177 @@
+{
+ "base": "d15e8424db8f0f4c86a3b6276a228a6bbf83e260",
+ "branches": [
+  "scn/b-z"
+ ],
+ "exit": 3,
+ "joint": [
+  {
+   "binding": true,
+   "definition": "proto/m1/arm_b/checkout/app/pricing/rules/__init__.py::RULES",
+   "sides": [
+    "scn/b-int",
+    "scn/b-z"
+   ]
+  }
+ ],
+ "kinds": {
+  "scn/b-int": [
+   {
+    "added": 16,
+    "base": "proto/m1/arm_b",
+    "bindings": [],
+    "checks": [],
+    "code": [],
+    "declared": "publish",
+    "ok": true,
+    "problems": [],
+    "rev": "c99d62b124c9a7fa061fdb59ff0079cb0bf08188",
+    "smallest": "publish",
+    "subject": "b2g1: publish the rule"
+   },
+   {
+    "added": 4,
+    "base": "proto/m1/arm_b",
+    "bindings": [
+     "proto/m1/arm_b/checkout/app/pricing/rules/__init__.py::RULES",
+     "proto/m1/arm_b/checkout/app/pricing/rules/__init__.py::from checkout.app.pricing.rules.b2g1 import B2G1"
+    ],
+    "checks": [],
+    "code": [],
+    "declared": "activate",
+    "ok": true,
+    "problems": [],
+    "rev": "8b9d04c906fe0ea4e92487ab989c300955705ffd",
+    "smallest": "activate",
+    "subject": "b2g1: activate the rule"
+   },
+   {
+    "added": 11,
+    "base": "proto/m1/arm_b",
+    "bindings": [
+     "proto/m1/arm_b/checkout/app/config.py::CATEGORIES",
+     "proto/m1/arm_b/checkout/app/config.py::CATEGORY_REFUND_WINDOWS"
+    ],
+    "checks": [],
+    "code": [],
+    "declared": "publish",
+    "ok": true,
+    "problems": [],
+    "rev": "94d9e04bed70de90462c9965b19405eae98fdc7e",
+    "smallest": "publish",
+    "subject": "category_windows: publish windows by category"
+   },
+   {
+    "added": 5,
+    "base": "proto/m1/arm_b",
+    "bindings": [],
+    "checks": [],
+    "code": [
+     "proto/m1/arm_b/checkout/app/policies.py::from checkout.app.config import REFUND_WINDOW_SECONDS",
+     "proto/m1/arm_b/checkout/app/policies.py::refund_window_open"
+    ],
+    "declared": "modify",
+    "ok": true,
+    "problems": [],
+    "rev": "70d4e184828d7942f83c5de41f5088765278b4f8",
+    "smallest": "modify",
+    "subject": "category_windows: use them in the refund policy"
+   }
+  ],
+  "scn/b-z": [
+   {
+    "added": 8,
+    "base": "proto/m1/arm_b",
+    "bindings": [],
+    "checks": [
+     "proto/m1/arm_b/tests/core_sim.py::CoreSimulation",
+     "proto/m1/arm_b/tests/core_support.py::clone",
+     "proto/m1/arm_b/tests/core_support.py::fingerprint",
+     "proto/m1/arm_b/tests/core_support.py::make_world",
+     "proto/m1/arm_b/tests/core_support.py::violations",
+     "proto/m1/arm_b/tests/test_core_commit.py::opened",
+     "proto/m1/arm_b/tests/test_core_commit.py::world",
+     "proto/m1/arm_b/tests/test_core_exhaustive.py::explore",
+     "proto/m1/arm_b/tests/test_core_exhaustive.py::moves",
+     "proto/m1/arm_b/tests/test_core_exhaustive.py::settles"
+    ],
+    "code": [
+     "proto/m1/arm_b/checkout/core/commit.py::State",
+     "proto/m1/arm_b/checkout/core/commit.py::_check_open",
+     "proto/m1/arm_b/checkout/core/commit.py::_open",
+     "proto/m1/arm_b/checkout/core/commit.py::_release",
+     "proto/m1/arm_b/checkout/core/facts.py::Order",
+     "proto/m1/arm_b/checkout/core/facts.py::Snapshot",
+     "proto/m1/arm_b/checkout/core/moves.py::OpenOrder",
+     "proto/m1/arm_b/checkout/core/runtime.py::Runtime"
+    ],
+    "declared": "modify",
+    "ok": true,
+    "problems": [],
+    "rev": "f1a6e1008e57693411c1d6194a21d9e333433647",
+    "smallest": "modify",
+    "subject": "coupons: budgets in the core"
+   },
+   {
+    "added": 31,
+    "base": "proto/m1/arm_b",
+    "bindings": [
+     "proto/m1/arm_b/checkout/app/config.py::COUPONS"
+    ],
+    "checks": [
+     "proto/m1/arm_b/tests/conftest.py::order_fact",
+     "proto/m1/arm_b/tests/conftest.py::snapshot"
+    ],
+    "code": [
+     "proto/m1/arm_b/checkout/__init__.py::build",
+     "proto/m1/arm_b/checkout/app/pricing/types.py::Context",
+     "proto/m1/arm_b/checkout/app/service.py::CheckoutService",
+     "proto/m1/arm_b/checkout/app/views.py::view",
+     "proto/m1/arm_b/checkout/app/workflows.py::propose_place_order"
+    ],
+    "declared": "modify",
+    "ok": true,
+    "problems": [],
+    "rev": "ecbc8fdb72c12c258ad77a50c61f5eaa16447012",
+    "smallest": "modify",
+    "subject": "coupons: codes in the place-order workflow"
+   },
+   {
+    "added": 22,
+    "base": "proto/m1/arm_b",
+    "bindings": [],
+    "checks": [],
+    "code": [],
+    "declared": "publish",
+    "ok": true,
+    "problems": [],
+    "rev": "f45239f34b6118e9cd6862c60caf5355355e0e78",
+    "smallest": "publish",
+    "subject": "coupons: publish the SAVE10 rule"
+   },
+   {
+    "added": 5,
+    "base": "proto/m1/arm_b",
+    "bindings": [
+     "proto/m1/arm_b/checkout/app/pricing/composition.py::STAGES",
+     "proto/m1/arm_b/checkout/app/pricing/rules/__init__.py::RULES",
+     "proto/m1/arm_b/checkout/app/pricing/rules/__init__.py::from checkout.app.pricing.rules.save10 import SAVE10"
+    ],
+    "checks": [
+     "proto/m1/arm_b/tests/test_composition.py::CONTEXTS"
+    ],
+    "code": [],
+    "declared": "activate",
+    "ok": true,
+    "problems": [],
+    "rev": "7759dd85f68b8b2a69a6c862b9ca01a50f1e78b2",
+    "smallest": "activate",
+    "subject": "coupons: activate SAVE10 in a new order stage"
+   }
+  ]
+ },
+ "sides": [
+  "scn/b-int",
+  "scn/b-z"
+ ]
+}

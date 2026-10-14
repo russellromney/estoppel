@@ -31,7 +31,13 @@ The first scenario has run: two independent features made in parallel from the s
 - testmon misses edits to module-level values such as config constants. estoppel caught them.
 - At this small scale, arm B's code structure does most of the work. estoppel's own overhead is larger than the test time it saves.
 
-Next is a change that interacts with an earlier one and crosses arm B's core. The living plan is [`reports/Prototype plan.md`](reports/Prototype%20plan.md).
+The second scenario has also run: a coupon change that interacts with the first feature and crosses arm B's core. Results are in [`proto/m1/scenario/RESULTS-Z.md`](proto/m1/scenario/RESULTS-Z.md). In short:
+- Crossing arm B's core cost a near-full rerun, once. In arm A, every change and every combine cost that.
+- At the combine, estoppel kept 431 claims, including all the core simulation checks made on the coupon branch, and rechecked 55. testmon with main's database reran everything.
+- estoppel stopped the combine where both changes edited the rule registry, and required a written decision. The real interaction, the order in which discounts apply, showed only as a note, and nothing in either arm checks it.
+- estoppel's fixed overhead is now about as large as running arm B's whole suite. It has not been optimized.
+
+The next step is a write-up and a choice of what to invest in. The living plan is [`reports/Prototype plan.md`](reports/Prototype%20plan.md).
 
 ## Layout
 

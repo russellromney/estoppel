@@ -1,0 +1,3 @@
+$ git add -A
+(cwd proto/m1/arm_b, exit 0)
+

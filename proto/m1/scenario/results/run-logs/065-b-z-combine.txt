@@ -1,0 +1,16 @@
+$ uv run python ../estoppel combine scn/b-z --report /Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/combine-b-z-stop.json
+(cwd proto/m1/arm_b, exit 3)
+
+combine scn/b-z into scn/b-int (base d15e842)
+declared kinds:
+  scn/b-int c99d62b publish: ok (16 definitions added)
+  scn/b-int 8b9d04c activate: ok (4 definitions added; bindings checkout/app/pricing/rules/__init__.py::RULES, checkout/app/pricing/rules/__init__.py::from checkout.app.pricing.rules.b2g1 import B2G1)
+  scn/b-int 94d9e04 publish: ok (11 definitions added; bindings checkout/app/config.py::CATEGORIES, checkout/app/config.py::CATEGORY_REFUND_WINDOWS)
+  scn/b-int 70d4e18 modify: ok (5 definitions added; 2 code definitions changed)
+  scn/b-z f1a6e10 modify: ok (8 definitions added; 8 code definitions changed; 10 checks changed)
+  scn/b-z ecbc8fd modify: ok (31 definitions added; bindings checkout/app/config.py::COUPONS; 5 code definitions changed; 2 checks changed)
+  scn/b-z f45239f publish: ok (22 definitions added)
+  scn/b-z 7759dd8 activate: ok (5 definitions added; bindings checkout/app/pricing/composition.py::STAGES, checkout/app/pricing/rules/__init__.py::RULES, checkout/app/pricing/rules/__init__.py::from checkout.app.pricing.rules.save10 import SAVE10; 1 checks changed)
+Stopped: these definitions were changed differently by more than one side. Each needs a joint decision:
+  checkout/app/pricing/rules/__init__.py::RULES (binding): scn/b-int, scn/b-z
+Merge the branches with git, resolve these definitions, stage the result, then rerun with --resolved --decision TEXT.

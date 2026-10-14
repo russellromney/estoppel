@@ -1,0 +1,3 @@
+$ git add -A && git commit -q -m "coupons: publish the SAVE10 rule" -m "Estoppel-Kind: publish"
+(cwd proto/m1/arm_b, exit 0)
+

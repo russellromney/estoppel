@@ -1,0 +1,9 @@
+$ uv run python ../estoppel gate --kind activate
+(cwd proto/m1/arm_b, exit 2)
+
+lint: ok
+change: activate: NOT activate (5 definitions added; 2 code definitions changed)
+    changes checkout/app/policies.py::from checkout.app.config import REFUND_WINDOW_SECONDS, which is not a binding
+    changes checkout/app/policies.py::refund_window_open, which is not a binding
+    changes no existing binding
+    declare it as modify, or split it

@@ -1,0 +1,64 @@
+$ uv run pytest -q -p no:cacheprovider --tb=line
+(cwd proto/m1/arm_b, exit 1)
+
+........................................................................ [ 15%]
+........................................................................ [ 31%]
+........................................................................ [ 47%]
+........................................................................ [ 63%]
+........................................................................ [ 79%]
+..........................F..F.....FF...FF..FF.......................... [ 95%]
+............F........                                                    [100%]
+=================================== FAILURES ===================================
+E   AssertionError: assert None == 'refunded'
+     +  where None = Response(ok=False, reason='window_closed', order_id=None, price=None, status=None).status
+     +    where Response(ok=False, reason='window_closed', order_id=None, price=None, status=None) = refund('r3', 'alice', 'o1')
+     +      where refund = <checkout.app.service.CheckoutService object at 0x10bdcdbe0>.refund
+     +      and   'o1' = Response(ok=True, reason=None, order_id='o1', price=2400, status='reserved').order_id
+/private/tmp/claude-501/-Users-russellromney-Documents-Github-newci/2fdbc2c6-4b56-4f6f-8e5a-52d9de573255/scratchpad/scn/b-int/proto/m1/arm_b/tests/test_journeys.py:27: AssertionError: assert None == 'refunded'
+E   AssertionError: assert None == 'refunding'
+     +  where None = Response(ok=False, reason='window_closed', order_id=None, price=None, status=None).status
+     +    where Response(ok=False, reason='window_closed', order_id=None, price=None, status=None) = refund('r3', 'alice', 'o1')
+     +      where refund = <checkout.app.service.CheckoutService object at 0x10bdcb490>.refund
+     +      and   'o1' = Response(ok=True, reason=None, order_id='o1', price=1000, status='reserved').order_id
+/private/tmp/claude-501/-Users-russellromney-Documents-Github-newci/2fdbc2c6-4b56-4f6f-8e5a-52d9de573255/scratchpad/scn/b-int/proto/m1/arm_b/tests/test_journeys.py:62: AssertionError: assert None == 'refunding'
+E   AssertionError: assert None == 'refunded'
+     +  where None = Response(ok=False, reason='window_closed', order_id=None, price=None, status=None).status
+     +    where Response(ok=False, reason='window_closed', order_id=None, price=None, status=None) = refund('req-6', 'alice', 'o2')
+     +      where refund = <checkout.app.service.CheckoutService object at 0x10be2f050>.refund
+     +      and   'req-6' = <function rid.<locals>.<lambda> at 0x10c568cc0>()
+     +      and   'o2' = Response(ok=True, reason=None, order_id='o2', price=1000, status='reserved').order_id
+/private/tmp/claude-501/-Users-russellromney-Documents-Github-newci/2fdbc2c6-4b56-4f6f-8e5a-52d9de573255/scratchpad/scn/b-int/proto/m1/arm_b/tests/test_journeys_category_windows.py:17: AssertionError: assert None == 'refunded'
+E   AssertionError: assert None == 'refunded'
+     +  where None = Response(ok=False, reason='window_closed', order_id=None, price=None, status=None).status
+     +    where Response(ok=False, reason='window_closed', order_id=None, price=None, status=None) = refund('req-3', 'alice', 'o1')
+     +      where refund = <checkout.app.service.CheckoutService object at 0x10be02b70>.refund
+     +      and   'req-3' = <function rid.<locals>.<lambda> at 0x10c569120>()
+     +      and   'o1' = Response(ok=True, reason=None, order_id='o1', price=10900, status='reserved').order_id
+/private/tmp/claude-501/-Users-russellromney-Documents-Github-newci/2fdbc2c6-4b56-4f6f-8e5a-52d9de573255/scratchpad/scn/b-int/proto/m1/arm_b/tests/test_journeys_category_windows.py:24: AssertionError: assert None == 'refunded'
+E   AssertionError: assert 1 == 2592000
+     +  where 1 = refund_window(Order(id='o1', customer='c1', quote=Quote(lines=(Line(sku='A', qty=1, unit_price=100),), adjustments=()), opened_at=0,...t(key='charge-o1-1', kind='charge', order_id='o1', amount=100, per_line=(100,), created_at=0, state='applied', at=0),)))
+/private/tmp/claude-501/-Users-russellromney-Documents-Github-newci/2fdbc2c6-4b56-4f6f-8e5a-52d9de573255/scratchpad/scn/b-int/proto/m1/arm_b/tests/test_policies_category_windows.py:23: AssertionError: assert 1 == 2592000
+E   AssertionError: assert 1 == 2592000
+     +  where 1 = refund_window(Order(id='o1', customer='c1', quote=Quote(lines=(Line(sku='B', qty=1, unit_price=100),), adjustments=()), opened_at=0,...t(key='charge-o1-1', kind='charge', order_id='o1', amount=100, per_line=(100,), created_at=0, state='applied', at=0),)))
+/private/tmp/claude-501/-Users-russellromney-Documents-Github-newci/2fdbc2c6-4b56-4f6f-8e5a-52d9de573255/scratchpad/scn/b-int/proto/m1/arm_b/tests/test_policies_category_windows.py:23: AssertionError: assert 1 == 2592000
+E   AssertionError: assert 1 == 604800
+     +  where 1 = refund_window(Order(id='o1', customer='c1', quote=Quote(lines=(Line(sku='A', qty=1, unit_price=100), Line(sku='C', qty=1, unit_price...y='charge-o1-1', kind='charge', order_id='o1', amount=200, per_line=(100, 100), created_at=0, state='applied', at=0),)))
+/private/tmp/claude-501/-Users-russellromney-Documents-Github-newci/2fdbc2c6-4b56-4f6f-8e5a-52d9de573255/scratchpad/scn/b-int/proto/m1/arm_b/tests/test_policies_category_windows.py:23: AssertionError: assert 1 == 604800
+E   AssertionError: assert 1 == 1296000
+     +  where 1 = refund_window(Order(id='o1', customer='c1', quote=Quote(lines=(Line(sku='B', qty=1, unit_price=100), Line(sku='D', qty=1, unit_price...y='charge-o1-1', kind='charge', order_id='o1', amount=200, per_line=(100, 100), created_at=0, state='applied', at=0),)))
+/private/tmp/claude-501/-Users-russellromney-Documents-Github-newci/2fdbc2c6-4b56-4f6f-8e5a-52d9de573255/scratchpad/scn/b-int/proto/m1/arm_b/tests/test_policies_category_windows.py:23: AssertionError: assert 1 == 1296000
+E   assert Response(ok=F..., status=None) == Plan(moves=(S...2000, 400)),))
+      
+      Use -v to get more diff
+/private/tmp/claude-501/-Users-russellromney-Documents-Github-newci/2fdbc2c6-4b56-4f6f-8e5a-52d9de573255/scratchpad/scn/b-int/proto/m1/arm_b/tests/test_workflows.py:84: assert Response(ok=F..., status=None) == Plan(moves=(S...2000, 400)),))
+=========================== short test summary info ============================
+FAILED tests/test_journeys.py::test_buy_pay_and_refund - AssertionError: asse...
+FAILED tests/test_journeys.py::test_network_trouble_is_settled_by_jobs - Asse...
+FAILED tests/test_journeys_category_windows.py::test_food_has_a_shorter_window_than_general_goods
+FAILED tests/test_journeys_category_windows.py::test_a_mixed_order_uses_its_shortest_window
+FAILED tests/test_policies_category_windows.py::test_an_orders_window_is_the_shortest_of_its_categories[skus0-2592000]
+FAILED tests/test_policies_category_windows.py::test_an_orders_window_is_the_shortest_of_its_categories[skus1-2592000]
+FAILED tests/test_policies_category_windows.py::test_an_orders_window_is_the_shortest_of_its_categories[skus4-604800]
+FAILED tests/test_policies_category_windows.py::test_an_orders_window_is_the_shortest_of_its_categories[skus5-1296000]
+FAILED tests/test_workflows.py::test_refund_proposes_everything_left_on_every_line
+9 failed, 444 passed in 6.09s

@@ -1,0 +1,3 @@
+$ git add -A && git commit -q -m "category_windows: use them in the refund policy" -m "Estoppel-Kind: modify"
+(cwd proto/m1/arm_b, exit 0)
+

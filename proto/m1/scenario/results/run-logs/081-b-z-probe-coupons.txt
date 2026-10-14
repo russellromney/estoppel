@@ -1,0 +1,27 @@
+$ uv run python ../estoppel gate
+(cwd proto/m1/arm_b, exit 1)
+
+lint: ok
+......................F                                                  [100%]
+=================================== FAILURES ===================================
+__________ test_three_live_redemptions_then_used_up_until_one_expires __________
+
+service = <checkout.app.service.CheckoutService object at 0x10a0e1470>
+clock = <world.Clock object at 0x10a0e1010>
+rid = <function rid.<locals>.<lambda> at 0x109f8eca0>
+
+    def test_three_live_redemptions_then_used_up_until_one_expires(service, clock, rid):
+        for customer in ("alice", "bob", "carol"):
+>           assert service.place_order(rid(), customer, [("A", 1)], coupon="SAVE10").ok
+E           AssertionError: assert False
+E            +  where False = Response(ok=False, reason='coupon_used_up', order_id=None, price=None, status=None).ok
+E            +    where Response(ok=False, reason='coupon_used_up', order_id=None, price=None, status=None) = place_order('req-2', 'bob', [('A', 1)], coupon='SAVE10')
+E            +      where place_order = <checkout.app.service.CheckoutService object at 0x10a0e1470>.place_order
+E            +      and   'req-2' = <function rid.<locals>.<lambda> at 0x109f8eca0>()
+
+tests/test_journeys_coupons.py:18: AssertionError
+estoppel: 463 checks kept by valid claims; 23 ran (0.04 s CPU); 22 new claims
+=========================== short test summary info ============================
+FAILED tests/test_journeys_coupons.py::test_three_live_redemptions_then_used_up_until_one_expires
+1 failed, 22 passed, 463 deselected in 0.32s
+checks: 463 kept by valid claims; 23 ran; 1 failed; 0.77 s CPU, 0.81 s wall

@@ -1,0 +1,10 @@
+$ uv run python ../estoppel gate --kind publish
+(cwd proto/m1/arm_b, exit 0)
+
+lint: ok
+change: publish: ok (16 definitions added)
+.........                                                                [100%]
+estoppel: 435 checks kept by valid claims; 9 ran (0.01 s CPU); 9 new claims
+9 passed, 435 deselected in 0.21s
+checks: 435 kept by valid claims; 9 ran; 0 failed; 0.66 s CPU, 0.67 s wall
+claims: wrote .estoppel/claims/7a6e06ee5a73e251.jsonl; commit it with the change (trailer `Estoppel-Kind: publish`)

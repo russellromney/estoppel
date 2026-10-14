@@ -1,0 +1,20 @@
+$ uv run pytest -q -p no:cacheprovider --tb=line
+(cwd proto/m1/arm_b, exit 1)
+
+........................................................................ [ 14%]
+........................................................................ [ 29%]
+........................................................................ [ 44%]
+........................................................................ [ 59%]
+........................................................................ [ 74%]
+.........................................................F.............. [ 88%]
+......................................................                   [100%]
+=================================== FAILURES ===================================
+E   AssertionError: assert False
+     +  where False = Response(ok=False, reason='coupon_used_up', order_id=None, price=None, status=None).ok
+     +    where Response(ok=False, reason='coupon_used_up', order_id=None, price=None, status=None) = place_order('req-2', 'bob', [('A', 1)], coupon='SAVE10')
+     +      where place_order = <checkout.app.service.CheckoutService object at 0x10a50c750>.place_order
+     +      and   'req-2' = <function rid.<locals>.<lambda> at 0x10a546ac0>()
+/private/tmp/claude-501/-Users-russellromney-Documents-Github-newci/2fdbc2c6-4b56-4f6f-8e5a-52d9de573255/scratchpad/scn/b-int/proto/m1/arm_b/tests/test_journeys_coupons.py:18: AssertionError: assert False
+=========================== short test summary info ============================
+FAILED tests/test_journeys_coupons.py::test_three_live_redemptions_then_used_up_until_one_expires
+1 failed, 485 passed in 6.85s

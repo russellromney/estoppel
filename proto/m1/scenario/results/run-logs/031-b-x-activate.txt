@@ -1,0 +1,5 @@
+$ uv run pytest --testmon -q --junitxml=/Users/russellromney/Documents/Github/newci/proto/m1/scenario/results/run-logs/junit-b-x-activate-branch.xml
+(cwd proto/m1/arm_b, exit 0)
+
+.                                                                        [100%]
+1 passed in 0.17s

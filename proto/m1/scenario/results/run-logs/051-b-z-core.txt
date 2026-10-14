@@ -1,0 +1,15 @@
+$ uv run python ../estoppel gate --kind modify
+(cwd proto/m1/arm_b, exit 0)
+
+lint: ok
+change: modify: ok (8 definitions added; 8 code definitions changed; 10 checks changed)
+........................................................................ [ 18%]
+........................................................................ [ 37%]
+........................................................................ [ 55%]
+........................................................................ [ 74%]
+........................................................................ [ 92%]
+............................                                             [100%]
+estoppel: 53 checks kept by valid claims; 388 ran (6.87 s CPU); 388 new claims
+388 passed, 53 deselected in 7.30s
+checks: 53 kept by valid claims; 388 ran; 0 failed; 7.71 s CPU, 7.77 s wall
+claims: wrote .estoppel/claims/8059b630ff5256f8.jsonl; commit it with the change (trailer `Estoppel-Kind: modify`)

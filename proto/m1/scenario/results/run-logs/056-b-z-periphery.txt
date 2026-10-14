@@ -1,0 +1,12 @@
+$ uv run python ../estoppel gate --kind activate
+(cwd proto/m1/arm_b, exit 2)
+
+lint: ok
+change: activate: NOT activate (31 definitions added; bindings checkout/app/config.py::COUPONS; 5 code definitions changed; 2 checks changed)
+    changes checkout/__init__.py::build, which is not a binding
+    changes checkout/app/pricing/types.py::Context, which is not a binding
+    changes checkout/app/service.py::CheckoutService, which is not a binding
+    changes checkout/app/views.py::view, which is not a binding
+    changes checkout/app/workflows.py::propose_place_order, which is not a binding
+    changes no existing binding
+    declare it as modify, or split it

@@ -1,0 +1,10 @@
+$ uv run python ../estoppel gate --kind activate
+(cwd proto/m1/arm_b, exit 0)
+
+lint: ok
+change: activate: ok (5 definitions added; bindings checkout/app/pricing/composition.py::STAGES, checkout/app/pricing/rules/__init__.py::RULES, checkout/app/pricing/rules/__init__.py::from checkout.app.pricing.rules.save10 import SAVE10; 1 checks changed)
+.................................                                        [100%]
+estoppel: 435 checks kept by valid claims; 33 ran (0.11 s CPU); 33 new claims
+33 passed, 435 deselected in 0.37s
+checks: 435 kept by valid claims; 33 ran; 0 failed; 0.82 s CPU, 0.85 s wall
+claims: wrote .estoppel/claims/06bab8c2f2e471fe.jsonl; commit it with the change (trailer `Estoppel-Kind: activate`)

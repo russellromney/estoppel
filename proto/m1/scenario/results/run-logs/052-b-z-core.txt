@@ -1,0 +1,15 @@
+$ uv run python ../estoppel gate --kind activate
+(cwd proto/m1/arm_b, exit 2)
+
+lint: ok
+change: activate: NOT activate (8 definitions added; 8 code definitions changed; 10 checks changed)
+    changes checkout/core/commit.py::State, which is not a binding
+    changes checkout/core/commit.py::_check_open, which is not a binding
+    changes checkout/core/commit.py::_open, which is not a binding
+    changes checkout/core/commit.py::_release, which is not a binding
+    changes checkout/core/facts.py::Order, which is not a binding
+    changes checkout/core/facts.py::Snapshot, which is not a binding
+    changes checkout/core/moves.py::OpenOrder, which is not a binding
+    changes checkout/core/runtime.py::Runtime, which is not a binding
+    changes no existing binding
+    declare it as modify, or split it

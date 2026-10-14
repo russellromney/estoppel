@@ -1,0 +1,6 @@
+$ uv run pytest acceptance --arm a --features b2g1,category_windows,coupons -q -p no:cacheprovider
+(cwd proto/m1, exit 0)
+
+........................................................................ [ 50%]
+............ssssssssssssss................................s............  [100%]
+128 passed, 15 skipped in 0.52s

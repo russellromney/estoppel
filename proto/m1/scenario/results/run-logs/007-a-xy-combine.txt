@@ -1,0 +1,5 @@
+$ git merge -q --no-edit scn/a-x scn/a-y
+(cwd proto/m1/arm_a, exit 0)
+
+Fast-forwarding to: scn/a-x
+Trying simple merge with scn/a-y
