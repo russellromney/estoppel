@@ -26,8 +26,12 @@ def ledger_by_order(provider):
     return charges, refunds
 
 
-def check_safety(svc, provider, features) -> list[str]:
-    """S1-S6, B1, B2: must hold at every point."""
+def check_safety(svc, provider, features, refund_requests=None) -> list[str]:
+    """S1-S6, B1, B2: must hold at every point.
+
+    B2 needs the times of refund requests that were not rejected
+    (order_id -> [send time]); it is checked only when they are given.
+    """
     out = []
     stock = svc.stock()
     orders = {o.id: o for o in svc.orders()}
@@ -61,11 +65,12 @@ def check_safety(svc, provider, features) -> list[str]:
         refunded = sum(r.amount for r in rs)
         if refunded > charged:
             out.append(f"S4 {oid} refunded {refunded} > charged {charged}")
-        if charges.get(oid):
-            charge_at = charges[oid][0].at
-            for r in rs:
-                if r.at - charge_at > REFUND_WINDOW:
-                    out.append(f"B2 {oid} refund {r.key} at {r.at}, charged at {charge_at}")
+        if refund_requests is not None and charges.get(oid):
+            deadline = charges[oid][0].at + REFUND_WINDOW
+            in_window = [t for t in refund_requests.get(oid, []) if t <= deadline]
+            if len(rs) > len(in_window):
+                out.append(f"B2 {oid} {len(rs)} refunds applied, {len(in_window)} "
+                           f"requests accepted by {deadline}")
     for o in orders.values():
         if o.price != expected_price(o.items, features):
             out.append(f"B1 {o.id} items {o.items} price {o.price}, "

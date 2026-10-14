@@ -33,6 +33,7 @@ class Run:
         self.svc = build(self.clock, self.provider)
         self.done: dict[str, tuple] = {}     # request_id -> (call, args, response)
         self.inflight: dict[str, tuple] = {}  # request_id -> (call, args)
+        self.refund_sends: dict[str, tuple[str, int]] = {}  # not rejected: req -> (order, time)
         self.n = 0
         self.log: list = []
         self.provider.choose_fault = self.fault
@@ -43,7 +44,10 @@ class Run:
                                 [75, 8, 7, 10])[0]
 
     def check(self, where):
-        v = check_safety(self.svc, self.provider, self.features)
+        sends: dict[str, list[int]] = {}
+        for order_id, t in self.refund_sends.values():
+            sends.setdefault(order_id, []).append(t)
+        v = check_safety(self.svc, self.provider, self.features, sends)
         if v:
             raise Violation(f"{where}: {v}\nlog tail: {self.log[-8:]}")
 
@@ -82,10 +86,14 @@ class Run:
 
     def send(self, req_id, kind, args, kwargs):
         self.inflight[req_id] = (kind, args, kwargs)
+        if kind == "refund":
+            self.refund_sends[req_id] = (args[1], self.clock.now)
         try:
             resp = getattr(self.svc, kind)(req_id, *args, **kwargs)
         finally:
             del self.inflight[req_id]
+        if not resp.ok:
+            self.refund_sends.pop(req_id, None)
         return resp
 
     def act(self, nested=False):

@@ -165,7 +165,7 @@ These must hold at every point, including while a provider call is in flight.
 | S5 | Every applied charge and refund names the order's customer. |
 | S6 | No `expired` order has an applied charge. |
 | B1 | Every order's price follows the pricing rule in force. |
-| B2 | Every applied refund was applied within the refund window of its order's charge. |
+| B2 | Every applied refund comes from a refund request the service accepted while the refund window was open. Delivery may complete later, for example after a retry. |
 
 These must hold after settling with faults off:
 
