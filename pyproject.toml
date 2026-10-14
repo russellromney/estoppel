@@ -2,10 +2,15 @@
 name = "newci-proto"
 version = "0.0.1"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pydantic>=2.14.1",
+]
 
 [dependency-groups]
-dev = ["pytest>=8"]
+dev = [
+    "pytest>=8",
+    "pytest-testmon>=2.2.0",
+]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
