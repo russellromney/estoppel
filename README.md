@@ -25,5 +25,8 @@ tests/         unit tests
 
 ```bash
 uv run pytest
-uv run python -m experiments.e1
+uv run python -m experiments.e1     # hand-written bug corpus
+uv run python -m experiments.e1b    # mutation sample of the v1 planners
 ```
+
+Results: [`experiments/E1_results.md`](experiments/E1_results.md).

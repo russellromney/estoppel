@@ -33,10 +33,15 @@ def default_bindings() -> dict[str, str]:
 
 
 class Runtime:
-    def __init__(self, kernel, bindings: dict[str, str] | None = None):
+    def __init__(self, kernel, bindings: dict[str, str] | None = None,
+                 planners: dict[str, restricted.Planner] | None = None):
+        """`planners` supplies already-loaded planners by name (e.g. mutants)."""
         self.kernel = kernel
         self.bindings = dict(bindings or default_bindings())
-        self.planners = {name: load_planner(name) for name in set(self.bindings.values())}
+        self.planners = dict(planners or {})
+        for name in set(self.bindings.values()):
+            if name not in self.planners:
+                self.planners[name] = load_planner(name)
 
     def pinned_config(self):
         return MappingProxyType({
@@ -49,7 +54,9 @@ class Runtime:
         return restricted.freeze(self.kernel.snapshot(req))
 
     def propose(self, planner_name: str, req, snapshot) -> dict:
-        planner = self.planners.get(planner_name) or load_planner(planner_name)
+        if planner_name not in self.planners:
+            self.planners[planner_name] = load_planner(planner_name)
+        planner = self.planners[planner_name]
         public = restricted.freeze({k: v for k, v in req.items() if k != "config"})
         try:
             return restricted.thaw(planner.propose(public, snapshot))

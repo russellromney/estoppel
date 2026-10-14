@@ -59,16 +59,16 @@ def predictions() -> dict[str, str]:
     return preds
 
 
-def run_variant(seeds, kernel_cls=Kernel, bindings=None, reference=None):
+def run_variant(seeds, kernel_cls=Kernel, bindings=None, reference=None, planners=None):
     agg = {"outcomes": Counter(), "safety_seeds": [], "progress_seeds": [],
            "first_safety": None, "first_progress": None,
-           "plan_diffs_accepted": 0, "plan_diffs_total": 0, "steps": 0}
+           "divergences": Counter(), "steps": 0}
     for seed in range(seeds):
-        r = dst.run(seed, kernel_cls=kernel_cls, bindings=bindings, reference=reference)
+        r = dst.run(seed, kernel_cls=kernel_cls, bindings=bindings, reference=reference,
+                    planners=planners)
         agg["outcomes"].update(r.outcomes)
         agg["steps"] += r.steps
-        agg["plan_diffs_accepted"] += r.plan_diffs_accepted
-        agg["plan_diffs_total"] += r.plan_diffs_total
+        agg["divergences"].update(r.divergences)
         if r.safety:
             agg["safety_seeds"].append(seed)
             agg["first_safety"] = agg["first_safety"] or (seed, r.safety_step, r.safety[0])
@@ -145,7 +145,8 @@ def main():
             layers.append("dst-progress")
         rows.append({
             "id": vid, "predicted": preds.get(vid), "layers": layers or ["miss"],
-            "diverged_accepted": agg["plan_diffs_accepted"],
+            "diverged_accepted": agg["divergences"]["accepted"] + agg["divergences"]["stale"],
+            "divergences": dict(agg["divergences"]),
             "kernel_blocked": extra_rej, "planner_errors": planner_errors(agg["outcomes"]),
             "property_failures": props,
             "safety_seeds": len(agg["safety_seeds"]), "first_safety": agg["first_safety"],

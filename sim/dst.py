@@ -47,8 +47,7 @@ class Result:
     safety_step: int | None = None
     progress: list[str] = field(default_factory=list)
     outcomes: Counter = field(default_factory=Counter)
-    plan_diffs_accepted: int = 0
-    plan_diffs_total: int = 0
+    divergences: Counter = field(default_factory=Counter)
     steps: int = 0
     trace_hash: str = ""
     trace: list = field(default_factory=list)
@@ -56,16 +55,16 @@ class Result:
 
 class Sim:
     def __init__(self, seed, kernel_cls=Kernel, bindings=None, reference=None,
-                 cfg: SimConfig | None = None, keep_trace=False):
+                 cfg: SimConfig | None = None, keep_trace=False, planners=None):
         self.rng = random.Random(seed)
         self.cfg = cfg or SimConfig()
         self.clock = Clock(0)
         self.provider = PaymentProvider()
         self.kernel = kernel_cls(self.clock, self.provider)
-        self.runtime = Runtime(self.kernel, bindings)
+        self.runtime = Runtime(self.kernel, bindings, planners)
         # Reference bindings for plan diffs: the same request and snapshot
-        # are also given to the reference planner, and accepted plans that
-        # differ from its plan are counted.
+        # are also given to the reference planner, and each divergence from
+        # its plan is classed by outcome (see `divergence`).
         self.reference = reference
         self.result = Result(seed=seed)
         self.keep_trace = keep_trace
@@ -138,10 +137,10 @@ class Sim:
         dup = req.get("dup", False)
         key = f"{req['kind']}:" + ("dup:" if dup else "") + ("accepted" if accepted else reason)
         self.result.outcomes[key] += 1
-        if not dup and "ref_plan" in req and req["plan"] != req["ref_plan"]:
-            self.result.plan_diffs_total += 1
-            if accepted:
-                self.result.plan_diffs_accepted += 1
+        if not dup and "ref_plan" in req:
+            cls = divergence(req["plan"], req["ref_plan"], accepted)
+            if cls:
+                self.result.divergences[cls] += 1
         self.record("commit", req["id"], dup, accepted, reason)
         self.inflight.remove(req)
         if not dup and self.faults_on and self.rng.random() < self.cfg.p_dup_commit:
@@ -269,6 +268,33 @@ class Sim:
     def finish(self) -> Result:
         self.result.trace_hash = self.hasher.hexdigest()[:16]
         return self.result
+
+
+ACTING = ("reserve", "charge", "refund")
+
+
+def divergence(plan, ref, accepted) -> str | None:
+    """Class a plan's divergence from the reference plan by outcome.
+
+    accepted  the kernel accepted a plan that differs from the reference
+    stale     as accepted, but the reference declined only for lack of
+              stock in its snapshot (benign: the kernel found enough)
+    lost      the request failed where the reference acted (fail-closed):
+              the planner declined or crashed
+    lost_rejected  as lost, but the planner acted and the kernel rejected it
+    blocked   the plan acted where the reference declined, and the
+              kernel rejected it (contained)
+    None      same plan, or both decline
+    """
+    acts, ref_acts = plan.get("op") in ACTING, ref.get("op") in ACTING
+    if plan == ref or not (acts or ref_acts):
+        return None
+    if accepted:
+        stale = not ref_acts and ref.get("reason") == "out_of_stock"
+        return "stale" if stale else "accepted"
+    if ref_acts:
+        return "lost_rejected" if acts else "lost"
+    return "blocked"
 
 
 def run(seed, **kwargs) -> Result:
