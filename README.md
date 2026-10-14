@@ -1,6 +1,8 @@
 # newci prototype
 
-This prototype implements the plan in [`../reports/Synthesis and prototype plan.md`](../reports/Synthesis%20and%20prototype%20plan.md) (v2).
+Phase 0 (this directory's `app/`, `sim/` and `experiments/`) implements the archived [v2 plan](../reports/archive/Synthesis%20and%20prototype%20plan.md).
+
+Current work is in [`m1/`](m1/README.md) and follows the [Prototype plan](../reports/Prototype%20plan.md).
 
 The toy domain is a checkout system covering reservations, payment and full refunds. It is split into two parts:
 

@@ -1,16 +1,21 @@
 # M1: does writing software differently remove integration work?
 
-This directory implements milestone M1 of [Prototype plan v4](../../reports/Prototype%20plan%20v4.md).
+This directory implements the current [Prototype plan](../../reports/Prototype%20plan.md).
 
-One checkout feature is built three ways:
+One checkout service is built two ways and taken through the same features:
 
 | Arm | Code | Gate |
 |---|---|---|
 | A | Conventional service | pytest + pytest-testmon |
-| B | Core and planners | pytest + pytest-testmon |
-| C | Same code as B | minimal `newci` |
+| B | A small core of general operations, with business rules as proposals the core checks | pytest + pytest-testmon, plus a boundary lint |
 
-Each later change (C1, C1x, C1y, C2) is applied to every arm. The comparison counts which checks each gate runs, and an audit checks whether each gate's decision was safe.
+Each feature is measured in both arms:
+- where the code had to go;
+- whether its interaction decisions with earlier features were forced into the open;
+- which checks the gate ran;
+- whether an audit agrees with the gate.
+
+The features are a dev sequence (a promotion, a coupon with a shared budget, item-level partial refunds), then a seeded sample of held-out features.
 
 ## Layout
 
@@ -50,6 +55,6 @@ uv run python checks/planted_bugs.py
 1. `REQUIREMENTS.md`, `spec.py`, `world.py` and the acceptance suite are committed before any arm exists.
 2. Arm A is written in idiomatic conventional style and committed. It is then reviewed for strawmanning before arm B exists.
 3. Predicted obligations for each change and arm are committed next.
-4. Then arms B and C, the four changes, and the comparison.
+4. Then arm B's base, the dev sequence, and the held-out sample. See the plan's section 7.
 
 Any change to the acceptance suite after step 1 is listed in `acceptance/CHANGES.md` with the reason.
