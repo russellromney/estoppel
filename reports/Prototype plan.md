@@ -59,7 +59,7 @@ It must pass the base acceptance suite.
 
 ### 3.2 The change workflow, minimal
 
-It is a script over ordinary Python files, with git underneath.
+It is a script over ordinary Python files, with git underneath. It is called estoppel (named `newci` until 2026-10-14) and lives in `proto/m1/estoppel/`.
 
 | Part | What it is |
 |---|---|

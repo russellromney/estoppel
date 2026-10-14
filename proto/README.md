@@ -1,4 +1,6 @@
-# newci prototype
+# Prototypes
+
+The project overview is in the [top-level README](../README.md).
 
 Phase 0 (this directory's `app/`, `sim/` and `experiments/`) implements the archived [v2 plan](../reports/archive/Synthesis%20and%20prototype%20plan.md).
 

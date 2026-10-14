@@ -2,7 +2,7 @@
 
 **The synthesis is a substantial improvement, and its architecture is worth prototyping. Its guarantees need narrowing before they become implementation requirements.** The main progress is the combination of pure planners, a checked effect boundary, immutable candidates, and explicit activation. The main risk is treating these mechanisms as if they also settle product correctness, claim meaning, and concurrent evolution.
 
-This review covers the new feedback in Claude session `2fdbc2c6-4b56-4f6f-8e5a-52d9de573255` and [Synthesis and prototype plan](</Users/russellromney/Documents/Github/newci/reports/archive/Synthesis and prototype plan.md>). It proposes changes to the plan; it does not change that document or implement the prototype.
+This review covers the new feedback in Claude session `2fdbc2c6-4b56-4f6f-8e5a-52d9de573255` and [Synthesis and prototype plan](<../reports/archive/Synthesis and prototype plan.md>). It proposes changes to the plan; it does not change that document or implement the prototype.
 
 **Your feedback improved the direction in several concrete ways.**
 

@@ -11,7 +11,7 @@ I independently ran:
 - `uv run pytest -q`: 28 passed, in 1.23 seconds.
 - E1's underlying runners: 200 seeds for the baseline and each executable bug variant. The reported outcomes reproduced.
 - E1b's underlying runners: all 104 mutants at 20 seeds. The reported classes reproduced: 58 lost, 41 silent, 1 blocked, 4 accepted.
-- Eight focused probes outside the corpus, described below. Their code and output are saved in [review evidence](</Users/russellromney/Documents/Github/newci/research_notes/Prototype review at 24b431c/probe_results.json>).
+- Eight focused probes outside the corpus, described below. Their code and output are saved in [review evidence](<../research_notes/Prototype review at 24b431c/probe_results.json>).
 
 The benchmark reruns called the existing functions directly so they would not overwrite Claude's raw result files. E1 took about 26 seconds here and E1b about 16 seconds; these are local timings, not a CI performance comparison. I did not repeat E1b at 100 seeds, run paid agents, or test a production service.
 
@@ -44,7 +44,7 @@ However, application-request concurrency is different from concurrent code chang
 
 **Finding 1: the planner language does not enforce purity, deterministic results, or termination. Priority: high.**
 
-[restricted.py](</Users/russellromney/Documents/Github/newci/proto/app/restricted.py:78>) accepts mutable module-level literal “constants.” A planner can mutate one using allowed methods:
+[restricted.py](<../proto/app/restricted.py#L78>) accepts mutable module-level literal “constants.” A planner can mutate one using allowed methods:
 
 ```python
 STATE = []
@@ -82,7 +82,7 @@ def propose(request, snapshot):
     return {"op": {}}
 ```
 
-At [kernel.py:161](</Users/russellromney/Documents/Github/newci/proto/app/kernel.py:161>), lookup of the dictionary-valued operation raises `TypeError: unhashable type: 'dict'`. Running it through `dst.run(0, ...)` reports an exception in `step_commit`. Similar malformed grant and item values need total validation as well.
+At [kernel.py:161](<../proto/app/kernel.py#L161>), lookup of the dictionary-valued operation raises `TypeError: unhashable type: 'dict'`. Running it through `dst.run(0, ...)` reports an exception in `step_commit`. Similar malformed grant and item values need total validation as well.
 
 This is an availability and interface-containment failure. It is not a demonstration of inventory corruption. The simulator currently places all kernel exceptions in its safety-failure bucket, so the report should distinguish those categories.
 
@@ -94,7 +94,7 @@ Add plan-shape generation to the boundary tests. The current mutations mostly mi
 
 Calling `Runtime.plan` twice for the same `place_order` request issues two grants and two order IDs. Both commits succeed. In the probe, one request for one unit created two orders and reduced stock from six to four. All current safety invariants passed.
 
-The reason is visible in [kernel.py:113](</Users/russellromney/Documents/Github/newci/proto/app/kernel.py:113>): snapshots allocate fresh authority and fresh order identities. The simulator duplicates an already computed plan at [dst.py:145](</Users/russellromney/Documents/Github/newci/proto/sim/dst.py:145>), so its duplicate-delivery test does not cover re-entering the planning stage.
+The reason is visible in [kernel.py:113](<../proto/app/kernel.py#L113>): snapshots allocate fresh authority and fresh order identities. The simulator duplicates an already computed plan at [dst.py:145](<../proto/sim/dst.py#L145>), so its duplicate-delivery test does not cover re-entering the planning stage.
 
 The current duplicate-plan mechanism works for its narrow case. The missing case is a client retry or replanning attempt for the same business request.
 
@@ -102,7 +102,7 @@ The current duplicate-plan mechanism works for its narrow case. The missing case
 
 **Finding 4: the meaning of payment time is implicitly chosen by the implementation. Priority: clarify and test.**
 
-[Kernel.complete](</Users/russellromney/Documents/Github/newci/proto/app/kernel.py:264>) sets `paid_at` to the local time when a response or reconciliation is processed. The provider does not record when the charge took effect.
+[Kernel.complete](<../proto/app/kernel.py#L264>) sets `paid_at` to the local time when a response or reconciliation is processed. The provider does not record when the charge took effect.
 
 In the probe, the provider charged at time zero, acknowledgment was delayed by 40 days, and `paid_at` became day 40. The planner then allowed a refund under its “within 30 days of payment” rule. The current invariants accepted that sequence.
 
@@ -112,7 +112,7 @@ If the intended rule starts the window at provider execution, this is a correctn
 
 **Finding 5: version pinning is currently a placeholder, not enforced execution identity.**
 
-[Runtime.pinned_config](</Users/russellromney/Documents/Github/newci/proto/app/runtime.py:46>) records a name and hash. [Runtime.plan](</Users/russellromney/Documents/Github/newci/proto/app/runtime.py:66>) discards the hash and executes whichever object is currently stored under the name. Replacing that entry after pinning executes the replacement.
+[Runtime.pinned_config](<../proto/app/runtime.py#L46>) records a name and hash. [Runtime.plan](<../proto/app/runtime.py#L66>) discards the hash and executes whichever object is currently stored under the name. Replacing that entry after pinning executes the replacement.
 
 Phase 0 explicitly has one configuration, so this is not a failure of an already implemented activation protocol. It is a constraint for the next phase: version objects must be immutable and execution must resolve the pinned identity. Include the kernel, interpretation adapters, and relevant schema/policy compatibility in the model, not just planner source names.
 
@@ -120,11 +120,11 @@ Old code also continues to encounter changing shared state. Keep schema fixed in
 
 **The experimental measurements need two corrections.**
 
-First, [divergence](</Users/russellromney/Documents/Github/newci/proto/sim/dst.py:276>) classifies an accepted plan as benign `stale` whenever the reference rejected for lack of stock. It does not check the accepted price, items, or other behavior. The probe classified a zero-price reservation as `stale`. This does not show that the reported four accepted mutants are wrong; it shows that the classifier cannot support its broader interpretation.
+First, [divergence](<../proto/sim/dst.py#L276>) classifies an accepted plan as benign `stale` whenever the reference rejected for lack of stock. It does not check the accepted price, items, or other behavior. The probe classified a zero-price reservation as `stale`. This does not show that the reported four accepted mutants are wrong; it shows that the classifier cannot support its broader interpretation.
 
 Similarly, `lost` assumes the reference plan would have succeeded, although it is never validated against the same commit-time state. Claude already disclosed that approximation. A separate side-effect-free validator, or a cloned state, can make the counterfactual explicit.
 
-Second, [blocked_beyond_baseline](</Users/russellromney/Documents/Github/newci/proto/experiments/e1.py:92>) uses excess rejection counts and a Poisson-style threshold. The workloads change in response to each variant's behavior. More rejections can mean more eligible requests were generated, not that a corresponding set of bad plans was blocked. The report already notices this for grant expiry. Treat the count as descriptive until there is an event-level attribution method; the “three sigma” label does not establish causality.
+Second, [blocked_beyond_baseline](<../proto/experiments/e1.py#L92>) uses excess rejection counts and a Poisson-style threshold. The workloads change in response to each variant's behavior. More rejections can mean more eligible requests were generated, not that a corresponding set of bad plans was blocked. The report already notices this for grant expiry. Treat the count as descriptive until there is an event-level attribution method; the “three sigma” label does not establish causality.
 
 Record distinct outcomes: invariant preserved, invalid command rejected, request completed correctly, request incorrectly refused, valid but incorrect effect, timeout, and checker/runtime failure. Avoid squeezing safety and useful service into one “fully contained” percentage.
 
