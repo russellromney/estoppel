@@ -1,0 +1,9 @@
+{"test":"tests/test_rule_b2g1.py::test_every_third_unit_of_a_sku_is_free[cart0-1000]","footprint":"83d4bdc4834dcc49","env":"d480c66b428ff438","seconds":0.0013179999999999858}
+{"test":"tests/test_rule_b2g1.py::test_every_third_unit_of_a_sku_is_free[cart1-2000]","footprint":"83d4bdc4834dcc49","env":"d480c66b428ff438","seconds":0.0008690000000000087}
+{"test":"tests/test_rule_b2g1.py::test_every_third_unit_of_a_sku_is_free[cart2-2000]","footprint":"83d4bdc4834dcc49","env":"d480c66b428ff438","seconds":0.0007220000000000004}
+{"test":"tests/test_rule_b2g1.py::test_every_third_unit_of_a_sku_is_free[cart3-3000]","footprint":"83d4bdc4834dcc49","env":"d480c66b428ff438","seconds":0.0007139999999999924}
+{"test":"tests/test_rule_b2g1.py::test_every_third_unit_of_a_sku_is_free[cart4-4000]","footprint":"83d4bdc4834dcc49","env":"d480c66b428ff438","seconds":0.0010129999999999861}
+{"test":"tests/test_rule_b2g1.py::test_every_third_unit_of_a_sku_is_free[cart5-2800]","footprint":"83d4bdc4834dcc49","env":"d480c66b428ff438","seconds":0.0007130000000000192}
+{"test":"tests/test_rule_b2g1.py::test_every_third_unit_of_a_sku_is_free[cart6-22300]","footprint":"83d4bdc4834dcc49","env":"d480c66b428ff438","seconds":0.0006770000000000387}
+{"test":"tests/test_rule_b2g1.py::test_no_discount_below_three_units","footprint":"610cd4f682e2f2e3","env":"d480c66b428ff438","seconds":0.0005249999999999977}
+{"test":"tests/test_rule_b2g1.py::test_the_discount_is_on_the_line_it_came_from","footprint":"f10edb50a6535332","env":"d480c66b428ff438","seconds":0.0005290000000000017}
