@@ -3,7 +3,7 @@
 This measures the strength of the acceptance suite (the audit's oracle)
 and of the arm's own suite. It is not part of any gate.
 
-    uv run python checks/planted_bugs.py            # from m1/
+    uv run python checks/planted_bugs.py a          # from m1/; or b for arm B
 """
 
 import shutil
@@ -56,6 +56,37 @@ NOT_A_BUG_HERE = {
 }
 
 
+R, C, W = "checkout/core/runtime.py", "checkout/core/commit.py", "checkout/app/workflows.py"
+ARM_B = {
+    "charged_at_local_time": (R, 'settle(self._state, key, "applied", applied.at)',
+                              'settle(self._state, key, "applied", self._clock.now)'),
+    "no_idempotency": (R, "if request_id in self._requests:", "if False:"),
+    "no_hold_check_on_pay": (W, '(current == "reserved" and hold_lapsed(order, snap.now))', "False"),
+    "expiry_keeps_stock": (C, "        state.stock[line.sku] += line.qty\n", "        pass\n"),
+    "window_exclusive": ("checkout/app/policies.py", "<= REFUND_WINDOW_SECONDS", "< REFUND_WINDOW_SECONDS"),
+    "window_ignored": (W, "if not refund_window_open(order, snap.now):", "if False:"),
+    "reconcile_in_flight": (R, 'if self._payment(key).state != "unknown":',
+                            'if self._payment(key).state not in ("unknown", "in_flight"):'),
+    "declined_counts_as_open": ("checkout/core/facts.py", 'OPEN = ("in_flight", "unknown")',
+                                'OPEN = ("in_flight", "unknown", "declined")'),
+    "same_charge_key_every_attempt": (C, 'attempt = sum(p.kind == "charge" for p in order.payments) + 1',
+                                      "attempt = 1"),
+    "in_progress_reexecutes": (R, "return IN_PROGRESS if stored is _PENDING else stored",
+                               "if stored is not _PENDING:\n                return stored"),
+    "pricing_discount_3plus": ("checkout/app/pricing/pipeline.py", "unit_price=PRICES[sku])",
+                               "unit_price=PRICES[sku] - (qty > 2))"),
+    "refund_not_scoped_to_customer": ("checkout/core/authority.py",
+                                      "orders[subject].customer == principal", "True"),
+    "expire_paying_orders": (W, 'if status(order) == "reserved" and hold_lapsed(order, snap.now)]',
+                             'if status(order) in ("reserved", "paying") and hold_lapsed(order, snap.now)]'),
+    # Core-only bugs. A correct periphery never proposes these moves, so only core checks see them.
+    "core_release_while_charging": (C, "    if order.open_charge is not None:\n        return",
+                                    "    if False:\n        return"),
+    "core_charge_after_lapse": (C, "elif now >= order.hold_until:", "elif False:"),
+    "core_refund_one_cent_over": (C, "if amount > left:", "if amount > left + 1:"),
+}
+
+
 def pytest_fails(args, cwd) -> tuple[bool, str]:
     out = subprocess.run(["uv", "run", "--project", str(PROJECT), "pytest", "-q", "-x", *args],
                          cwd=cwd, capture_output=True, text=True)
@@ -65,7 +96,7 @@ def pytest_fails(args, cwd) -> tuple[bool, str]:
 
 
 def main(arm="arm_a", mutants=None):
-    mutants = mutants or {**ARM_A, **NOT_A_BUG_HERE}
+    mutants = mutants or ({**ARM_A, **NOT_A_BUG_HERE} if arm == "arm_a" else ARM_B)
     print(f"{'planted bug':34} {'acceptance':11} {'own suite':10} first failing own test")
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
@@ -89,4 +120,4 @@ def main(arm="arm_a", mutants=None):
 
 
 if __name__ == "__main__":
-    main()
+    main(f"arm_{sys.argv[1] if len(sys.argv) > 1 else 'a'}")
