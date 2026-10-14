@@ -109,3 +109,71 @@ On a branch, testmon starts from the base data and keeps its own data between co
 - **B + testmon reruns about as little as B + newci.** Then, at this scale, the code's structure does the work, and the claim ledger adds little over testmon.
 - **B + newci rechecks much more than predicted at the combine.** Then footprints are coarser than they need to be.
 - **A + testmon reruns little at the combine.** Then the premise that integration reruns most of the suite is weak for this codebase.
+
+## 5. The scenario: Z, and combining it with X+Y
+
+This section was added on 2026-10-14, after the X+Y results (`2329589`) and the rename to estoppel (`b80dc76`). No Z change had been written yet. Sections 1 to 4 are unchanged.
+
+**Setup.**
+- Z is `coupons` (`REQUIREMENTS.md` section 9): one code, `SAVE10`, takes 10% off. At most 3 redemptions are live at once, shared across customers. An expired order returns its redemption.
+- The scenario is replayed from a new base: `b80dc76` plus the change to estoppel below. X and Y are replayed from it with the same change files and combined as before. Z is made from the same base, then combined with X+Y.
+- The three gates are the same as in section 4, with estoppel in place of newci. At Z's combine, testmon is measured twice:
+  - with the integration branch's data (X+Y combined), which is what CI on main has;
+  - with Z's data.
+
+**Expected shape of Z.** Its agent does not know about X.
+- **Arm A:** one commit. It changes:
+  - `config.py`: the code and its limit;
+  - `validation.py`: the code;
+  - `pricing.py`: the discount;
+  - `models.py`: `coupon` on the order;
+  - `store.py`: a count of live redemptions;
+  - `service.py`: `place_order` takes the coupon, checks in the required order, and the view shows it;
+  - `tests/simulation.py`: coupon orders and C1;
+  - a new journeys file.
+- **Arm B:** four commits.
+  1. `modify`, core. Budgets, kept like stock holds: an `OpenOrder` may draw one unit of named budgets, `commit` checks and draws them, `Release` returns them, and a charge keeps them. It comes with T2 tests and an extension of `core_sim.py`.
+  2. `modify`, periphery:
+     - `Context` gains the coupon;
+     - the place-order workflow gains its checks;
+     - the service and the view show the coupon;
+     - `build` passes the budgets;
+     - `config.py` gains the code and its limit.
+  3. `publish`: the `SAVE10` rule, with T1 tests.
+  4. `activate`:
+     - a new `order` stage after `item` in `STAGES`, holding `SAVE10`;
+     - `RULES` gains `SAVE10`;
+     - the composition test's contexts gain the coupon;
+     - a journeys file.
+
+  The stage order is Z's own decision: the coupon applies to the price after item promotions.
+
+**One change to estoppel, before the run.** `combine` can stop, but it cannot continue after a stop. It gains `--resolved --decision TEXT`, used after the agent has merged with git and resolved the named definitions. It then:
+- checks that the resolution changed only those definitions;
+- rechecks;
+- commits, with the decision in the commit message.
+
+So in arm B the decision is written down by construction. What is measured is whether the stop happens, and what it names.
+
+**Predictions.** "Existing" means checks that exist at the base: 374 in arm A (301 of them T3), and 433 in arm B (40 T2, 302 T3).
+
+| Step | A + testmon | B + testmon | B + estoppel |
+|---|---|---|---|
+| Z | Reruns all 301 T3 and all T4: at least 90% of the suite's check time | **Core commit:** reruns all T2 and T3. **The other three:** no T2 and no T3. | **Core `modify`:** reruns all T2, T3 and T4 and most of T1, at least 90% of check time. **Periphery `modify`:** 15 to 50 existing checks, no T2 or T3. **`publish`:** none. **`activate`:** 10 to 40, no T2 or T3. |
+| Combine Z with X+Y | git stops on textual conflicts: in `config.py` (both sides append to it), and possibly in `pricing.py` and `test_pricing.py`. Nothing names the stacking order. After the resolution, testmon reruns at least 90% with either data. | **With the integration data:** reruns all T2 and T3, at least 90%, because main's data has not seen Z's core change. **With Z's data:** at most 10%, no T2 or T3. | **Stops** (exit 3) at `RULES` (binding), and at nothing else. It does not name `STAGES`, because only Z changed it. git also conflicts in `config.py`, which estoppel does not name: the two sides added different definitions. **After `--resolved`:** it notes that `STAGES`, changed by Z, is used by claims made on the X+Y side. It rechecks 30 to 90 checks, none T2 or T3, under 2 s of check time, and keeps at least 380. |
+
+**Also predicted:**
+- **Kinds.** The tool accepts all four of Z's declarations. The core change cannot be a publish, because it changes existing classes.
+- **The stacking order.** Both arms end with `SAVE10` applied after `b2g1`: three A with `SAVE10` costs 1800, not 1700.
+  - In arm A this follows from the order of calls in the code, and is written nowhere.
+  - In arm B it is the order of `STAGES`, and the combine's decision records it.
+- **Lines changed.** Z changes arm B's core: `facts.py`, `moves.py`, `commit.py` and `runtime.py`. In arm A it changes `service.py`, `store.py` and `models.py`.
+- **Audit.** Both arms pass their full suites and `acceptance --features b2g1,category_windows,coupons`. The oracle does not price a coupon order with 3 or more units of a SKU while `b2g1` is in force, so the audit cannot check the stacking decision itself.
+- **Probes.** These are the X+Y probes again, plus the redemption limit (3 changed to 1) in each arm's config. testmon reruns no check for the new probe. estoppel reruns the checks that fail.
+- **X+Y, replayed from the new base,** gives the same counts as section 4's results, within a few checks.
+
+**What would change the plan:**
+- **The stop names only `RULES`.** This is the prediction. If so, the stop comes from two changes editing one registry: any two rule activations would stop there, whether or not they interact. The actual interaction, the stage order, appears only as a note. Bindings would then need identities per entry, and the stop should come from a binding that one side changed and the other side's claims use.
+- **B + estoppel reruns T2 or T3 at the combine.** Then claims made on Z's branch are not reused as predicted.
+- **B + testmon with Z's data reruns as little as estoppel at the combine.** Then a well-chosen testmon database gets the same reuse. The ledger's advantage would only be that nobody has to choose the database.
+- **Z's core `modify` reruns less than half of the check time.** Then the core's checks are less coupled to its facts than assumed, and crossing the boundary is cheaper than this plan expects.
