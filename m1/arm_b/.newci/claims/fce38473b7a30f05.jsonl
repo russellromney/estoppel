@@ -1,0 +1,6 @@
+{"test":"tests/test_journeys.py::test_buy_pay_and_refund","footprint":"2d2ea4de153c86ff","env":"d480c66b428ff438","seconds":0.0018249999999999655}
+{"test":"tests/test_journeys.py::test_late_refund_is_refused","footprint":"84e894eb0a2cdaae","env":"d480c66b428ff438","seconds":0.0008969999999999811}
+{"test":"tests/test_journeys.py::test_network_trouble_is_settled_by_jobs","footprint":"3eaa9425051afbb1","env":"d480c66b428ff438","seconds":0.0011039999999999939}
+{"test":"tests/test_journeys_b2g1.py::test_the_third_unit_is_free_and_the_charge_and_refund_match","footprint":"fc32bb2d4c7c7446","env":"d480c66b428ff438","seconds":0.0011489999999999556}
+{"test":"tests/test_journeys_category_windows.py::test_a_mixed_order_uses_its_shortest_window","footprint":"12284cb4252e3e80","env":"d480c66b428ff438","seconds":0.0009399999999999964}
+{"test":"tests/test_journeys_category_windows.py::test_food_has_a_shorter_window_than_general_goods","footprint":"17096279e203c1e6","env":"d480c66b428ff438","seconds":0.0011180000000000079}

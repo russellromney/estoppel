@@ -1,0 +1,31 @@
+{"test":"tests/test_composition.py::test_every_rule_uses_a_declared_stage","footprint":"dbc466ddc44332de","env":"d480c66b428ff438","seconds":0.0009649999999999936}
+{"test":"tests/test_composition.py::test_property_holds_for_small_carts_and_every_subset_of_rules[no line is priced below zero]","footprint":"8c70fe95b6bb4251","env":"d480c66b428ff438","seconds":0.016139999999999988}
+{"test":"tests/test_composition.py::test_property_holds_for_small_carts_and_every_subset_of_rules[rules only lower prices]","footprint":"8c70fe95b6bb4251","env":"d480c66b428ff438","seconds":0.014397999999999966}
+{"test":"tests/test_journeys.py::test_abandoned_cart_releases_stock","footprint":"c99a43fa81440e0d","env":"d480c66b428ff438","seconds":0.0009780000000000344}
+{"test":"tests/test_journeys.py::test_buy_pay_and_refund","footprint":"3cfe7bfa0426f646","env":"d480c66b428ff438","seconds":0.0014049999999999896}
+{"test":"tests/test_journeys.py::test_customers_cannot_touch_each_others_orders","footprint":"956ef5801a02bb0d","env":"d480c66b428ff438","seconds":0.0008360000000000034}
+{"test":"tests/test_journeys.py::test_declined_card_then_success","footprint":"b7ae7c895ed12907","env":"d480c66b428ff438","seconds":0.0009419999999999984}
+{"test":"tests/test_journeys.py::test_late_refund_is_refused","footprint":"7df05b912c1ba194","env":"d480c66b428ff438","seconds":0.0008340000000000014}
+{"test":"tests/test_journeys.py::test_network_trouble_is_settled_by_jobs","footprint":"f9825743aaf9cc87","env":"d480c66b428ff438","seconds":0.0010129999999999861}
+{"test":"tests/test_journeys.py::test_retried_requests_are_safe","footprint":"ba44344cd885352f","env":"d480c66b428ff438","seconds":0.0008190000000000142}
+{"test":"tests/test_journeys.py::test_work_during_a_slow_payment","footprint":"c42e6d7485f7a403","env":"d480c66b428ff438","seconds":0.0008309999999999707}
+{"test":"tests/test_journeys_b2g1.py::test_the_third_unit_is_free_and_the_charge_and_refund_match","footprint":"2559a2088bbd8a33","env":"d480c66b428ff438","seconds":0.0010290000000000021}
+{"test":"tests/test_pricing.py::test_a_rule_cannot_price_a_line_below_zero","footprint":"f20da1843f1b3139","env":"d480c66b428ff438","seconds":0.0006690000000000307}
+{"test":"tests/test_pricing.py::test_a_rule_that_does_not_apply_leaves_no_adjustment","footprint":"4d6395f835bb1587","env":"d480c66b428ff438","seconds":0.0005129999999999857}
+{"test":"tests/test_pricing.py::test_all_stacking_applies_every_rule","footprint":"7f74e6c372bcfa6f","env":"d480c66b428ff438","seconds":0.0005310000000000037}
+{"test":"tests/test_pricing.py::test_best_stacking_keeps_the_largest_discount","footprint":"79fc76aa7ae0a0d4","env":"d480c66b428ff438","seconds":0.0005290000000000017}
+{"test":"tests/test_pricing.py::test_best_stacking_tie_goes_to_the_first_registered","footprint":"e5bdfd2a7de6b35d","env":"d480c66b428ff438","seconds":0.0005200000000000204}
+{"test":"tests/test_pricing.py::test_exclusive_stage_refuses_two_rules_at_once","footprint":"9e4a8c739bbc1064","env":"d480c66b428ff438","seconds":0.0005789999999999962}
+{"test":"tests/test_pricing.py::test_list_price","footprint":"6afedb2286a023c5","env":"d480c66b428ff438","seconds":0.0006130000000000302}
+{"test":"tests/test_pricing.py::test_rules_in_one_stage_see_the_quote_from_the_stage_start","footprint":"7c79b691441c770b","env":"d480c66b428ff438","seconds":0.0005199999999999649}
+{"test":"tests/test_pricing.py::test_undeclared_stage_is_an_error","footprint":"1dc052789b1bcca7","env":"d480c66b428ff438","seconds":0.0006610000000000227}
+{"test":"tests/test_rule_b2g1.py::test_every_third_unit_of_a_sku_is_free[cart0-1000]","footprint":"6b52effaa3b36e46","env":"d480c66b428ff438","seconds":0.0008000000000000229}
+{"test":"tests/test_rule_b2g1.py::test_every_third_unit_of_a_sku_is_free[cart1-2000]","footprint":"6b52effaa3b36e46","env":"d480c66b428ff438","seconds":0.0006950000000000012}
+{"test":"tests/test_rule_b2g1.py::test_every_third_unit_of_a_sku_is_free[cart2-2000]","footprint":"6b52effaa3b36e46","env":"d480c66b428ff438","seconds":0.0006690000000000307}
+{"test":"tests/test_rule_b2g1.py::test_every_third_unit_of_a_sku_is_free[cart3-3000]","footprint":"6b52effaa3b36e46","env":"d480c66b428ff438","seconds":0.0006659999999999444}
+{"test":"tests/test_rule_b2g1.py::test_every_third_unit_of_a_sku_is_free[cart4-4000]","footprint":"6b52effaa3b36e46","env":"d480c66b428ff438","seconds":0.0006490000000000107}
+{"test":"tests/test_rule_b2g1.py::test_every_third_unit_of_a_sku_is_free[cart5-2800]","footprint":"6b52effaa3b36e46","env":"d480c66b428ff438","seconds":0.0006539999999999324}
+{"test":"tests/test_rule_b2g1.py::test_every_third_unit_of_a_sku_is_free[cart6-22300]","footprint":"6b52effaa3b36e46","env":"d480c66b428ff438","seconds":0.0006559999999999899}
+{"test":"tests/test_rule_b2g1.py::test_no_discount_below_three_units","footprint":"c8ecdb52980a44de","env":"d480c66b428ff438","seconds":0.0005150000000000432}
+{"test":"tests/test_rule_b2g1.py::test_the_discount_is_on_the_line_it_came_from","footprint":"904bc08ce6f4af11","env":"d480c66b428ff438","seconds":0.0005100000000000104}
+{"test":"tests/test_workflows.py::test_place_order_proposes_a_priced_order_with_a_hold","footprint":"654b086ac106d955","env":"d480c66b428ff438","seconds":0.0006109999999999172}
