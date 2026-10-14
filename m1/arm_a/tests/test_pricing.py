@@ -12,9 +12,12 @@ lines = st.dictionaries(st.sampled_from(sorted(PRICES)), st.integers(1, 6), min_
 
 @pytest.mark.parametrize("lines, total", [
     ({"A": 1}, 1000),
-    ({"A": 3}, 3000),
+    ({"A": 2}, 2000),
+    ({"A": 3}, 2000),
+    ({"A": 4}, 3000),
+    ({"A": 6}, 4000),
     ({"A": 2, "B": 1}, 4500),
-    ({"C": 6, "D": 1}, 2400 + 9900),
+    ({"C": 6, "D": 1}, 1600 + 9900),
 ])
 def test_examples(lines, total):
     assert order_total(lines, PRICES) == total
@@ -35,3 +38,8 @@ def test_adding_a_unit_never_lowers_the_total(lines, sku):
 @given(lines)
 def test_total_is_additive_across_skus(lines):
     assert order_total(lines, PRICES) == sum(order_total({s: q}, PRICES) for s, q in lines.items())
+
+
+@given(lines)
+def test_every_third_unit_of_a_sku_is_free(lines):
+    assert order_total(lines, PRICES) == sum(PRICES[s] * (q - q // 3) for s, q in lines.items())
