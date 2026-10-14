@@ -19,7 +19,8 @@ REQUIREMENTS.md   what every arm must do (written before any arm)
 spec.py           the shared service interface and requirement constants
 world.py          shared clock and fake payment provider (faults, in-flight hooks)
 acceptance/       held-out acceptance suite: run only by the audit, never by a gate
-arm_a/            conventional implementation, its own tests and AGENTS.md
+arm_a/            conventional implementation, its own tests, AGENTS.md and design notes
+checks/           checks of the measuring tools themselves (planted bugs)
 ```
 
 ## Commands
@@ -36,6 +37,12 @@ To run an arm's own suite, run from the arm's directory:
 
 ```bash
 cd arm_a && uv run pytest
+```
+
+To check how strong the suites are, plant known bugs in a copy of arm A:
+
+```bash
+uv run python checks/planted_bugs.py
 ```
 
 ## Order of work, and why
