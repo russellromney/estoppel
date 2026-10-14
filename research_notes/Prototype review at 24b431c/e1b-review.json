@@ -1,0 +1,1935 @@
+{
+  "summary": {
+    "mutants": 104,
+    "by_class": {
+      "lost": 58,
+      "silent": 41,
+      "blocked": 1,
+      "accepted": 4
+    },
+    "diverging": 63,
+    "diverging_shares": {
+      "accepted": 0.063,
+      "lost": 0.921,
+      "blocked": 0.016
+    },
+    "diverging_without_M4": 32,
+    "shares_without_M4": {
+      "accepted": 0.125,
+      "lost": 0.844,
+      "blocked": 0.031
+    },
+    "kernel_rejected_an_action": 10,
+    "safety_breaking": [],
+    "progress_breaking": [],
+    "diverging_with_property_failure": 63,
+    "silent_with_property_failure": 7,
+    "smoke_fails_by_class": {
+      "accepted": "3/4",
+      "lost": "56/58",
+      "blocked": "0/1",
+      "silent": "0/41"
+    },
+    "by_kind": {
+      "place_order": {
+        "lost": 27,
+        "silent": 17,
+        "blocked": 1,
+        "accepted": 2
+      },
+      "pay": {
+        "lost": 9,
+        "silent": 4
+      },
+      "refund": {
+        "silent": 20,
+        "lost": 22,
+        "accepted": 2
+      }
+    },
+    "by_op": {
+      "M1": {
+        "lost": 8,
+        "silent": 2
+      },
+      "M2": {
+        "lost": 2,
+        "accepted": 1
+      },
+      "M3": {
+        "lost": 6,
+        "accepted": 1,
+        "silent": 1
+      },
+      "M4": {
+        "lost": 31,
+        "silent": 32
+      },
+      "M5": {
+        "silent": 1
+      },
+      "M6": {
+        "lost": 8,
+        "accepted": 1
+      },
+      "M7": {
+        "silent": 5,
+        "blocked": 1,
+        "lost": 2,
+        "accepted": 1
+      },
+      "M8": {
+        "lost": 1
+      }
+    }
+  },
+  "mutants": [
+    {
+      "id": "place_order_v1~M6@17.11.0",
+      "kind": "place_order",
+      "op": "M6",
+      "line": 17,
+      "change": "negate `if not grants`",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "PO4": 220,
+        "ERR": 21
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M7@17.11.1",
+      "kind": "place_order",
+      "op": "M7",
+      "line": 17,
+      "change": "delete guard `if not grants`",
+      "cls": "silent",
+      "divergences": {},
+      "props": {
+        "ERR": 21
+      },
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M6@21.14.0",
+      "kind": "place_order",
+      "op": "M6",
+      "line": 21,
+      "change": "negate `if wanted is None`",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "PO4": 220,
+        "ERR": 36
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M7@21.14.1",
+      "kind": "place_order",
+      "op": "M7",
+      "line": 21,
+      "change": "delete guard `if wanted is None`",
+      "cls": "silent",
+      "divergences": {},
+      "props": {
+        "ERR": 36
+      },
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M6@9.26.0",
+      "kind": "place_order",
+      "op": "M6",
+      "line": 9,
+      "change": "negate `if sku not in catalog or qty <= 0`",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "PO4": 220,
+        "PO2": 3,
+        "ERR": 3
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M7@9.26.1",
+      "kind": "place_order",
+      "op": "M7",
+      "line": 9,
+      "change": "delete guard `if sku not in catalog or qty <= 0`",
+      "cls": "silent",
+      "divergences": {},
+      "props": {
+        "ERR": 14,
+        "PO2": 12
+      },
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M8@17.33.0",
+      "kind": "place_order",
+      "op": "M8",
+      "line": 17,
+      "change": "drop not in `not grants`",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "PO4": 220,
+        "ERR": 21
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M1@21.39.0",
+      "kind": "place_order",
+      "op": "M1",
+      "line": 21,
+      "change": "Is->IsNot",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "PO4": 220,
+        "ERR": 36
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M6@24.43.0",
+      "kind": "place_order",
+      "op": "M6",
+      "line": 24,
+      "change": "negate `if catalog[sku]['stock'] < qty`",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "PO4": 220,
+        "PO3": 85
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M7@24.43.1",
+      "kind": "place_order",
+      "op": "M7",
+      "line": 24,
+      "change": "delete guard `if catalog[sku]['stock'] < qty`",
+      "cls": "blocked",
+      "divergences": {
+        "blocked": 291
+      },
+      "props": {
+        "PO3": 201
+      },
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@6.50.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 6,
+      "change": "'items'->'items_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "ERR": 457
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M5@9.56.0",
+      "kind": "place_order",
+      "op": "M5",
+      "line": 9,
+      "change": "Or->And",
+      "cls": "silent",
+      "divergences": {},
+      "props": {
+        "ERR": 14,
+        "PO2": 12
+      },
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M2@11.59.0",
+      "kind": "place_order",
+      "op": "M2",
+      "line": 11,
+      "change": "Add->Sub",
+      "cls": "lost",
+      "divergences": {
+        "lost_rejected": 1200
+      },
+      "props": {
+        "PO2": 421
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@19.69.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 19,
+      "change": "'catalog'->'catalog_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "ERR": 457
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M1@24.83.0",
+      "kind": "place_order",
+      "op": "M1",
+      "line": 24,
+      "change": "Lt->LtE",
+      "cls": "lost",
+      "divergences": {
+        "lost": 123
+      },
+      "props": {
+        "PO4": 57
+      },
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@27.88.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 27,
+      "change": "'op'->'op_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "PO4": 220
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@27.89.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 27,
+      "change": "'grant'->'grant_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost_rejected": 1200
+      },
+      "props": {
+        "PO5": 220
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@27.90.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 27,
+      "change": "'items'->'items_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost_rejected": 1200
+      },
+      "props": {
+        "ERR": 220
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@27.91.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 27,
+      "change": "'price'->'price_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost_rejected": 1200
+      },
+      "props": {
+        "PO1": 220
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@27.92.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 27,
+      "change": "'reserve'->'reserve_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "PO4": 220
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M3@7.99.0",
+      "kind": "place_order",
+      "op": "M3",
+      "line": 7,
+      "change": "0->1",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "PO4": 220
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M3@8.103.0",
+      "kind": "place_order",
+      "op": "M3",
+      "line": 8,
+      "change": "1->2",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "ERR": 457
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M3@8.103.1",
+      "kind": "place_order",
+      "op": "M3",
+      "line": 8,
+      "change": "1->0",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "ERR": 445
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M1@9.106.0",
+      "kind": "place_order",
+      "op": "M1",
+      "line": 9,
+      "change": "NotIn->In",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "PO4": 220,
+        "ERR": 3
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M1@9.107.0",
+      "kind": "place_order",
+      "op": "M1",
+      "line": 9,
+      "change": "LtE->Lt",
+      "cls": "silent",
+      "divergences": {},
+      "props": {
+        "PO2": 6
+      },
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M1@16.118.0",
+      "kind": "place_order",
+      "op": "M1",
+      "line": 16,
+      "change": "Eq->NotEq",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "PO4": 220
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@18.120.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 18,
+      "change": "'op'->'op_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@18.121.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 18,
+      "change": "'reason'->'reason_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@18.122.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 18,
+      "change": "'reject'->'reject_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@18.123.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 18,
+      "change": "'no_grant'->'no_grant_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@22.129.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 22,
+      "change": "'op'->'op_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@22.130.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 22,
+      "change": "'reason'->'reason_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@22.131.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 22,
+      "change": "'reject'->'reject_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@22.132.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 22,
+      "change": "'bad_item'->'bad_item_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M2@26.142.0",
+      "kind": "place_order",
+      "op": "M2",
+      "line": 26,
+      "change": "Mult->Add",
+      "cls": "accepted",
+      "divergences": {
+        "accepted": 215,
+        "lost_rejected": 150
+      },
+      "props": {
+        "PO1": 220
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M3@27.145.0",
+      "kind": "place_order",
+      "op": "M3",
+      "line": 27,
+      "change": "0->1",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "ERR": 220
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M3@9.157.0",
+      "kind": "place_order",
+      "op": "M3",
+      "line": 9,
+      "change": "0->1",
+      "cls": "lost",
+      "divergences": {
+        "lost": 198
+      },
+      "props": {
+        "PO4": 115
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M3@11.162.0",
+      "kind": "place_order",
+      "op": "M3",
+      "line": 11,
+      "change": "0->1",
+      "cls": "accepted",
+      "divergences": {
+        "accepted": 178,
+        "lost_rejected": 41,
+        "lost": 77
+      },
+      "props": {
+        "PO4": 57,
+        "PO2": 163
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@16.170.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 16,
+      "change": "'reserve'->'reserve_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "PO4": 220
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@24.173.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 24,
+      "change": "'stock'->'stock_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "ERR": 421
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@25.176.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 25,
+      "change": "'op'->'op_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@25.177.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 25,
+      "change": "'reason'->'reason_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@25.178.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 25,
+      "change": "'reject'->'reject_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@25.179.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 25,
+      "change": "'out_of_stock'->'out_of_stock_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@16.199.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 16,
+      "change": "'kind'->'kind_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "ERR": 457
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@26.205.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 26,
+      "change": "'price'->'price_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "ERR": 220
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "place_order_v1~M4@16.216.0",
+      "kind": "place_order",
+      "op": "M4",
+      "line": 16,
+      "change": "'grants'->'grants_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 1200
+      },
+      "props": {
+        "ERR": 500
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "pay_v1~M6@6.11.0",
+      "kind": "pay",
+      "op": "M6",
+      "line": 6,
+      "change": "negate `if g['kind'] == 'charge'`",
+      "cls": "lost",
+      "divergences": {
+        "lost": 176
+      },
+      "props": {
+        "PY1": 79
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "pay_v1~M7@6.11.1",
+      "kind": "pay",
+      "op": "M7",
+      "line": 6,
+      "change": "delete guard `if g['kind'] == 'charge'`",
+      "cls": "lost",
+      "divergences": {
+        "lost": 176
+      },
+      "props": {
+        "PY1": 79
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "pay_v1~M1@6.17.0",
+      "kind": "pay",
+      "op": "M1",
+      "line": 6,
+      "change": "Eq->NotEq",
+      "cls": "lost",
+      "divergences": {
+        "lost": 176
+      },
+      "props": {
+        "PY1": 79
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "pay_v1~M4@8.19.0",
+      "kind": "pay",
+      "op": "M4",
+      "line": 8,
+      "change": "'op'->'op_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "pay_v1~M4@8.20.0",
+      "kind": "pay",
+      "op": "M4",
+      "line": 8,
+      "change": "'reason'->'reason_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "pay_v1~M4@8.21.0",
+      "kind": "pay",
+      "op": "M4",
+      "line": 8,
+      "change": "'reject'->'reject_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "pay_v1~M4@8.22.0",
+      "kind": "pay",
+      "op": "M4",
+      "line": 8,
+      "change": "'not_payable'->'not_payable_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "pay_v1~M4@6.29.0",
+      "kind": "pay",
+      "op": "M4",
+      "line": 6,
+      "change": "'charge'->'charge_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 176
+      },
+      "props": {
+        "PY1": 79
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "pay_v1~M4@5.32.0",
+      "kind": "pay",
+      "op": "M4",
+      "line": 5,
+      "change": "'grants'->'grants_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 176
+      },
+      "props": {
+        "ERR": 500
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "pay_v1~M4@6.35.0",
+      "kind": "pay",
+      "op": "M4",
+      "line": 6,
+      "change": "'kind'->'kind_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 176
+      },
+      "props": {
+        "ERR": 79
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "pay_v1~M4@7.37.0",
+      "kind": "pay",
+      "op": "M4",
+      "line": 7,
+      "change": "'op'->'op_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 176
+      },
+      "props": {
+        "PY1": 79
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "pay_v1~M4@7.38.0",
+      "kind": "pay",
+      "op": "M4",
+      "line": 7,
+      "change": "'grant'->'grant_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost_rejected": 176
+      },
+      "props": {
+        "PY1": 79
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "pay_v1~M4@7.39.0",
+      "kind": "pay",
+      "op": "M4",
+      "line": 7,
+      "change": "'charge'->'charge_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 176
+      },
+      "props": {
+        "PY1": 79
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M3@3.6.0",
+      "kind": "refund",
+      "op": "M3",
+      "line": 3,
+      "change": "2592000->2592001",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M3@3.6.1",
+      "kind": "refund",
+      "op": "M3",
+      "line": 3,
+      "change": "2592000->0",
+      "cls": "lost",
+      "divergences": {
+        "lost": 42
+      },
+      "props": {
+        "RF2": 49
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M6@8.9.0",
+      "kind": "refund",
+      "op": "M6",
+      "line": 8,
+      "change": "negate `if order is None`",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "ERR": 54,
+        "RF2": 49
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M7@8.9.1",
+      "kind": "refund",
+      "op": "M7",
+      "line": 8,
+      "change": "delete guard `if order is None`",
+      "cls": "silent",
+      "divergences": {},
+      "props": {
+        "ERR": 54
+      },
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M6@10.10.0",
+      "kind": "refund",
+      "op": "M6",
+      "line": 10,
+      "change": "negate `if order['status'] != 'paid'`",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "RF2": 49,
+        "ERR": 227
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M7@10.10.1",
+      "kind": "refund",
+      "op": "M7",
+      "line": 10,
+      "change": "delete guard `if order['status'] != 'paid'`",
+      "cls": "silent",
+      "divergences": {},
+      "props": {
+        "ERR": 227
+      },
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M6@12.11.0",
+      "kind": "refund",
+      "op": "M6",
+      "line": 12,
+      "change": "negate `if snapshot['now'] - order['paid_at'] > REFUND_WINDOW`",
+      "cls": "accepted",
+      "divergences": {
+        "lost": 50,
+        "accepted": 4
+      },
+      "props": {
+        "RF2": 49,
+        "RF1": 19
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M7@12.11.1",
+      "kind": "refund",
+      "op": "M7",
+      "line": 12,
+      "change": "delete guard `if snapshot['now'] - order['paid_at'] > REFUND_WINDOW`",
+      "cls": "accepted",
+      "divergences": {
+        "accepted": 3
+      },
+      "props": {
+        "RF1": 19
+      },
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M1@8.19.0",
+      "kind": "refund",
+      "op": "M1",
+      "line": 8,
+      "change": "Is->IsNot",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "ERR": 54,
+        "RF2": 49
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M1@10.21.0",
+      "kind": "refund",
+      "op": "M1",
+      "line": 10,
+      "change": "NotEq->Eq",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "RF2": 49,
+        "ERR": 227
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M1@12.23.0",
+      "kind": "refund",
+      "op": "M1",
+      "line": 12,
+      "change": "Gt->GtE",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M6@15.27.0",
+      "kind": "refund",
+      "op": "M6",
+      "line": 15,
+      "change": "negate `if g['kind'] == 'refund'`",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "RF2": 49
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M7@15.27.1",
+      "kind": "refund",
+      "op": "M7",
+      "line": 15,
+      "change": "delete guard `if g['kind'] == 'refund'`",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "RF2": 49
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@7.31.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 7,
+      "change": "'order'->'order_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "ERR": 500
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@10.39.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 10,
+      "change": "'paid'->'paid_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "RF2": 49
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M2@12.41.0",
+      "kind": "refund",
+      "op": "M2",
+      "line": 12,
+      "change": "Sub->Add",
+      "cls": "lost",
+      "divergences": {
+        "lost": 5
+      },
+      "props": {
+        "RF2": 25,
+        "RF1": 8
+      },
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M1@15.49.0",
+      "kind": "refund",
+      "op": "M1",
+      "line": 15,
+      "change": "Eq->NotEq",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "RF2": 49
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@17.51.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 17,
+      "change": "'op'->'op_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@17.52.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 17,
+      "change": "'reason'->'reason_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@17.53.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 17,
+      "change": "'reject'->'reject_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@17.54.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 17,
+      "change": "'no_grant'->'no_grant_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@9.57.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 9,
+      "change": "'op'->'op_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@9.58.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 9,
+      "change": "'reason'->'reason_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@9.59.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 9,
+      "change": "'reject'->'reject_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@9.60.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 9,
+      "change": "'not_found'->'not_found_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@10.62.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 10,
+      "change": "'status'->'status_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "ERR": 446
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@11.64.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 11,
+      "change": "'op'->'op_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@11.65.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 11,
+      "change": "'reason'->'reason_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@11.66.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 11,
+      "change": "'reject'->'reject_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@11.67.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 11,
+      "change": "'not_refundable'->'not_refundable_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@13.72.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 13,
+      "change": "'op'->'op_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@13.73.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 13,
+      "change": "'reason'->'reason_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@13.74.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 13,
+      "change": "'reject'->'reject_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@13.75.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 13,
+      "change": "'window_closed'->'window_closed_x'",
+      "cls": "silent",
+      "divergences": {},
+      "props": {},
+      "smoke_fails": false,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@15.82.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 15,
+      "change": "'refund'->'refund_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "RF2": 49
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@12.86.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 12,
+      "change": "'now'->'now_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "ERR": 74
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@12.89.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 12,
+      "change": "'paid_at'->'paid_at_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "ERR": 74
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@14.92.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 14,
+      "change": "'grants'->'grants_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "ERR": 52
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@15.95.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 15,
+      "change": "'kind'->'kind_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "ERR": 49
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@16.97.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 16,
+      "change": "'op'->'op_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "RF2": 49
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@16.98.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 16,
+      "change": "'grant'->'grant_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost_rejected": 50
+      },
+      "props": {
+        "RF1": 49
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@16.99.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 16,
+      "change": "'amount'->'amount_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost_rejected": 50
+      },
+      "props": {
+        "RF1": 49
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@16.100.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 16,
+      "change": "'refund'->'refund_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "RF2": 49
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    },
+    {
+      "id": "refund_v1~M4@16.109.0",
+      "kind": "refund",
+      "op": "M4",
+      "line": 16,
+      "change": "'amount'->'amount_x'",
+      "cls": "lost",
+      "divergences": {
+        "lost": 50
+      },
+      "props": {
+        "ERR": 49
+      },
+      "smoke_fails": true,
+      "safety_seeds": 0,
+      "first_safety": null,
+      "progress_seeds": 0,
+      "first_progress": null
+    }
+  ]
+}

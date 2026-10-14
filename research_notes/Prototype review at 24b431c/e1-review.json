@@ -1,0 +1,165 @@
+{
+  "baseline": {
+    "safety": 0,
+    "progress": 0,
+    "steps": 44905,
+    "rejections": {
+      "order_state": 90,
+      "grant_expired": 477,
+      "insufficient_stock": 223
+    }
+  },
+  "planners": [
+    {
+      "id": "PB01",
+      "safety": 0,
+      "progress": 0,
+      "divergences": {
+        "blocked": 2768,
+        "stale": 13
+      },
+      "props": {
+        "PO3": 201
+      }
+    },
+    {
+      "id": "PB02",
+      "safety": 0,
+      "progress": 0,
+      "divergences": {
+        "accepted": 2977,
+        "lost_rejected": 540
+      },
+      "props": {
+        "PO1": 220
+      }
+    },
+    {
+      "id": "PB03",
+      "safety": 0,
+      "progress": 0,
+      "divergences": {
+        "lost_rejected": 5317
+      },
+      "props": {
+        "PO1": 171
+      }
+    },
+    {
+      "id": "PB04",
+      "safety": 0,
+      "progress": 0,
+      "divergences": {
+        "accepted": 31,
+        "blocked": 3
+      },
+      "props": {
+        "RF1": 19
+      }
+    },
+    {
+      "id": "PB05",
+      "safety": 0,
+      "progress": 0,
+      "divergences": {
+        "blocked": 1339
+      },
+      "props": {
+        "RF1": 341
+      }
+    },
+    {
+      "id": "PB06",
+      "safety": 0,
+      "progress": 0,
+      "divergences": {
+        "lost_rejected": 645
+      },
+      "props": {
+        "RF1": 49
+      }
+    },
+    {
+      "id": "PB08",
+      "safety": 0,
+      "progress": 0,
+      "divergences": {
+        "lost_rejected": 5317
+      },
+      "props": {
+        "PO2": 171,
+        "PO1": 171
+      }
+    },
+    {
+      "id": "PB12",
+      "static": true
+    },
+    {
+      "id": "PB13",
+      "static": true
+    },
+    {
+      "id": "PB14",
+      "safety": 0,
+      "progress": 0,
+      "divergences": {
+        "lost": 12000
+      },
+      "props": {
+        "ERR": 457
+      }
+    },
+    {
+      "id": "PB16",
+      "safety": 0,
+      "progress": 0,
+      "divergences": {
+        "accepted": 815,
+        "lost_rejected": 325,
+        "lost": 3383
+      },
+      "props": {
+        "PO2": 162,
+        "PO4": 75
+      }
+    }
+  ],
+  "kernels": [
+    {
+      "id": "KB01",
+      "safety": 140,
+      "progress": 0
+    },
+    {
+      "id": "KB02",
+      "safety": 107,
+      "progress": 0
+    },
+    {
+      "id": "KB03",
+      "safety": 17,
+      "progress": 15
+    },
+    {
+      "id": "KB04",
+      "safety": 115,
+      "progress": 0
+    },
+    {
+      "id": "KB05",
+      "safety": 108,
+      "progress": 0
+    },
+    {
+      "id": "KB06",
+      "safety": 0,
+      "progress": 64
+    },
+    {
+      "id": "KB08",
+      "safety": 0,
+      "progress": 77
+    }
+  ]
+}

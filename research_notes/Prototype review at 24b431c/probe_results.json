@@ -1,0 +1,62 @@
+{
+  "mutable_constant": [
+    {
+      "op": "reject",
+      "reason": "1"
+    },
+    {
+      "op": "reject",
+      "reason": "2"
+    }
+  ],
+  "growing_for": {
+    "validator_accepted": true,
+    "reviewer_stopped_after_line_events": 10001
+  },
+  "malformed_op": [
+    "exception in step_commit: TypeError: unhashable type: 'dict'"
+  ],
+  "same_request_replanned": {
+    "commits": [
+      [
+        true,
+        "reserved"
+      ],
+      [
+        true,
+        "reserved"
+      ]
+    ],
+    "orders": 2,
+    "stock_A": 4,
+    "safety": []
+  },
+  "delayed_payment_ack": {
+    "provider_executed_at": 0,
+    "acknowledged_at": 3456000,
+    "recorded_paid_at": 3456000,
+    "refund_commit": [
+      true,
+      "refunding"
+    ],
+    "safety": []
+  },
+  "pinning_not_enforced": {
+    "pinned": [
+      "same",
+      "0124438214e5bced"
+    ],
+    "actual_plan": {
+      "op": "reject",
+      "reason": "new"
+    },
+    "scope": "future activation hazard; Phase 0 does not normally replace versions"
+  },
+  "bad_price_labelled_stale": "stale",
+  "set_order_by_hash_seed": {
+    "0": "{'op': 'reject', 'reason': \"('B', 'C', 'D', 'A')\"}",
+    "1": "{'op': 'reject', 'reason': \"('C', 'B', 'A', 'D')\"}",
+    "2": "{'op': 'reject', 'reason': \"('B', 'C', 'A', 'D')\"}",
+    "12345": "{'op': 'reject', 'reason': \"('D', 'C', 'B', 'A')\"}"
+  }
+}

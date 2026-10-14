@@ -1,0 +1,72 @@
+{
+  "commit": "24b431c6d129e564699153fd5dc7a46f7c62f0ab",
+  "python": "3.13.5",
+  "suite": {
+    "command": "uv run pytest -q",
+    "passed": 28,
+    "seconds": 1.23
+  },
+  "E1": {
+    "seeds": 200,
+    "method": "experiments.e1.run_variant for baseline and each executable variant; static rejection recorded separately",
+    "seconds": 25.83
+  },
+  "E1b": {
+    "seeds_per_mutant": 20,
+    "mutants": 104,
+    "method": "experiments.e1b.run_mutant followed by summarize",
+    "seconds": 15.75
+  },
+  "source_sha256": {
+    "app/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "app/bindings.toml": "049b2588cb27ed3a53b15d5edbe6a3532e46b30a46f5cd9af70a103950f78b40",
+    "app/effects.py": "ce97a42cb7b81707d8973452cbc3b118b7e8ac39504ab898885adba96949216f",
+    "app/kernel.py": "ca39ed6f0defa86813a0e5240ab9fe23d8feca088a4c580d40d76faa9694be24",
+    "app/planners/pay_v1.py": "3fee52c9cb5e072367513397bab2ee72064a9f4229a4c153af51f4f8fec52079",
+    "app/planners/place_order_v1.py": "61d9d7787e090921b650b7a061d311d00c396558bcc9299415873eb177354114",
+    "app/planners/refund_v1.py": "554fde552c33311fb22b27532653a6cf500d36433544f98f5656f182e62b8134",
+    "app/restricted.py": "5b21edf5474677f91cac25838a16a7a96f596f98f4ea331e10e496003c1d7295",
+    "app/runtime.py": "a621065b1b83d6a58d41256b783c8b180669695e5fb73fe54d5c47ed58adc444",
+    "backlog/failure_corpus.md": "9e62bfc56e679dd95290624d71f672fcf53105b312261cb9e088463a84a3ebf8",
+    "backlog/features.md": "f9477fbae6824104f775787d3bbee6e6b43bd06d5e04a5d471f9bef6e51d07db",
+    "checks/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks/planner_props.py": "c0e9311538fe85cd0b6ff361171aff8f0873382e932caa0251fa4074fac3f254",
+    "corpus/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "corpus/kernel_bugs.py": "8a1cef90a353413bbf4c44662132a0b38f9058ea8d94ebc1d19c420d9f5dc139",
+    "corpus/planner_bugs/pb01_place_order_ignores_stock.py": "04c56e6cf65275f10ab51d64859714c19ffa25c8e2ad25a3ad54cae283c15c07",
+    "corpus/planner_bugs/pb02_place_order_free.py": "5b0cbb603326616eb41bec611ab0d35a476a0efabc063cabf9c1baca737e6656",
+    "corpus/planner_bugs/pb03_place_order_double_price.py": "4d3a9998c08f2e88457e17b895715b27803e63927770cc0001d345a43d00abb7",
+    "corpus/planner_bugs/pb04_refund_no_window.py": "1403ac75503421b32d2e0a52bc9fc2e5b0e913179c324802f6f0a03eb4a3f8c1",
+    "corpus/planner_bugs/pb05_refund_fabricated_grant.py": "3c36bde38b35d7f2aa9bfd79c79c7807977728c169cf58b4db4aee2fc2c26105",
+    "corpus/planner_bugs/pb06_refund_half.py": "397f0102bf23a44e6ad35555d1b6479bfedf3f72c18a35ff440deb8b8c2351ed",
+    "corpus/planner_bugs/pb08_place_order_negative_qty.py": "e72012962dde3cbaf872752c372d9134ff7b6148768a5fd56fb3be2e30b5bd90",
+    "corpus/planner_bugs/pb12_while_loop.py": "e8badee52649dc820d58d4fef8db03be831cc438bf1dc8e3d333efd258a2b4c7",
+    "corpus/planner_bugs/pb13_imports_time.py": "d6301fd4075de442d66f521a52c7be1dd2ce524e5c1a923386298fd07bafe1a5",
+    "corpus/planner_bugs/pb14_place_order_reads_other_tenants.py": "9b11cac47ed3787452c4ce42e618330e34f4044a11b23bb97fbbe03fb682d927",
+    "corpus/planner_bugs/pb16_place_order_wrong_items.py": "3652e35a7c7388f88e3deaf08c3372f8804f207d1ac55428474bf0ff7d0e48cd",
+    "experiments/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "experiments/e1.py": "bca65492e1244b025862584073d8f4e7e923a0ea76ceb555645748d967dc5f6d",
+    "experiments/e1b.py": "ddc85a7d805f665a8ab3a289db82e3a63ae7b78f29b6e9192941416f44181251",
+    "experiments/mutate.py": "055a6deb7cb9e7506b89f13af121cdf5dbde7d5fd3d2f7d4cbbabcb2b368d89a",
+    "pyproject.toml": "7acbb48a3786ffba67961d48f944f583d725f6ebe9b85f5c3ab35c627f7cced3",
+    "sim/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sim/dst.py": "70df10f68bd9c6b68e52d14eef2f48ed467d0d830850ef3f010f8d17f23f3e0c",
+    "sim/invariants.py": "170c9cfa56169392106c3e8f7f26249077eb3fad3cbdde9a599f23931b3ba254",
+    "tests/test_dst.py": "832be46df6f4b9b7b1ca8501686cb0ea9ab83415c2e0cb5753d114ceb46ecdcb",
+    "tests/test_kernel.py": "660aeaa12a43e40ea2b569cd284932c897a2a25f2ee1ff8897333533e88d2b1d",
+    "tests/test_mutate.py": "6c7634ac0185bdafa678d16e79283af7796dccd3a92bc5cd7f58147b05063cc7",
+    "tests/test_restricted.py": "047dc6564c2adeadf47111a22b68c823cba726e68b3188fb01b181eb5edfc86e"
+  },
+  "artifacts": [
+    "probe_findings.py",
+    "probe_results.json",
+    "e1-review.json",
+    "e1b-review.json"
+  ],
+  "limits": [
+    "E1b at 100 seeds not independently rerun",
+    "No API agent spending",
+    "No production or real-thread execution",
+    "Prototype not modified"
+  ]
+}
