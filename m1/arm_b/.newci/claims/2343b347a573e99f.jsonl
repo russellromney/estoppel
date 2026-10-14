@@ -1,0 +1,6 @@
+{"test":"tests/test_policies_category_windows.py::test_an_orders_window_is_the_shortest_of_its_categories[skus0-2592000]","footprint":"d0caee3f21d60aa5","env":"d480c66b428ff438","seconds":0.0013340000000000019}
+{"test":"tests/test_policies_category_windows.py::test_an_orders_window_is_the_shortest_of_its_categories[skus1-2592000]","footprint":"d0caee3f21d60aa5","env":"d480c66b428ff438","seconds":0.0007759999999999989}
+{"test":"tests/test_policies_category_windows.py::test_an_orders_window_is_the_shortest_of_its_categories[skus2-604800]","footprint":"d0caee3f21d60aa5","env":"d480c66b428ff438","seconds":0.0006999999999999784}
+{"test":"tests/test_policies_category_windows.py::test_an_orders_window_is_the_shortest_of_its_categories[skus3-1296000]","footprint":"d0caee3f21d60aa5","env":"d480c66b428ff438","seconds":0.0006840000000000179}
+{"test":"tests/test_policies_category_windows.py::test_an_orders_window_is_the_shortest_of_its_categories[skus4-604800]","footprint":"d0caee3f21d60aa5","env":"d480c66b428ff438","seconds":0.0009379999999999944}
+{"test":"tests/test_policies_category_windows.py::test_an_orders_window_is_the_shortest_of_its_categories[skus5-1296000]","footprint":"d0caee3f21d60aa5","env":"d480c66b428ff438","seconds":0.0007220000000000004}
