@@ -1,0 +1,5 @@
+# Active configuration: request kind -> planner version.
+[bindings]
+place_order = "place_order_v1"
+pay = "pay_v1"
+refund = "refund_v1"
