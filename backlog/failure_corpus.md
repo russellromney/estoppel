@@ -50,6 +50,53 @@ These are variant subclasses of the kernel in `corpus/kernel_bugs.py`.
 - Of the 11 planner bugs, 3 are harmful-but-valid. That is 27% that the kernel cannot contain.
 - Of the 7 kernel bugs, 6 are found by closed-loop simulation and 1 is an expected miss.
 
+## E1b mutation sample (added after E1, before any mutation code)
+
+This section was written after the E1 hand-corpus results were seen, and before the mutation code existed. The hand corpus was written by the kernel's author, so it cannot answer whether *most* bugs are harmful but valid. Mutation analysis of the v1 planners gives a sample that the author did not choose bug by bug.
+
+**Mutants.** Each mutant applies one operator at one site in one v1 planner (`place_order_v1`, `pay_v1`, `refund_v1`). These operators are applied at every site where they fit:
+
+| Op | Change |
+|---|---|
+| M1 | Comparison: `<`↔`<=`, `>`↔`>=`, `==`↔`!=`, `in`↔`not in`, `is`↔`is not` |
+| M2 | Arithmetic: `+`→`-`, `-`→`+`, `*`→`+` |
+| M3 | Integer constant: n→n+1, and n→0 when n≠0 |
+| M4 | String constant (not docstrings): s→s+"_x" |
+| M5 | Boolean: `and`↔`or` |
+| M6 | Negate an `if` test |
+| M7 | Delete a guard: an `if` with no `else` whose body is a single `return` |
+| M8 | Drop a `not` |
+
+**Run.** Each mutant goes through these steps:
+
+1. The restricted-subset validator.
+2. Property checks (500 cases).
+3. The closed-loop simulator, over 20 seeds, with the v1 planners as reference.
+
+**What counts.** Only first deliveries count. A plan *diverges* when it differs from the reference plan, unless both plans decline. Each divergence is classed by outcome:
+
+| Class | Meaning |
+|---|---|
+| `accepted` | The kernel accepted a plan that differs from the reference. If the reference declined only because its snapshot showed too little stock, the divergence is recorded as `stale` and treated as benign. |
+| `lost` | The request failed (a planner decline, a crash, or a kernel rejection) where the reference acted. This is fail-closed: no wrong effect, but lost service. |
+| `blocked` | The mutant acted where the reference declined, and the kernel rejected it. No harm. |
+
+**Mutant class.** A mutant takes its worst class, in the order `accepted` > `lost` > `blocked`. A mutant with no divergence in the simulator is `silent`. Silent mutants are split by whether the property checks fail.
+
+**Predictions.** These shares are of mutants that diverge in the simulator.
+
+| Measure | Prediction |
+|---|---|
+| `accepted` (harmful but valid) | about 30% |
+| `lost` (fail-closed) | about 50% |
+| `blocked` (fully contained by the kernel) | about 20% |
+| Fully contained by the kernel | under 50% |
+| Mutants that break safety (S1–S6) | 0 |
+| Mutants that break progress (P1–P4) | 0 |
+| Diverging mutants failing at least one property check | 90% or more |
+
+**Reading.** If fully contained is under 50%, the kernel does not contain most planner bugs. The safety claim can still hold if `accepted` mutants break no safety invariant. But planner changes would still need behavioural evidence for most bugs. That would weaken the claim that planner changes can rely on the kernel for most of their assurance.
+
 ## Cases required by the review (later phases)
 
 | ID | Case | Phase |
