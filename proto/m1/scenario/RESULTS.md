@@ -2,12 +2,14 @@
 
 The change workflow was called `newci` when this ran. It has since been renamed estoppel; this record keeps the old names.
 
+The replay script is now [`run.py`](run.py), which also replays Z. Its results are in [`RESULTS-Z.md`](RESULTS-Z.md).
+
 Run on 2026-10-14. This is the plan's step 4 ([Prototype plan](../../../reports/Prototype%20plan.md), section 5). The predictions are in [`../PREDICTIONS.md`](../PREDICTIONS.md), section 4. They were committed in `7f72ac5`, before any scenario change was written, and are not edited here.
 
 - X is `b2g1`: every third unit of a SKU is free.
 - Y is `category_windows`: the refund window depends on the product categories in the order.
 
-[`run_xy.py`](run_xy.py) replays both changes in both arms, in throwaway git worktrees, with the commands an agent runs. The changes' files are in [`changes/`](changes/). I wrote them from the requirements; no agent was run. Raw results:
+[`run_xy.py`](https://github.com/russellromney/estoppel/blob/2329589/m1/scenario/run_xy.py) replays both changes in both arms, in throwaway git worktrees, with the commands an agent runs. The changes' files are in [`changes/`](changes/). I wrote them from the requirements; no agent was run. Raw results:
 - [`results/xy.json`](results/xy.json): every command, with exit code, checks run, tiers and CPU time;
 - [`results/xy-summary.md`](results/xy-summary.md): the same, as a table;
 - [`results/xy-logs/`](results/xy-logs/): each command's output;

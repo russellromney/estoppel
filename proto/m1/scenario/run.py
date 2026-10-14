@@ -34,7 +34,7 @@ REPO = PROTO.parent
 CHANGES = HERE / "changes"
 RESULTS = HERE / "results"
 LOGS = RESULTS / "run-logs"
-BASE = "565f4a8"   # base claims under estoppel (b80dc76), plus `combine --resolved`
+BASE = "d15e842"   # base claims under estoppel (b80dc76), plus `combine --resolved` and stop reports
 ENV = {"UV_PROJECT_ENVIRONMENT": str(PROTO / ".venv"), "UV_FROZEN": "1"}
 
 STEPS = {

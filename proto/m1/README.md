@@ -51,10 +51,10 @@ The change workflow's own tests:
 uv run pytest estoppel/tests
 ```
 
-To replay the scenario's first combine (X and Y, in both arms) in throwaway worktrees, run from `proto/`. Results are in [`scenario/RESULTS.md`](scenario/RESULTS.md).
+To replay the scenario in both arms (X and Y combined, then Z combined with X+Y) in throwaway worktrees, run from `proto/`. Results are in [`scenario/RESULTS.md`](scenario/RESULTS.md) and [`scenario/RESULTS-Z.md`](scenario/RESULTS-Z.md).
 
 ```bash
-uv run python m1/scenario/run_xy.py /tmp/estoppel-worktrees
+uv run python m1/scenario/run.py /tmp/estoppel-worktrees
 ```
 
 To check how strong the suites are, plant known bugs in a copy of an arm:
